@@ -6,11 +6,21 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc -b && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "lint-staged": {
+      "./src/**": [
+        "npx lint .",
+        "npx prettier --write ./src/**"
+      ]
+    }
   },
   "dependencies": {
     "@quasar/extras": "^1.16.17",
+    "eslint": "^9.21.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.4.3",
     "pinia": "^3.0.1",
+    "prettier": "^3.5.3",
     "quasar": "^2.18.0",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0"

@@ -1,0 +1,7 @@
+{
+    "*.{ts, vue}":
+        [
+            "npx prettier --write ./src/**",
+            "npx eslint ."
+        ]
+}

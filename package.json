@@ -22,7 +22,7 @@
     "pinia": "^3.0.1",
     "prettier": "^3.5.3",
     "quasar": "^2.18.0",
-    "question-bank-api-client": "github:trevorregister/question-bank-api-client",
+    "question-bank-api-client": "git+https://github.com/trevorregister/question-bank-api-client.git",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0"
   },

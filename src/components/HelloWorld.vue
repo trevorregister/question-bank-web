@@ -1,11 +1,5 @@
-<script setup lang="ts">
-
-defineProps<{ msg: string }>()
-
-</script>
-
 <template>
-  <h1>{{ msg }}</h1>
+  <h2>{{ init }}</h2>
 
   <q-card class="q-pa-md bg-primary text-white">
     <p>
@@ -29,6 +23,17 @@ defineProps<{ msg: string }>()
   </p>
   <p class="read-the-docs">Click on the Vite and Vue logos to learn more</p>
 </template>
+
+<script setup lang="ts">
+import client from 'question-bank-api-client'
+import { ref, onMounted } from 'vue'
+const init = ref('init')
+
+onMounted(async () => {
+  const update = await client.client.get('/')
+  init.value = update.data
+})
+</script>
 
 <style scoped>
 .read-the-docs {

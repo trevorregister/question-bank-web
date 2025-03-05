@@ -7,6 +7,7 @@
             :dense="dense" 
             :model-value="modelValue" 
             @update:model-value="updateValue"
+            :type="type"
             />
     </div>
 </template>
@@ -14,7 +15,8 @@
 defineProps({
     label: {type: String, required: true},
     dense: {type: Boolean, default: true},
-    modelValue: {type: String, required: true}
+    modelValue: {type: String, required: true},
+    type: {type: String, default: 'text'}
 })
 const emit = defineEmits(['update:modelValue'])
 

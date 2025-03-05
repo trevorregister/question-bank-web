@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HelloWorld from '../components/HelloWorld.vue'
-
+import CreateAccountPage from '../domains/users/pages/CreateAccountPage.vue'
 //const publicPages = ['/login', '/create-account', '/about', '/test']
 
 const router = createRouter({
@@ -8,9 +7,9 @@ const router = createRouter({
   //routes: [...root, ...teams, ...shifts, ...users],
   routes: [
     {
-        path: '/',
-        name: 'home',
-        component: HelloWorld
+        path: '/create-account',
+        name: 'create-account',
+        component: CreateAccountPage
     }
   ]
 })

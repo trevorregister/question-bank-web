@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import CreateAccountPage from '../domains/users/pages/CreateAccountPage.vue'
 import LoginPage from '../domains/users/pages/LoginPage.vue'
+import QuestionEditor from '../domains/questions/components/QuestionEditor.vue'
 //const publicPages = ['/login', '/create-account', '/about', '/test']
 
 const router = createRouter({
@@ -16,6 +17,11 @@ const router = createRouter({
         path: '/create-account',
         name: 'create-account',
         component: CreateAccountPage
+    },
+    {
+      path: '/playground',
+      name: 'playground',
+      component: QuestionEditor
     }
   ]
 })

@@ -1,10 +1,8 @@
 <template>
-    <q-btn label="Get Variables" @click="getVariables"/>
-    <q-btn @click="log" label="log"/>
     <CollapsePanel label="Question">
         <div class="row q-col-gutter-sm">
             <div class="col-sm-12 col-md-7 q-pa-md flex flex-center">
-                <q-editor ref="editor" v-model="editorContents"></q-editor>
+                <TextEditor @get-variables="handleGetVariables"/>
             </div>
             <div v-if="variables.length>0" class="col-sm-12 col-md-5 q-pa-md flex flex-center">
                 <VariablesTable :variables="variables" @delete-variable="handleDeleteVariable"/>
@@ -16,10 +14,10 @@
 <script setup lang="ts">
 import CollapsePanel from '../../../shared/components/CollapsePanel.vue'
 import VariablesTable from './VariablesTable.vue'
+import TextEditor from './TextEditor.vue'
 import { ref } from 'vue'
 import randomId from '../../../shared/utils/randomId'
-const editorContents = ref('{{ asdf }} {{eoiruwkj}}  {{fjoiewjd}} {{ fdFda }} asdf23x {{ 2394aSSsdf }} {{ 23&&reas}} {{ asdf.fdei}}')
-const editor = ref<InstanceType<typeof HTMLElement> | null>(null)
+
 const variables = ref<{
     id: string,
     label: string,
@@ -27,13 +25,7 @@ const variables = ref<{
     max: number,
     step: number
 }[]>([])
-
-const log = () => {
-    variables.value.forEach( variable => {console.log(variable.id)})
-}
-const getVariables = () => {
-    const regex = /\{\{\s*([a-zA-Z.]+)\s*\}\}/g
-    const rawVariableLabels = editorContents.value.match(regex)
+const handleGetVariables = (rawVariableLabels: RegExpMatchArray) => {
 
     //extract text within curly braces, i.e {{ asdf }} becomes asdf
     const allVariables = rawVariableLabels? rawVariableLabels.map(label => {
@@ -53,9 +45,11 @@ const getVariables = () => {
         }
 
     }) : []
+
     if(variables.value.length === 0){
         variables.value = allVariables
     } else{
+        
         //makes sure to add new variables while retaining existing ones, even if 
         //existing one is deleted from the text editor.
         allVariables.forEach(allVariable => {
@@ -81,14 +75,4 @@ const handleDeleteVariable = (id: string) => {
 .variable-label {
     min-width: 8rem;
 }
-/* .editor {
-    max-width: 70%;
-} */
-
-/* .number-input {
-    border-radius: 5px;
-    border-color: $accent;
-    border-style: solid;
-    width: 10rem;
-} */
 </style>

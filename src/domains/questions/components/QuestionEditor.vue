@@ -17,9 +17,11 @@
 import CollapsePanel from '../../../shared/components/CollapsePanel.vue'
 import VariablesTable from './VariablesTable.vue'
 import { ref } from 'vue'
+import randomId from '../../../shared/utils/randomId'
 const editorContents = ref('{{ asdf }} {{eoiruwkj}}  {{fjoiewjd}} {{ fdFda }} asdf23x {{ 2394aSSsdf }} {{ 23&&reas}} {{ asdf.fdei}}')
 const editor = ref<InstanceType<typeof HTMLElement> | null>(null)
 const variables = ref<{
+    id: string,
     label: string,
     min: number,
     max: number,
@@ -27,7 +29,7 @@ const variables = ref<{
 }[]>([])
 
 const log = () => {
-    variables.value.forEach( variable => {console.log(variable.min)})
+    variables.value.forEach( variable => {console.log(variable.id)})
 }
 const getVariables = () => {
     const regex = /\{\{\s*([a-zA-Z.]+)\s*\}\}/g
@@ -43,6 +45,7 @@ const getVariables = () => {
             variableLabel = variableLabel.concat(character)
         }
         return {
+            id: randomId(),
             label: variableLabel,
             min: 0,
             max: 0,
@@ -63,8 +66,8 @@ const getVariables = () => {
     }
 }
 
-const handleDeleteVariable = (label: string) => {
-    variables.value = variables.value.filter(variable => variable.label !== label)
+const handleDeleteVariable = (id: string) => {
+    variables.value = variables.value.filter(variable => variable.id !== id)
 }
 </script>
 

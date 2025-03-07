@@ -31,7 +31,7 @@
             </td>
             <td >
 <!--                 <q-icon class="cursor-pointer q-ml-sm" @click="deleteVariable(variable.label)" name="fa-solid fa-shuffle" size="18px" color="positive"/> -->  
-                <q-icon class="cursor-pointer q-ml-sm" @click="deleteVariable(variable.label)" name="fa-solid fa-trash-can" size="18px" color="negative"/>                                      
+                <q-icon class="cursor-pointer q-ml-sm" @click="deleteVariable(variable.id)" name="fa-solid fa-trash-can" size="18px" color="negative"/>                                      
             </td>
         </tr>
     </table>
@@ -41,6 +41,7 @@
 import NumberInput from '../../../shared/components/NumberInput.vue'
 defineProps<{
     variables: {
+        id: string
         label: string
         min: number
         max: number
@@ -53,9 +54,7 @@ const deleteVariable = (id: string) => {
     emit('delete-variable', id)
 }
 
-
 </script>
-
 
 <style lang="scss" scoped>
 td {

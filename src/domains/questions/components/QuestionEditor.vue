@@ -1,11 +1,13 @@
 <template>
     <q-btn label="Get Variables" @click="getVariables"/>
     <CollapsePanel label="Question">
-        <div class="row q-pa-md justify-center">
-            <q-editor ref="editor" v-model="editorContents" class="full-width q-mb-md"></q-editor>
-        </div>
-        <div class="row q-pa-md">
-            <VariablesTable :variables="variables"/>
+        <div class="row q-col-gutter-sm">
+            <div class="col-sm-12 col-md-7 q-pa-md flex flex-center">
+                <q-editor ref="editor" v-model="editorContents"></q-editor>
+            </div>
+            <div v-if="variables.length>0" class="col-sm-12 col-md-5 q-pa-md flex flex-center">
+                <VariablesTable :variables="variables" @delete-variable="handleDeleteVariable"/>
+            </div>            
         </div>
     </CollapsePanel>
 </template>
@@ -57,7 +59,7 @@ const getVariables = () => {
     }
 }
 
-const deleteVariable = (label: string) => {
+const handleDeleteVariable = (label: string) => {
     variables.value = variables.value.filter(variable => variable.label !== label)
 }
 </script>
@@ -72,6 +74,9 @@ const deleteVariable = (label: string) => {
 .variable-label {
     min-width: 8rem;
 }
+/* .editor {
+    max-width: 70%;
+} */
 
 /* .number-input {
     border-radius: 5px;

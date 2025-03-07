@@ -59,4 +59,8 @@ const deleteVariable = (id: string) => {
 td {
     padding: 3px;
 }
+
+input {
+    width:50px;
+}
 </style>

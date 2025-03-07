@@ -6,7 +6,10 @@
             </div>
             <div v-if="variables.length>0" class="col-sm-12 col-md-5 q-pa-md flex flex-center">
                 <VariablesTable :variables="variables" @delete-variable="handleDeleteVariable"/>
-            </div>            
+            </div>  
+            <div v-else class="col-sm-12 col-md-5 q-pa-md flex flex-center text-h5">
+                Add some variables
+            </div>         
         </div>
     </CollapsePanel>
 </template>
@@ -49,7 +52,7 @@ const handleGetVariables = (rawVariableLabels: RegExpMatchArray) => {
     if(variables.value.length === 0){
         variables.value = allVariables
     } else{
-        
+
         //makes sure to add new variables while retaining existing ones, even if 
         //existing one is deleted from the text editor.
         allVariables.forEach(allVariable => {

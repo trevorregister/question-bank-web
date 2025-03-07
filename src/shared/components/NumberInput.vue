@@ -1,4 +1,7 @@
 <template>
+  <q-intersection
+    transition="flip-left"
+  >
     <q-input
     class="number-input no-spinner" 
     outlined 
@@ -9,6 +12,7 @@
     :model-value="modelValue" 
     @update:model-value="updateValue"
     />
+  </q-intersection>
 </template>
 
 <script setup lang="ts">

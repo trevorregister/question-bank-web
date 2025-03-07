@@ -3,6 +3,7 @@
         v-model="editorContents"
         :toolbar="toolbar"
         :definitions="definitions"
+        class="editor"
     >
     </q-editor>
 </template>
@@ -37,5 +38,8 @@ const definitions = {
 </script>
 
 <style scoped lang="scss">
+.editor{
+    width: 550px;
+}
 
 </style>

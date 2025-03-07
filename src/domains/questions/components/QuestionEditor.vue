@@ -2,7 +2,7 @@
     <CollapsePanel label="Question">
         <div class="row q-col-gutter-sm">
             <div class="col-sm-12 col-md-7 q-pa-md flex flex-center">
-                <TextEditor @get-variables="handleGetVariables"/>
+                <TextEditor @get-variables="handleGetVariables" @save-question="handleSaveQuestion"/>
             </div>
             <div v-if="variables.length>0" class="col-sm-12 col-md-5 q-pa-md flex flex-center">
                 <VariablesTable :variables="variables" @delete-variable="handleDeleteVariable"/>
@@ -65,6 +65,10 @@ const handleGetVariables = (rawVariableLabels: RegExpMatchArray) => {
 
 const handleDeleteVariable = (id: string) => {
     variables.value = variables.value.filter(variable => variable.id !== id)
+}
+
+const handleSaveQuestion = () => {
+    console.log('save event')
 }
 </script>
 

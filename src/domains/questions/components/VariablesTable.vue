@@ -1,42 +1,44 @@
 <template>
     <table>
         <tr>
-            <th class="text-body1">
+            <th class="text-body2">
             </th>
-            <th class="text-body1">
+            <th class="text-body2">
                 Min
             </th>
-            <th class="text-body1">
+            <th class="text-body2">
                 Max
             </th>
-            <th class="text-body1">
+            <th class="text-body2">
                 Step
             </th>
-            <th class="text-body1">
+            <th class="text-body2">
                 Action
             </th>
         </tr>
         <tr v-for="variable in variables">
-            <td class="variable-label q-pa-md text-body1">
+            <td class="variable-label  text-body2">
                 {{ variable.label }}
             </td>
-            <td class="q-pa-md">
-                <input class="col-1 number-input" type="number" label="Min" v-model="variable.min">
+            <td >
+                <NumberInput v-model.number="variable.min"/>
             </td>
-            <td class="q-pa-md">
-                <input class="col-1 number-input q-ml-sm" type="number" label="Max" v-model="variable.max">
+            <td >
+                <NumberInput v-model.number="variable.max"/>
             </td>
-            <td class="q-pa-md">
-                <input class="col-1 number-input q-ml-sm" type="number" label="Step" v-model="variable.step"> 
+            <td >
+                <NumberInput v-model.number="variable.step"/> 
             </td>
-            <td class="q-pa-md">
-                <q-icon class="col-1 cursor-pointer q-ml-sm" @click="deleteVariable(variable.label)" name="fa-solid fa-trash-can" size="18px" color="negative"/>                           
+            <td >
+<!--                 <q-icon class="cursor-pointer q-ml-sm" @click="deleteVariable(variable.label)" name="fa-solid fa-shuffle" size="18px" color="positive"/> -->  
+                <q-icon class="cursor-pointer q-ml-sm" @click="deleteVariable(variable.label)" name="fa-solid fa-trash-can" size="18px" color="negative"/>                                      
             </td>
         </tr>
     </table>
 </template>
 
 <script setup lang="ts">
+import NumberInput from '../../../shared/components/NumberInput.vue'
 defineProps<{
     variables: {
         label: string
@@ -60,7 +62,7 @@ td {
     padding: 3px;
 }
 
-input {
-    width:50px;
+.variable-label {
+    padding-right: 1rem;
 }
 </style>

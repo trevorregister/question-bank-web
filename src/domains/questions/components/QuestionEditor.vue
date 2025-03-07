@@ -1,5 +1,6 @@
 <template>
     <q-btn label="Get Variables" @click="getVariables"/>
+    <q-btn @click="log" label="log"/>
     <CollapsePanel label="Question">
         <div class="row q-col-gutter-sm">
             <div class="col-sm-12 col-md-7 q-pa-md flex flex-center">
@@ -25,6 +26,9 @@ const variables = ref<{
     step: number
 }[]>([])
 
+const log = () => {
+    variables.value.forEach( variable => {console.log(variable.min)})
+}
 const getVariables = () => {
     const regex = /\{\{\s*([a-zA-Z.]+)\s*\}\}/g
     const rawVariableLabels = editorContents.value.match(regex)
@@ -84,11 +88,4 @@ const handleDeleteVariable = (label: string) => {
     border-style: solid;
     width: 10rem;
 } */
-
-//hides increment/decrement buttons on number inputs
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
 </style>

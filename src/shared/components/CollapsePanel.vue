@@ -20,5 +20,8 @@ defineProps<{
 <style lang="scss">
 .collapse-panel {
     min-width: 100vh;
+/*     border-color: $secondary;
+    border-style: solid;
+    border-radius: 5px; */
 }
 </style>

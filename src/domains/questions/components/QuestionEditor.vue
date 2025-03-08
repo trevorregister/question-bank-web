@@ -1,4 +1,7 @@
 <template>
+    <q-intersection
+        transition="slide-left"
+    >
     <CollapsePanel :label="shortPrompt">
         <div class="row q-col-gutter-sm">
             <div class="col-sm-12 col-md-7 q-pa-md flex flex-center">
@@ -19,6 +22,8 @@
             </div>         
         </div>
     </CollapsePanel>
+</q-intersection>
+
 </template>
 
 <script setup lang="ts">

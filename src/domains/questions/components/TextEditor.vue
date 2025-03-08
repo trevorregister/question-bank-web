@@ -15,14 +15,15 @@ const props = defineProps<{
 }>()
 const emit = defineEmits<{
     (e: 'get-variables', rawVariableLabels: RegExpMatchArray): void,
-    (e: 'save-question', prompt: string): void
+    (e: 'save-question', prompt: string): void,
+    (e: 'add-condition'): void
 }>()
 const editorContents = ref('')
 
 const toolbar = [
     ['left', 'center', 'right', 'justify', 'ordered', 'unordered', 'italic', 'underline'],
     ['superscript', 'subscript'],
-    ['undo', 'redo', 'getVariables', 'save'],
+    ['undo', 'redo', 'getVariables', 'addCondition', 'save'],
 ]
 
 const getVariables = () => {
@@ -34,6 +35,9 @@ const getVariables = () => {
 const saveQuestion = () => {
     emit('save-question', editorContents.value)
 }
+const addCondition = () => {
+    emit('add-condition')
+}
 const definitions = {
     getVariables: {
         label: '+var',
@@ -44,6 +48,11 @@ const definitions = {
         icon: 'fa-solid fa-save',
         handler: saveQuestion,
         color: 'green'
+    },
+    addCondition: {
+        label: '+cond',
+        handler: addCondition,
+        color: 'blue'
     }
 }
 onMounted(() => {

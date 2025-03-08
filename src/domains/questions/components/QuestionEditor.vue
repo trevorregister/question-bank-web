@@ -8,6 +8,7 @@
                     <TextEditor 
                         @get-variables="handleGetVariables" 
                         @save-question="handleSaveQuestion" 
+                        @add-condition="handleAddCondition"
                         :prompt="props.question?.prompt ?? 'New Question'"
                     />
                 </div>
@@ -21,17 +22,34 @@
                     Add some variables
                 </div>         
             </div>
-            <!-- conditions table -->
              <div class="row q-col-gutter-sm q-pa-md">
-                <div class="col-md-2 col-sm-12 flex justify-center">
-                    Point Value
+                <div class="col-md-2 col-sm-12">
+                    <div class="point-attempts-container row text-body4">
+                        <div class="col flex flex-center">
+                            Points
+                        </div>
+                        <div class="col">
+                            <NumberInput v-model.number="question.pointValue"/>
+                        </div>
+                    </div>
+                    <div class="point-attempts-container row q-pa-sm">
+                        <div class="col flex flex-center">
+                            Attempts
+                        </div>
+                        <div class="col">
+                            <input style="width:100%;">
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-10 col-sm-12 flex justify-start q-pa-sm">
+                <div v-if="conditions.length > 0" class="col-md-10 col-sm-12 flex justify-start q-pa-sm">
                     <ConditionsTable 
                         :conditions="conditions"
                         @delete-condition="handleDeleteCondition"
                 />
                 </div>
+                <div v-else class="col flex flex-center text-h5">
+                    Add some conditions
+                </div> 
              </div>
         </CollapsePanel>
 <!--     </q-intersection> -->
@@ -43,6 +61,7 @@ import CollapsePanel from '../../../shared/components/CollapsePanel.vue'
 import VariablesTable from './VariablesTable.vue'
 import ConditionsTable from './ConditionsTable.vue'
 import TextEditor from './TextEditor.vue'
+import NumberInput from '../../../shared/components/NumberInput.vue'
 import { ref, onBeforeMount, computed } from 'vue'
 import randomId from '../../../shared/utils/randomId'
 import { Variable, Question, Condition, PendingQuestion } from '../../../shared/types'
@@ -56,6 +75,14 @@ const conditions = ref<Condition[]>()
 
 const shortPrompt = computed((): string => props.question ? props.question.prompt.substring(0, 25).concat('...') : 'New Question')
 
+const handleAddCondition = () => {
+    conditions.value.push({
+        id: randomId(),
+        expression: "",
+        feedback: "",
+        isCorrect: false
+    })
+}
 const handleGetVariables = (rawVariableLabels: RegExpMatchArray) => {
     //extract text within curly braces, i.e {{ asdf }} becomes asdf
     const allVariables = rawVariableLabels? rawVariableLabels.map(label => {
@@ -143,5 +170,7 @@ onBeforeMount(async () => {
 </script>
 
 <style scoped lang="scss">
-
+.point-attempts-container {
+    margin-top: 1.9rem;
+}
 </style>

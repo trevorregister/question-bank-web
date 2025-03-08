@@ -27,9 +27,12 @@ import VariablesTable from './VariablesTable.vue'
 import TextEditor from './TextEditor.vue'
 import { ref, onBeforeMount, computed } from 'vue'
 import randomId from '../../../shared/utils/randomId'
-import { Variable, Question, Condition } from '../../../shared/types'
+import { Variable, Question, Condition, PendingQuestion } from '../../../shared/types'
 
-const props = defineProps<{question?: Question}>()
+const props = defineProps<{question: Question | PendingQuestion}>()
+const emit = defineEmits<{
+    (e: 'pending-question-saved', {tempId, newQuestion}): void,
+}>()
 const variables = ref<Variable[]>()
 const conditions = ref<Condition[]>()
 
@@ -50,7 +53,8 @@ const handleGetVariables = (rawVariableLabels: RegExpMatchArray) => {
             label: variableLabel,
             min: 0,
             max: 0,
-            step: 0
+            step: 0,
+            type: 'random'
         }
 
     }) : []
@@ -80,16 +84,28 @@ const handleSaveQuestion = async (editorContents: string) => {
             pointValue: 0,
             owner: 'asdf',
             isArchived: false,
-            isDeleted: false
+            isDeleted: false,
+            type: 'numerical'
         }
-        if(!props.question) {
-            console.log('api client create new question', questionComponents)
+        if('tempId' in props.question) {
+            //temp until api call finalized
+            const newQuestion: Question = {
+                id: randomId(),
+                prompt: questionComponents.prompt,
+                variables: questionComponents.variables,
+                conditions: questionComponents.conditions,
+                pointValue: questionComponents.pointValue,
+                owner: questionComponents.owner,
+                isArchived: false,
+                isDeleted: false,
+                type: 'numerical'
+            }
+            emit('pending-question-saved', {tempId: props.question.tempId, newQuestion})
         } else {
             const updatedQuestion: Question = {
                 id: props.question.id,
                 ...questionComponents
             }
-            console.log('api client update existing question', updatedQuestion)
         }
 }
 onBeforeMount(async () => {

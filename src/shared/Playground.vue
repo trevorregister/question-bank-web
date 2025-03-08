@@ -2,10 +2,22 @@
     <div class="row">
         <div class="col">
             <div class="row q-mb-sm" v-for="question in questions">
-                <QuestionEditor :question="question"/>
+                <QuestionEditor 
+                    :question="question"
+                />
             </div>
-            <div class="row">
-                <q-btn @click="addNewQuestion" label="+Q"/>
+            <div class="row q-mb-sm" v-for="question in pendingQuestions">
+                <QuestionEditor 
+                    @pending-question-saved="handlePendingQuestionSaved" 
+                    :question="question"
+                />
+            </div>
+            <div class="row flex flex-center">
+                <q-btn 
+                    @click="addNewQuestion" label="+Q" 
+                    :disabled="isNewQuestionsDisabled"
+                    :title="isNewQuestionsDisabled ? 'Enabled when pending question is saved' : ''" 
+                />
             </div>
         </div>
     </div>
@@ -13,11 +25,12 @@
 
 <script setup lang="ts">
 import QuestionEditor from '../domains/questions/components/QuestionEditor.vue'
+import randomId from './utils/randomId'
 import { PendingQuestion, Question } from './types'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 const addNewQuestion = () => {
-    questions.value.push({
-        id: "",
+    pendingQuestions.value.push({
+        tempId: randomId(),
         prompt: "",
         variables: [],
         conditions: [],
@@ -28,8 +41,13 @@ const addNewQuestion = () => {
         type: "numerical"
     })
 }
-//: Array<Question | PendingQuestion> make questions that
-const questions = ref([
+const isNewQuestionsDisabled = computed(() =>pendingQuestions.value.length > 0)
+const handlePendingQuestionSaved = ({tempId, newQuestion}: {tempId: string, newQuestion: Question}) => {
+    questions.value.push(newQuestion)
+    pendingQuestions.value = pendingQuestions.value.filter(q => q.tempId !== tempId)
+}
+const pendingQuestions = ref<PendingQuestion[]>([])
+const questions = ref<Question[]>([
     {
         "id": "67cb8bca441abf3caab3183f",
         "prompt": "Tempus optio stultus arcus cubitum.",

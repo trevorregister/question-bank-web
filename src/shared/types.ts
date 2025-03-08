@@ -1,8 +1,9 @@
 export interface Variable {
-    id: string,
-    label: string,
-    min: number,
-    max: number,
+    id: string
+    label: string
+    type: string
+    min: number
+    max: number
     step: number
 }
 export interface Condition {
@@ -21,6 +22,9 @@ export interface Question {
     owner: string
     isArchived: boolean
     isDeleted: boolean
+    type: string
 }
 
-export interface PendingQuestion extends Omit<Question, 'id' | 'parent'>{}
+export interface PendingQuestion extends Omit<Question, 'id' | 'parent'>{
+    tempId: string
+}

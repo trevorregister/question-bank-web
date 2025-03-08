@@ -37,7 +37,8 @@
                             Attempts
                         </div>
                         <div class="col">
-                            <input style="width:100%;">
+<!--                         pointValue used as model here until attempts is added to domain entity
+ -->                        <NumberInput v-model.number="question.pointValue"/>
                         </div>
                     </div>
                 </div>

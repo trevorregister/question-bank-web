@@ -48,7 +48,7 @@ const handleGetVariables = (rawVariableLabels: RegExpMatchArray) => {
             }
             variableLabel = variableLabel.concat(character)
         }
-        return {
+        const variable: Variable = {
             id: randomId(),
             label: variableLabel,
             min: 0,
@@ -56,6 +56,7 @@ const handleGetVariables = (rawVariableLabels: RegExpMatchArray) => {
             step: 0,
             type: 'random'
         }
+        return variable
 
     }) : []
 

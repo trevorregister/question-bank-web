@@ -5,7 +5,7 @@
                 <QuestionEditor :question="question"/>
             </div>
             <div class="row">
-                <QuestionEditor/>
+                <q-btn @click="addNewQuestion" label="+Q"/>
             </div>
         </div>
     </div>
@@ -13,7 +13,23 @@
 
 <script setup lang="ts">
 import QuestionEditor from '../domains/questions/components/QuestionEditor.vue'
-const questions = [
+import { PendingQuestion, Question } from './types'
+import { ref } from 'vue'
+const addNewQuestion = () => {
+    questions.value.push({
+        id: "",
+        prompt: "",
+        variables: [],
+        conditions: [],
+        pointValue: 0,
+        isArchived: false,
+        isDeleted: false,
+        owner: "",
+        type: "numerical"
+    })
+}
+//: Array<Question | PendingQuestion> make questions that
+const questions = ref([
     {
         "id": "67cb8bca441abf3caab3183f",
         "prompt": "Tempus optio stultus arcus cubitum.",
@@ -117,7 +133,7 @@ const questions = [
   "isDeleted": false,
   "owner": "67cb8bca441abf3caab3182f",
     }
-]
+])
 
 </script>
 

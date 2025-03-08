@@ -22,3 +22,5 @@ export interface Question {
     isArchived: boolean
     isDeleted: boolean
 }
+
+export interface PendingQuestion extends Omit<Question, 'id' | 'parent'>{}

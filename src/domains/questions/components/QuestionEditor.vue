@@ -5,7 +5,7 @@
                 <TextEditor 
                     @get-variables="handleGetVariables" 
                     @save-question="handleSaveQuestion" 
-                    :prompt="isNewQuestion ? 'New Question' : props.question.prompt"
+                    :prompt="props.question?.prompt ?? 'New Question'"
                 />
             </div>
             <div v-if="variables.length>0" class="col-sm-12 col-md-5 q-pa-md flex flex-center">
@@ -33,11 +33,9 @@ const props = defineProps<{question?: Question}>()
 const variables = ref<Variable[]>()
 const conditions = ref<Condition[]>()
 
-const isNewQuestion = computed((): boolean => !props.question)
 const shortPrompt = computed((): string => props.question ? props.question.prompt.substring(0, 25).concat('...') : 'New Question')
 
 const handleGetVariables = (rawVariableLabels: RegExpMatchArray) => {
-
     //extract text within curly braces, i.e {{ asdf }} becomes asdf
     const allVariables = rawVariableLabels? rawVariableLabels.map(label => {
         let variableLabel = '' 
@@ -74,8 +72,25 @@ const handleGetVariables = (rawVariableLabels: RegExpMatchArray) => {
 const handleDeleteVariable = (id: string) => {
     variables.value = variables.value.filter(variable => variable.id !== id)
 }
-const handleSaveQuestion = () => {
-    console.log('save event')
+const handleSaveQuestion = async (editorContents: string) => {
+        const questionComponents = {
+            prompt: editorContents,
+            variables: variables.value,
+            conditions: conditions.value,
+            pointValue: 0,
+            owner: 'asdf',
+            isArchived: false,
+            isDeleted: false
+        }
+        if(!props.question) {
+            console.log('api client create new question', questionComponents)
+        } else {
+            const updatedQuestion: Question = {
+                id: props.question.id,
+                ...questionComponents
+            }
+            console.log('api client update existing question', updatedQuestion)
+        }
 }
 onBeforeMount(async () => {
     if(props.question){

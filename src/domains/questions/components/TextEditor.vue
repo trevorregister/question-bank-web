@@ -15,7 +15,7 @@ const props = defineProps<{
 }>()
 const emit = defineEmits<{
     (e: 'get-variables', rawVariableLabels: RegExpMatchArray): void,
-    (e: 'save-question'): void
+    (e: 'save-question', prompt: string): void
 }>()
 const editorContents = ref('')
 
@@ -32,7 +32,7 @@ const getVariables = () => {
 }
 
 const saveQuestion = () => {
-    emit('save-question')
+    emit('save-question', editorContents.value)
 }
 const definitions = {
     getVariables: {

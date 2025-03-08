@@ -1,4 +1,5 @@
 <template>
+    <!-- this is probably going to end up being a /bank/:bankId view -->
     <div class="row">
         <div class="col">
             <div class="row q-mb-sm" v-for="question in questions">

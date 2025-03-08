@@ -1,34 +1,47 @@
 <template>
-    <q-intersection
+<!--     <q-intersection
         transition="slide-left"
-    >
-    <CollapsePanel :label="shortPrompt">
-        <div class="row q-col-gutter-sm">
-            <div class="col-sm-12 col-md-7 q-pa-md flex flex-center">
-                <TextEditor 
-                    @get-variables="handleGetVariables" 
-                    @save-question="handleSaveQuestion" 
-                    :prompt="props.question?.prompt ?? 'New Question'"
-                />
+    > -->
+        <CollapsePanel :label="shortPrompt">
+            <div class="row q-col-gutter-sm">
+                <div class="col-sm-12 col-md-7 q-pa-md flex flex-center">
+                    <TextEditor 
+                        @get-variables="handleGetVariables" 
+                        @save-question="handleSaveQuestion" 
+                        :prompt="props.question?.prompt ?? 'New Question'"
+                    />
+                </div>
+                <div v-if="variables.length>0" class="col-sm-12 col-md-5 q-pa-md flex flex-center">
+                    <VariablesTable 
+                        :variables="variables" 
+                        @delete-variable="handleDeleteVariable"
+                    />
+                </div>  
+                <div v-else class="col-sm-12 col-md-5 q-pa-md flex flex-center text-h5">
+                    Add some variables
+                </div>         
             </div>
-            <div v-if="variables.length>0" class="col-sm-12 col-md-5 q-pa-md flex flex-center">
-                <VariablesTable 
-                    :variables="variables" 
-                    @delete-variable="handleDeleteVariable"
+            <!-- conditions table -->
+             <div class="row q-col-gutter-sm q-pa-md">
+                <div class="col-md-2 col-sm-12 flex justify-center">
+                    Point Value
+                </div>
+                <div class="col-md-10 col-sm-12 flex justify-start q-pa-sm">
+                    <ConditionsTable 
+                        :conditions="conditions"
+                        @delete-condition="handleDeleteCondition"
                 />
-            </div>  
-            <div v-else class="col-sm-12 col-md-5 q-pa-md flex flex-center text-h5">
-                Add some variables
-            </div>         
-        </div>
-    </CollapsePanel>
-</q-intersection>
+                </div>
+             </div>
+        </CollapsePanel>
+<!--     </q-intersection> -->
 
 </template>
 
 <script setup lang="ts">
 import CollapsePanel from '../../../shared/components/CollapsePanel.vue'
 import VariablesTable from './VariablesTable.vue'
+import ConditionsTable from './ConditionsTable.vue'
 import TextEditor from './TextEditor.vue'
 import { ref, onBeforeMount, computed } from 'vue'
 import randomId from '../../../shared/utils/randomId'
@@ -82,6 +95,9 @@ const handleGetVariables = (rawVariableLabels: RegExpMatchArray) => {
 const handleDeleteVariable = (id: string) => {
     variables.value = variables.value.filter(variable => variable.id !== id)
 }
+const handleDeleteCondition = (id: string) => {
+    conditions.value = conditions.value.filter(condition => condition.id !== id)
+}
 const handleSaveQuestion = async (editorContents: string) => {
         const questionComponents = {
             prompt: editorContents,
@@ -94,7 +110,7 @@ const handleSaveQuestion = async (editorContents: string) => {
             type: 'numerical'
         }
         if('tempId' in props.question) {
-            //temp until api call finalized
+            //replace newQuestion with return of client creating new question
             const newQuestion: Question = {
                 id: randomId(),
                 prompt: questionComponents.prompt,
@@ -108,6 +124,7 @@ const handleSaveQuestion = async (editorContents: string) => {
             }
             emit('pending-question-saved', {tempId: props.question.tempId, newQuestion})
         } else {
+            //handle api client of updating existing question
             const updatedQuestion: Question = {
                 id: props.question.id,
                 ...questionComponents
@@ -126,13 +143,5 @@ onBeforeMount(async () => {
 </script>
 
 <style scoped lang="scss">
-.variable-parameters {
-    input {
-        margin-left: 1rem;
-        max-width: 8rem;
-    }
-}
-.variable-label {
-    min-width: 8rem;
-}
+
 </style>

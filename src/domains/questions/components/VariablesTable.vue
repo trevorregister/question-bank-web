@@ -12,9 +12,6 @@
             <th class="text-body2">
                 Step
             </th>
-            <th class="text-body2">
-                Action
-            </th>
         </tr>
         <tr v-for="variable in variables">
             <td class="variable-label  text-body2">

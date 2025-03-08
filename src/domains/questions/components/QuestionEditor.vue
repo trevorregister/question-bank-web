@@ -1,11 +1,18 @@
 <template>
-    <CollapsePanel label="Question">
+    <CollapsePanel :label="shortPrompt">
         <div class="row q-col-gutter-sm">
             <div class="col-sm-12 col-md-7 q-pa-md flex flex-center">
-                <TextEditor @get-variables="handleGetVariables" @save-question="handleSaveQuestion"/>
+                <TextEditor 
+                    @get-variables="handleGetVariables" 
+                    @save-question="handleSaveQuestion" 
+                    :prompt="isNewQuestion ? 'New Question' : props.question.prompt"
+                />
             </div>
             <div v-if="variables.length>0" class="col-sm-12 col-md-5 q-pa-md flex flex-center">
-                <VariablesTable :variables="variables" @delete-variable="handleDeleteVariable"/>
+                <VariablesTable 
+                    :variables="variables" 
+                    @delete-variable="handleDeleteVariable"
+                />
             </div>  
             <div v-else class="col-sm-12 col-md-5 q-pa-md flex flex-center text-h5">
                 Add some variables
@@ -18,16 +25,17 @@
 import CollapsePanel from '../../../shared/components/CollapsePanel.vue'
 import VariablesTable from './VariablesTable.vue'
 import TextEditor from './TextEditor.vue'
-import { ref } from 'vue'
+import { ref, onBeforeMount, computed } from 'vue'
 import randomId from '../../../shared/utils/randomId'
+import { Variable, Question, Condition } from '../../../shared/types'
 
-const variables = ref<{
-    id: string,
-    label: string,
-    min: number,
-    max: number,
-    step: number
-}[]>([])
+const props = defineProps<{question?: Question}>()
+const variables = ref<Variable[]>()
+const conditions = ref<Condition[]>()
+
+const isNewQuestion = computed((): boolean => !props.question)
+const shortPrompt = computed((): string => props.question ? props.question.prompt.substring(0, 25).concat('...') : 'New Question')
+
 const handleGetVariables = (rawVariableLabels: RegExpMatchArray) => {
 
     //extract text within curly braces, i.e {{ asdf }} becomes asdf
@@ -66,10 +74,18 @@ const handleGetVariables = (rawVariableLabels: RegExpMatchArray) => {
 const handleDeleteVariable = (id: string) => {
     variables.value = variables.value.filter(variable => variable.id !== id)
 }
-
 const handleSaveQuestion = () => {
     console.log('save event')
 }
+onBeforeMount(async () => {
+    if(props.question){
+        variables.value = props.question.variables
+        conditions.value = props.question.conditions
+    } else {
+        variables.value = []
+        conditions.value = []
+    }
+})
 </script>
 
 <style scoped lang="scss">

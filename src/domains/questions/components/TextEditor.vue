@@ -9,8 +9,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-
+import { ref, onMounted } from 'vue'
+const props = defineProps<{
+    prompt?: string
+}>()
 const emit = defineEmits<{
     (e: 'get-variables', rawVariableLabels: RegExpMatchArray): void,
     (e: 'save-question'): void
@@ -44,6 +46,11 @@ const definitions = {
         color: 'green'
     }
 }
+onMounted(() => {
+    if(props.prompt){
+        editorContents.value = props.prompt
+    }
+})
 
 </script>
 

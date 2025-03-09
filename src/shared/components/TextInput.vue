@@ -2,14 +2,20 @@
 <!--     <q-intersection
       transition="flip-left"
     > -->
-      <q-input
+    <input
+      class="text-input" 
+      label=""
+      :model-value="modelValue" 
+      @update:model-value="updateValue"
+      />
+<!--       <q-input
       class="text-input" 
       outlined 
       dense 
       label=""
       :model-value="modelValue" 
       @update:model-value="updateValue"
-      />
+      /> -->
 <!--     </q-intersection> -->
   </template>
   
@@ -26,6 +32,14 @@
   
   <style lang="scss" scoped>
   .text-input {
-      max-width: 100%;
-  }
+      width: 100%;
+      border: 1px solid;
+      height: 2rem;
+      border-radius: 3px;
+
+      &:focus{
+        outline: none;
+        border: 2px solid $primary;
+      }
+     }
   </style>

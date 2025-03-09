@@ -127,6 +127,9 @@ const handleDeleteCondition = (id: string) => {
     conditions.value = conditions.value.filter(condition => condition.id !== id)
 }
 const handleSaveQuestion = async (editorContents: string) => {
+    const regex = /(?<!<gvar[^>]*>)\{\{(.*?)\}\}(?!<\/gvar>)/g
+    const varsWithoutTags = editorContents.match(regex) ?? []
+    varsWithoutTags.forEach(v => editorContents = editorContents.replace(v, `<gvar id=${23446}>${v}</gvar>`))
         const questionComponents = {
             prompt: editorContents,
             variables: variables.value,

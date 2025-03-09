@@ -16,7 +16,11 @@
                 <TextInput v-model="condition.expression"/>
             </td>
             <td class="condition-feedback">
-                <TextInput v-model="condition.feedback"/>
+                <!-- <TextInput v-model="condition.feedback"/> -->
+                 <q-editor 
+                    v-model="condition.feedback"
+                    class="condition-editor"
+                />
             </td>
             <td >
                 <q-checkbox size="sm" v-model="condition.isCorrect"/>
@@ -55,5 +59,8 @@ td {
 
 .condition-feedback {
     width: 70%;
+}
+.condition-editor {
+    height: 8rem;
 }
 </style>

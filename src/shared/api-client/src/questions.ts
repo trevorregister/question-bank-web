@@ -1,8 +1,8 @@
 import { AxiosInstance } from "axios"
-import GetActivityResponse from "./shared/GetActivityResponse"
 import GetQuestionResponse from "./shared/GetQuestionResponse"
+/* import GetActivityResponse from "./shared/GetActivityResponse"
 import CreateVariableRequest from "./shared/CreateVariableRequest"
-import CreateConditionRequest from "./shared/CreateConditionRequest"
+import CreateConditionRequest from "./shared/CreateConditionRequest" */
 
 interface Variable {
     id: string
@@ -38,7 +38,7 @@ interface CreateQuestionResponse {
     isDeleted: false
 }
 
-interface DeleteVariableRequest {
+/* interface DeleteVariableRequest {
     questionId: string
     variableId: string
 }
@@ -46,7 +46,7 @@ interface DeleteVariableRequest {
 interface DeleteConditionRequest {
     questionId: string
     conditionId: string
-}
+} */
 
 interface UpdateQuestionRequest {
     questionId: string
@@ -71,7 +71,7 @@ export default class Questions {
         const { data } = await this.client.post('/questions', payload)
         return await data
     }
-
+/*  DEPRECATED
     async createVariable({questionId, type, min, max, step, label}: CreateVariableRequest): Promise<GetActivityResponse>{
         const payload = {type: type, min: min, max: max, step: step, label: label}
         const { data } = await this.client.post(`/questions/${questionId}/variable`, payload)
@@ -92,7 +92,7 @@ export default class Questions {
     async deleteCondition({questionId, conditionId}: DeleteConditionRequest): Promise<GetActivityResponse>{
         const { data } = await this.client.delete(`/questions/${questionId}/variable/${conditionId}`)
         return data
-    }
+    } */
 
     async getQuestionsByOwner(ownerId: string): Promise<GetQuestionResponse[]>{
         const { data } = await this.client.get(`/questions/owner/${ownerId}`)

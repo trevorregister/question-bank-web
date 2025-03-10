@@ -21,10 +21,11 @@ const updateValue = (event: Event) => {
 
 <style lang="scss" scoped>
 .number-input {
-    max-width: 70px;
+    max-width: 50px;
     border: 1px solid lightgrey;
-      height: 1.8rem;
-      border-radius: 3px;
+    height: 1.8rem;
+    border-radius: 3px;
+    text-align: center;
 
       &:focus{
         outline: none;

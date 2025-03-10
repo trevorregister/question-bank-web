@@ -3,6 +3,7 @@ import CreateAccountPage from '../domains/users/pages/CreateAccountPage.vue'
 import LoginPage from '../domains/users/pages/LoginPage.vue'
 import Playground from '../shared/Playground.vue'
 //const publicPages = ['/login', '/create-account', '/about', '/test']
+import banks from './banks'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -22,7 +23,8 @@ const router = createRouter({
       path: '/playground',
       name: 'playground',
       component: Playground
-    }
+    },
+    ...banks
   ]
 })
 

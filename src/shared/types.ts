@@ -25,6 +25,15 @@ export interface Question {
     type: string
 }
 
+export interface Bank {
+    id: string
+    name: string
+    description?: string
+    isArchived: boolean
+    isDeleted: boolean
+    questions: string[]
+}
+
 export interface PendingQuestion extends Omit<Question, 'id' | 'parent'>{
     tempId: string
 }

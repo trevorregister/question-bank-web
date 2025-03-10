@@ -12,9 +12,13 @@
       </q-toolbar>
 
       <q-tabs align="right">
+<!--    suppresses vue warnings until i have actual pages     
         <q-route-tab to="/page1" label="Page One" />
         <q-route-tab to="/page2" label="Page Two" />
-        <q-route-tab to="/page3" label="Page Three" />
+        <q-route-tab to="/page3" label="Page Three" /> -->
+        <q-route-tab label="Page One" />
+        <q-route-tab label="Page Two" />
+        <q-route-tab label="Page Three" />
       </q-tabs>
     </q-header>
 

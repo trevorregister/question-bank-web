@@ -20,6 +20,7 @@
                  <q-editor 
                     v-model="condition.feedback"
                     class="condition-editor"
+                    :toolbar="toolbar"
                 />
             </td>
             <td >
@@ -46,6 +47,11 @@ const emit = defineEmits<{
 const deleteCondition = (id: string) => {
     emit('delete-condition', id)
 }
+const toolbar = [
+    ['bold', 'italic', 'underline', 'ordered', 'unordered'],
+    ['superscript', 'subscript'],
+    ['undo', 'redo', 'getVariables', 'addCondition', 'save'],
+]
 
 </script>
 

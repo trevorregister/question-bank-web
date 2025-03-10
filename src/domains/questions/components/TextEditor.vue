@@ -21,7 +21,7 @@ const emit = defineEmits<{
 const editorContents = ref('')
 
 const toolbar = [
-    ['left', 'center', 'right', 'justify', 'ordered', 'unordered', 'italic', 'underline'],
+    ['bold', 'italic', 'underline', 'ordered', 'unordered'],
     ['superscript', 'subscript'],
     ['undo', 'redo', 'getVariables', 'addCondition', 'save'],
 ]

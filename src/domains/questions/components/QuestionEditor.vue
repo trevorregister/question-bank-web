@@ -1,60 +1,55 @@
 <template>
-<!--     <q-intersection
-        transition="slide-left"
-    > -->
-        <CollapsePanel :label="shortPrompt">
-            <div class="row q-col-gutter-sm">
-                <div class="col-sm-12 col-md-7 q-pa-md flex flex-center">
-                    <TextEditor 
-                        @get-variables="handleGetVariables" 
-                        @save-question="handleSaveQuestion" 
-                        @add-condition="handleAddCondition"
-                        :prompt="props.question?.prompt ?? 'New Question'"
-                    />
-                </div>
-                <div v-if="variables.length>0" class="col-sm-12 col-md-5 q-pa-md flex flex-center">
-                    <VariablesTable 
-                        :variables="variables" 
-                        @delete-variable="handleDeleteVariable"
-                    />
-                </div>  
-                <div v-else class="col-sm-12 col-md-5 q-pa-md flex flex-center text-h5">
-                    Add some variables
-                </div>         
-            </div>
-             <div class="row q-col-gutter-sm q-pa-md">
-                <div class="col-md-2 col-sm-12">
-                    <div class="point-attempts-container row text-body4">
-                        <div class="col flex flex-center">
-                            Points
-                        </div>
-                        <div class="col">
-                            <NumberInput v-model.number="question.pointValue"/>
-                        </div>
-                    </div>
-                    <div class="point-attempts-container row q-pa-sm">
-                        <div class="col flex flex-center">
-                            Attempts
-                        </div>
-                        <div class="col">
-<!--                         pointValue used as model here until attempts is added to domain entity
- -->                        <NumberInput v-model.number="question.pointValue"/>
-                        </div>
-                    </div>
-                </div>
-                <div v-if="conditions.length > 0" class="col-md-10 col-sm-12 flex justify-start q-pa-sm">
-                    <ConditionsTable 
-                        :conditions="conditions"
-                        @delete-condition="handleDeleteCondition"
+    <CollapsePanel :label="shortPrompt">
+        <div class="row q-col-gutter-sm">
+            <div class="col-sm-12 col-md-7 q-pa-md flex flex-center">
+                <TextEditor 
+                    @get-variables="handleGetVariables" 
+                    @save-question="handleSaveQuestion" 
+                    @add-condition="handleAddCondition"
+                    :prompt="props.question?.prompt ?? 'New Question'"
                 />
+            </div>
+            <div v-if="variables.length>0" class="col-sm-12 col-md-5 q-pa-md flex flex-center">
+                <VariablesTable 
+                    :variables="variables" 
+                    @delete-variable="handleDeleteVariable"
+                />
+            </div>  
+            <div v-else class="col-sm-12 col-md-5 q-pa-md flex flex-center text-h5">
+                Add some variables
+            </div>         
+        </div>
+            <div class="row q-col-gutter-sm q-pa-md">
+            <div class="col-md-2 col-sm-12">
+                <div class="point-attempts-container row text-body4">
+                    <div class="col flex flex-center">
+                        Points
+                    </div>
+                    <div class="col">
+                        <NumberInput v-model.number="question.pointValue"/>
+                    </div>
                 </div>
-                <div v-else class="col flex flex-center text-h5">
-                    Add some conditions
-                </div> 
-             </div>
-        </CollapsePanel>
-<!--     </q-intersection> -->
-
+                <div class="point-attempts-container row q-pa-sm">
+                    <div class="col flex flex-center">
+                        Attempts
+                    </div>
+                    <div class="col">
+<!--                         pointValue used as model here until attempts is added to domain entity
+-->                        <NumberInput v-model.number="question.pointValue"/>
+                    </div>
+                </div>
+            </div>
+            <div v-if="conditions.length > 0" class="col-md-10 col-sm-12 flex justify-start q-pa-sm">
+                <ConditionsTable 
+                    :conditions="conditions"
+                    @delete-condition="handleDeleteCondition"
+            />
+            </div>
+            <div v-else class="col flex flex-center text-h5">
+                Add some conditions
+            </div> 
+            </div>
+    </CollapsePanel>
 </template>
 
 <script setup lang="ts">
@@ -138,6 +133,7 @@ const handleSaveQuestion = async (editorContents: string) => {
         const id = variables.value.find(variable => variable.label === label).id
         return `<gvar id="${id}">{{${extractLabelFromBraces(match)}}}</gvar>`
     })
+
     console.log(editorContents)
     let question: Question
     const questionComponents = {
@@ -164,7 +160,6 @@ const handleSaveQuestion = async (editorContents: string) => {
                 ...questionComponents
             }
         }
-        console.log('prompt', question.prompt)
 }
 onBeforeMount(async () => {
     if(props.question){

@@ -32,7 +32,8 @@
 import QuestionEditor from '../domains/questions/components/QuestionEditor.vue'
 import randomId from './utils/randomId'
 import { PendingQuestion, Question } from './types'
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
+import client from './api-client'
 const addNewQuestion = () => {
     pendingQuestions.value.push({
         tempId: randomId(),
@@ -58,7 +59,9 @@ const handleExistingQuestionSaved = (updatedQuestion: Question) => {
 }
 const pendingQuestions = ref<PendingQuestion[]>([])
 const questions = ref<Question[]>([])
-
+onMounted(async () => {
+  questions.value = await client.banks.getQuestions('67c4ca846db8f49f2e98ab51')
+})
 </script>
 
 <style scoped lang="scss">

@@ -16,13 +16,13 @@
   },
   "dependencies": {
     "@quasar/extras": "^1.16.17",
+    "axios": "^1.8.2",
     "eslint": "^9.21.0",
     "husky": "^9.1.7",
     "lint-staged": "^15.4.3",
     "pinia": "^3.0.1",
     "prettier": "^3.5.3",
     "quasar": "^2.18.0",
-    "question-bank-api-client": "git+https://github.com/trevorregister/question-bank-api-client.git",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0"
   },

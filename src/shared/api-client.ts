@@ -1,4 +1,4 @@
-import Client from 'question-bank-api-client'
+import Client from './api-client/src/client'
 
 
 const config = {

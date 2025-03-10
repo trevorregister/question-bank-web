@@ -14,7 +14,7 @@ const props = defineProps<{
     prompt?: string
 }>()
 const emit = defineEmits<{
-    (e: 'get-variables', rawVariableLabels: RegExpMatchArray): void,
+    (e: 'get-variables', rawVariableLabels: string[]): void,
     (e: 'save-question', prompt: string): void,
     (e: 'add-condition'): void
 }>()
@@ -27,12 +27,18 @@ const toolbar = [
 ]
 
 const getVariables = () => {
-    const regex = /\{\{\s*([a-zA-Z.]+)\s*\}\}/g
-    const rawVariableLabels = editorContents.value.match(regex)
+    //captures only letters within double curly's, no spaces. {{text}} is captured but {{ text}} isn't.
+    const regex = /\{\{([a-zA-Z]+)\}\}/g 
+
+    //prevents duplicate entries with same label from being created, i.e. 
+    //"{{distance}} {{distance}}" will only create one distance variable
+    const rawVariableLabels = Array.from(new Set(editorContents.value.match(regex)))
+    
     emit('get-variables', rawVariableLabels)
 }
 
 const saveQuestion = () => {
+    getVariables()
     emit('save-question', editorContents.value)
 }
 const addCondition = () => {

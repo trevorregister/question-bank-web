@@ -127,11 +127,11 @@ const handleDeleteCondition = (id: string) => {
 }
 const handleSaveQuestion = async (editorContents: string) => {
     //finds instances of a variable without the gvar tag and adds it.
-    //example: "A car travels {{distance}}" returns "A car travels <gvar id='variableId'>{{distance}}</gvar>
+    //example: "A car travels {{distance}}" returns "A car travels <gvar class='var-variableId'>{{distance}}</gvar>
     const regex = /(?<!<gvar[^>]*>)\{\{\s*(.*?)\s*\}\}(?!<\/gvar>)/g
     editorContents = editorContents.replace(regex, (match, label) => {
         const id = variables.value.find(variable => variable.label === label).id
-        return `<gvar id="${id}">{{${extractLabelFromBraces(match)}}}</gvar>`
+        return `<gvar class="var-${id}">{{${extractLabelFromBraces(match)}}}</gvar>`
     })
 
     console.log(editorContents)

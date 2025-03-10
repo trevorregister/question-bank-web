@@ -19,36 +19,24 @@
                 Add some variables
             </div>         
         </div>
-            <div class="row q-col-gutter-sm q-pa-md">
-            <div class="col-md-2 col-sm-12">
-                <div class="point-attempts-container row text-body4">
-                    <div class="col flex flex-center">
-                        Points
-                    </div>
-                    <div class="col">
-                        <NumberInput v-model.number="question.pointValue"/>
-                    </div>
+        <div class="row q-col-gutter-sm q-pa-sm">
+            <div class="col q-ma-xs">
+                Point Value  <NumberInput :model-value="pointValue" class="q-ml-md"/>
+            </div>
+        </div>
+        <div class="row q-col-gutter-sm q-pa-sm flex flex-center">
+            <div class="col-12">
+                <div v-if="conditions.length > 0" class="col-md-10 col-sm-12 flex justify-start q-pa-sm">
+                    <ConditionsTable 
+                        :conditions="conditions"
+                        @delete-condition="handleDeleteCondition"
+                    />
                 </div>
-                <div class="point-attempts-container row q-pa-sm">
-                    <div class="col flex flex-center">
-                        Attempts
-                    </div>
-                    <div class="col">
-<!--                         pointValue used as model here until attempts is added to domain entity
--->                        <NumberInput v-model.number="question.pointValue"/>
-                    </div>
-                </div>
+                <div v-else class="col flex flex-center text-h5">
+                    Add some conditions
+                </div> 
             </div>
-            <div v-if="conditions.length > 0" class="col-md-10 col-sm-12 flex justify-start q-pa-sm">
-                <ConditionsTable 
-                    :conditions="conditions"
-                    @delete-condition="handleDeleteCondition"
-            />
-            </div>
-            <div v-else class="col flex flex-center text-h5">
-                Add some conditions
-            </div> 
-            </div>
+        </div>
     </CollapsePanel>
 </template>
 
@@ -68,6 +56,7 @@ const emit = defineEmits<{
 }>()
 const variables = ref<Variable[]>()
 const conditions = ref<Condition[]>()
+const pointValue = ref<number>()
 
 const shortPrompt = computed((): string => props.question ? props.question.prompt.substring(0, 25).concat('...') : 'New Question')
 
@@ -140,11 +129,11 @@ const handleSaveQuestion = async (editorContents: string) => {
         prompt: editorContents,
         variables: variables.value,
         conditions: conditions.value,
-        pointValue: 0,
-        owner: 'asdf',
-        isArchived: false,
-        isDeleted: false,
-        type: 'numerical'
+        pointValue: pointValue.value,
+        owner: question.owner,
+        isArchived: question.isArchived,
+        isDeleted: question.isDeleted,
+        type: question.type
     }
         if('tempId' in props.question) {
             //replace question = {...} with return of client creating new question
@@ -165,9 +154,11 @@ onBeforeMount(async () => {
     if(props.question){
         variables.value = props.question.variables
         conditions.value = props.question.conditions
+        pointValue.value = props.question.pointValue
     } else {
         variables.value = []
         conditions.value = []
+        pointValue.value = 0
     }
 })
 </script>

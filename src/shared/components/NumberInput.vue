@@ -1,18 +1,10 @@
 <template>
-<!--   <q-intersection
-    transition="flip-left"
-  > -->
-    <q-input
+    <input
     class="number-input no-spinner" 
-    outlined 
-    dense 
-    label=""
     type="number"
-    input-mode="decimal"
-    :model-value="modelValue" 
-    @update:model-value="updateValue"
+    :value="modelValue" 
+    @input="updateValue"
     />
-<!--   </q-intersection> -->
 </template>
 
 <script setup lang="ts">
@@ -21,28 +13,36 @@ defineProps<{
     modelValue: number | ""
 }>()
 
-const updateValue = (newValue: number) => {
-    emit('update:modelValue', newValue)
-}
+const updateValue = (event: Event) => {
+    const target = event.target as HTMLInputElement
+      emit('update:modelValue', target.value)
+  }
 </script>
 
 <style lang="scss" scoped>
 .number-input {
     max-width: 70px;
+    border: 1px solid lightgrey;
+      height: 1.8rem;
+      border-radius: 3px;
+
+      &:focus{
+        outline: none;
+        border: 2px solid $primary;
+      }
 }
-.no-spinner :deep(input) {
-  /* Remove spinner buttons for Webkit browsers (Chrome, Safari, etc.) */
-  -webkit-appearance: textfield;
+.no-spinner {
+    -webkit-appearance: textfield;
 }
 
-.no-spinner :deep(input::-webkit-outer-spin-button),
-.no-spinner :deep(input::-webkit-inner-spin-button) {
-  -webkit-appearance: none;
-  margin: 0;
+.no-spinner::-webkit-outer-spin-button,
+.no-spinner::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 /* For Firefox */
-.no-spinner :deep(input[type=number]) {
-  -moz-appearance: textfield;
+.no-spinner[type=number] {
+    -moz-appearance: textfield;
 }
 </style>

@@ -54,7 +54,10 @@ td {
     padding: 5px;
 }
 .condition-expression {
-    width: 30%;
+    padding-top: 5px;
+    width: 100%;
+    display: flex;
+    align-items: start;
 }
 
 .condition-feedback {

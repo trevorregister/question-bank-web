@@ -1,22 +1,10 @@
 <template>
-<!--     <q-intersection
-      transition="flip-left"
-    > -->
     <input
       class="text-input" 
       label=""
-      :model-value="modelValue" 
-      @update:model-value="updateValue"
+      :value="modelValue" 
+      @input="updateValue"
       />
-<!--       <q-input
-      class="text-input" 
-      outlined 
-      dense 
-      label=""
-      :model-value="modelValue" 
-      @update:model-value="updateValue"
-      /> -->
-<!--     </q-intersection> -->
   </template>
   
   <script setup lang="ts">
@@ -25,15 +13,16 @@
       modelValue: string
   }>()
   
-  const updateValue = (newValue: string) => {
-      emit('update:modelValue', newValue)
+  const updateValue = (event: Event) => {
+    const target = event.target as HTMLInputElement
+      emit('update:modelValue', target.value)
   }
   </script>
   
   <style lang="scss" scoped>
   .text-input {
       width: 100%;
-      border: 1px solid;
+      border: 1px solid lightgray;
       height: 2rem;
       border-radius: 3px;
 

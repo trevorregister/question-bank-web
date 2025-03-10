@@ -47,12 +47,14 @@ import ConditionsTable from './ConditionsTable.vue'
 import TextEditor from './TextEditor.vue'
 import NumberInput from '../../../shared/components/NumberInput.vue'
 import { ref, onBeforeMount, computed } from 'vue'
+import client from '../../../shared/api-client'
 import randomId from '../../../shared/utils/randomId'
-import { Variable, Question, Condition, PendingQuestion } from '../../../shared/types'
+import { Variable, Question, Condition, PendingQuestion} from '../../../shared/types'
 
 const props = defineProps<{question: Question | PendingQuestion}>()
 const emit = defineEmits<{
     (e: 'pending-question-saved', {tempId, newQuestion}): void,
+    (e: 'existing-question-saved', question: Question): void
 }>()
 const variables = ref<Variable[]>()
 const conditions = ref<Condition[]>()
@@ -120,35 +122,24 @@ const handleSaveQuestion = async (editorContents: string) => {
     const regex = /(?<!<gvar[^>]*>)\{\{\s*(.*?)\s*\}\}(?!<\/gvar>)/g
     editorContents = editorContents.replace(regex, (match, label) => {
         const id = variables.value.find(variable => variable.label === label).id
-        return `<gvar class="var-${id}">{{${extractLabelFromBraces(match)}}}</gvar>`
+        return `<gvar class='var-${id}'>{{${extractLabelFromBraces(match)}}}</gvar>`
     })
-
-    console.log(editorContents)
-    let question: Question
     const questionComponents = {
         prompt: editorContents,
         variables: variables.value,
         conditions: conditions.value,
         pointValue: pointValue.value,
-        //TODO these don't work for pending questions
-        owner: "asdf",
-        isArchived: false,
-        isDeleted: false,
         type: 'numerical'
     }
         if('tempId' in props.question) {
             //replace question = {...} with return of client creating new question
-            question = {
-                id: randomId(),
+            const newQuestion = await client.questions.create({
                 ...questionComponents
-            }
-            emit('pending-question-saved', {tempId: props.question.tempId, newQuestion: question})
+            })
+            emit('pending-question-saved', {tempId: props.question.tempId, newQuestion: newQuestion})
         } else {
-            //handle api client of updating existing question
-            question = {
-                id: props.question.id,
-                ...questionComponents
-            }
+            const question = await client.questions.updateQuestion({questionId: props.question.id, payload: {...questionComponents}})
+            emit('existing-question-saved', question)
         }
 }
 onBeforeMount(async () => {

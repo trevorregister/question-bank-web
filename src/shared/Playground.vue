@@ -5,6 +5,7 @@
             <div class="row q-mb-sm" v-for="question in questions">
                 <QuestionEditor 
                     :question="question"
+                    @existing-question-saved="handleExistingQuestionSaved"
                 />
             </div>
             <div class="row q-mb-sm" v-for="question in pendingQuestions">
@@ -46,14 +47,19 @@ const addNewQuestion = () => {
     })
 }
 const isNewQuestionsDisabled = computed(() =>pendingQuestions.value.length > 0)
+
 const handlePendingQuestionSaved = ({tempId, newQuestion}: {tempId: string, newQuestion: Question}) => {
     questions.value.push(newQuestion)
     pendingQuestions.value = pendingQuestions.value.filter(q => q.tempId !== tempId)
 }
+const handleExistingQuestionSaved = (updatedQuestion: Question) => {
+  const outdatedQuestionIndex = questions.value.findIndex(q => q.id === updatedQuestion.id )
+  questions.value[outdatedQuestionIndex] = updatedQuestion
+}
 const pendingQuestions = ref<PendingQuestion[]>([])
 const questions = ref<Question[]>([
     {
-        "id": "67cb8bca441abf3caab3183f",
+        "id": "67cf03f3c7ac108d9099260d",
         "prompt": "<b>Tempus</b> optio {{newaje}} <gvar id='67cb8bca441abf3caab31840'>{{caput}}</gvar> arcus cubitum.",
         "variables": [
             {

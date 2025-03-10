@@ -51,7 +51,7 @@ const pendingQuestions = ref<PendingQuestion[]>([])
 const questions = ref<Question[]>([
     {
         "id": "67cb8bca441abf3caab3183f",
-        "prompt": "<b>Tempus</b> optio {{newaje}} <gvar id='67cb8bca441abf3caab31840'>{{ caput }}</gvar> arcus cubitum.",
+        "prompt": "<b>Tempus</b> optio {{newaje}} <gvar id='67cb8bca441abf3caab31840'>{{caput}}</gvar> arcus cubitum.",
         "variables": [
             {
             "id": "67cb8bca441abf3caab31840",

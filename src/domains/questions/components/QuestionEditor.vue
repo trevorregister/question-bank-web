@@ -84,16 +84,20 @@ const handleAddCondition = () => {
         isCorrect: false
     })
 }
-const handleGetVariables = (rawVariableLabels: RegExpMatchArray) => {
-    //extract text within curly braces, i.e {{ asdf }} becomes asdf
-    const allVariables = rawVariableLabels? rawVariableLabels.map(label => {
-        let variableLabel = '' 
-        for (const character of label){
+const extractLabelFromBraces = (variableWithBraces: string) => {
+    let label = '' 
+    for (const character of variableWithBraces){
             if(character === "{" || character === "}" || character === " "){
                 continue
             }
-            variableLabel = variableLabel.concat(character)
+            label = label.concat(character)
         }
+    return label
+    }
+    
+const handleGetVariables = (rawVariableLabels: string[]) => {
+    const allVariables = rawVariableLabels? rawVariableLabels.map(label => {
+        const variableLabel = extractLabelFromBraces(label) 
         const variable: Variable = {
             id: randomId(),
             label: variableLabel,
@@ -127,40 +131,40 @@ const handleDeleteCondition = (id: string) => {
     conditions.value = conditions.value.filter(condition => condition.id !== id)
 }
 const handleSaveQuestion = async (editorContents: string) => {
-    const regex = /(?<!<gvar[^>]*>)\{\{(.*?)\}\}(?!<\/gvar>)/g
-    const varsWithoutTags = editorContents.match(regex) ?? []
-    varsWithoutTags.forEach(v => editorContents = editorContents.replace(v, `<gvar id=${23446}>${v}</gvar>`))
-        const questionComponents = {
-            prompt: editorContents,
-            variables: variables.value,
-            conditions: conditions.value,
-            pointValue: 0,
-            owner: 'asdf',
-            isArchived: false,
-            isDeleted: false,
-            type: 'numerical'
-        }
+    //finds instances of a variable without the gvar tag and adds it.
+    //example: "A car travels {{distance}}" returns "A car travels <gvar id='variableId'>{{distance}}</gvar>
+    const regex = /(?<!<gvar[^>]*>)\{\{\s*(.*?)\s*\}\}(?!<\/gvar>)/g
+    editorContents = editorContents.replace(regex, (match, label) => {
+        const id = variables.value.find(variable => variable.label === label).id
+        return `<gvar id="${id}">{{${extractLabelFromBraces(match)}}}</gvar>`
+    })
+    console.log(editorContents)
+    let question: Question
+    const questionComponents = {
+        prompt: editorContents,
+        variables: variables.value,
+        conditions: conditions.value,
+        pointValue: 0,
+        owner: 'asdf',
+        isArchived: false,
+        isDeleted: false,
+        type: 'numerical'
+    }
         if('tempId' in props.question) {
-            //replace newQuestion with return of client creating new question
-            const newQuestion: Question = {
+            //replace question = {...} with return of client creating new question
+            question = {
                 id: randomId(),
-                prompt: questionComponents.prompt,
-                variables: questionComponents.variables,
-                conditions: questionComponents.conditions,
-                pointValue: questionComponents.pointValue,
-                owner: questionComponents.owner,
-                isArchived: false,
-                isDeleted: false,
-                type: 'numerical'
+                ...questionComponents
             }
-            emit('pending-question-saved', {tempId: props.question.tempId, newQuestion})
+            emit('pending-question-saved', {tempId: props.question.tempId, newQuestion: question})
         } else {
             //handle api client of updating existing question
-            const updatedQuestion: Question = {
+            question = {
                 id: props.question.id,
                 ...questionComponents
             }
         }
+        console.log('prompt', question.prompt)
 }
 onBeforeMount(async () => {
     if(props.question){

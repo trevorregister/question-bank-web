@@ -130,10 +130,11 @@ const handleSaveQuestion = async (editorContents: string) => {
         variables: variables.value,
         conditions: conditions.value,
         pointValue: pointValue.value,
-        owner: question.owner,
-        isArchived: question.isArchived,
-        isDeleted: question.isDeleted,
-        type: question.type
+        //TODO these don't work for pending questions
+        owner: "asdf",
+        isArchived: false,
+        isDeleted: false,
+        type: 'numerical'
     }
         if('tempId' in props.question) {
             //replace question = {...} with return of client creating new question

@@ -15,9 +15,12 @@
             </div>
             <div class="row flex flex-center">
                 <q-btn 
-                    @click="addNewQuestion" label="+Q" 
+                    class="new-question-button"
+                    @click="addNewQuestion" 
+                    label="+New Question" 
                     :disabled="isNewQuestionsDisabled"
                     :title="isNewQuestionsDisabled ? 'Enabled when pending question is saved' : ''" 
+                    outline
                 />
             </div>
         </div>
@@ -157,5 +160,7 @@ const questions = ref<Question[]>([
 </script>
 
 <style scoped lang="scss">
-
+.new-question-button {
+  color: $primary
+}
 </style>

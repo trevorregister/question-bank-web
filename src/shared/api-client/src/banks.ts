@@ -21,6 +21,11 @@ interface GetBankWithQuestionsResponse {
     questions: GetQuestionResponse[]
 }
 
+interface CreateBankRequest {
+    name: string
+    description: string
+}
+
 interface AddRemoveQuestionsToBankRequest {
     bankId: string
     questionIdArray: string[]
@@ -33,8 +38,8 @@ export default class Banks {
         this.client = client
     }
 
-    async create(name: string): Promise<GetBankResponse>{
-        const { data } = await this.client.post('/banks', {name: name})
+    async create({name, description}: CreateBankRequest): Promise<GetBankResponse>{
+        const { data } = await this.client.post('/banks', {name: name, description: description})
         return data
     }
 

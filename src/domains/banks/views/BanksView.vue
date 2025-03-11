@@ -23,20 +23,30 @@
                 </div> 
             </div>
             <div class="row q-pa-sm flex flex-center">
-                <q-btn label="+Bank" outline color="primary"/>
+                <q-btn label="+Bank" outline color="primary" @click="createBank"/>
             </div>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import { onBeforeMount, ref } from 'vue'
+import { onBeforeMount, ref, inject } from 'vue'
 import { Bank } from '../../../shared/types'
 import useUserStore from '../../../stores/userStore'
 import client from '../../../shared/api-client'
+import CreateBankModal from '../../../shared/modals/CreateBankModal.vue'
+import { ModalMethods } from '../../../shared/modals/components/ModalProvider.vue'
 
 const banks = ref<Bank[]>([])
 const userStore = useUserStore()
+const modal = inject<ModalMethods>('$modal')
+
+const createBank = async() => {
+    const { status, data } = await modal.show(CreateBankModal)
+    if(status === 'ok'){
+        const bank = await client.banks.create(data)
+    } else return
+} 
 
 onBeforeMount(async () => {
     banks.value = await client.banks.getMyBanks(userStore.getId())
@@ -46,7 +56,7 @@ onBeforeMount(async () => {
 <style lang="scss">
 
 .bank-card {
-    max-width: 80%;
+   width: 50%;
 }
 
 </style>

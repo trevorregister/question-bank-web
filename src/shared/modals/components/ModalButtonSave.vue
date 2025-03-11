@@ -2,7 +2,7 @@
     <q-btn 
         class="q-ml-md"
         color="primary" 
-        :label="label" 
+        label="Save" 
         @click="onClick"
     />
 </template>
@@ -10,14 +10,10 @@
 <script setup lang="ts">
 import { inject } from 'vue'
 import { ModalMethods } from './ModalProvider.vue'
-const props = withDefaults(defineProps<{label?: string, data?: any}>(), {
-    label: 'Ok',
-    data: {}
-})
 const modal = inject<ModalMethods>('$modal')
 
 const onClick = () => {
-    modal.ok(props.data)
+    modal.ok()
 }
 
 </script>

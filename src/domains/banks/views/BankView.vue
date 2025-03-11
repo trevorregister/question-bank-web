@@ -13,14 +13,12 @@
                     :question="question"
                 />
             </div>
-            <div class="row flex flex-center">
-                <q-btn 
-                    class="new-question-button"
+            <div class="row flex flex-center" v-if="!isLoading">
+                <BaseButton
                     @click="addNewQuestion" 
                     label="+New Question" 
                     :disabled="isNewQuestionsDisabled"
                     :title="isNewQuestionsDisabled ? 'Enabled when pending question is saved' : ''" 
-                    outline
                 />
             </div>
         </div>
@@ -38,6 +36,7 @@ import client from '../../../shared/api-client'
 const pendingQuestions = ref<PendingQuestion[]>([])
 const questions = ref<Question[]>([])
 const bank = ref<BankWithQuestions>(null)
+const isLoading = ref(true)
 
 const route = useRoute()
 const bankId = route.params.bankId as string
@@ -72,6 +71,7 @@ onBeforeMount(async () => {
     if(bank.value){
         questions.value = bank.value.questions
     }
+    isLoading.value = false
 })
 </script>
 

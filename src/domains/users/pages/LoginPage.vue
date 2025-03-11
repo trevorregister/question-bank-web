@@ -19,11 +19,13 @@
   import FormBody from '../../../shared/components/FormBody.vue'
   import FormAction from '../../../shared/components/FormAction.vue'
   import FormInput from '../../../shared/components/FormInput.vue'
+  import useUserStore from '../../../stores/userStore'
   
   const email = ref('')
   const password = ref('')
 
   const router = useRouter()
+  const userStore = useUserStore()
   
   const handleSubmit = async () => {
     const user = await client.users.loginEmailPassword({
@@ -31,7 +33,10 @@
       password: password.value
     })
 
-    if(user.token){
+    if(user){
+      userStore.setId(user.id)
+      userStore.setRole(user.role)
+      console.log(userStore.getId(), userStore.getRole())
       router.push({name: 'banks'})
     }
   }

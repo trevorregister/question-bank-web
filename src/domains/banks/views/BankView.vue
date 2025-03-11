@@ -1,5 +1,9 @@
 <template>
-    <!-- this is probably going to end up being a /bank/:bankId view -->
+    <div class="row text-h4">
+        <div class="col">
+            {{  }}
+        </div>
+    </div>
     <div class="row">
         <div class="col">
             <div class="row q-mb-sm" v-for="question in questions">
@@ -31,11 +35,14 @@
 <script setup lang="ts">
 import QuestionEditor from '../../questions/components/QuestionEditor.vue'
 import randomId from '../../../shared/utils/randomId'
-import { PendingQuestion, Question } from '../../../shared/types'
+import { Bank, PendingQuestion, Question } from '../../../shared/types'
 import { ref, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import client from '../../../shared/api-client'
 const route = useRoute()
+
+const bank = ref<Bank>()
+
 const addNewQuestion = () => {
     pendingQuestions.value.push({
         tempId: randomId(),

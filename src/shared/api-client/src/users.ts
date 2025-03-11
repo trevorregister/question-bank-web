@@ -26,7 +26,8 @@ interface LoginEmailPasswordRequest {
 }
 
 interface LoginResponse {
-    token :string
+    id :string
+    role: string
 }
 export default class Users {
     private client: AxiosInstance

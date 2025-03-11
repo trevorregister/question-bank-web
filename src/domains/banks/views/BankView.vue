@@ -35,13 +35,14 @@
 <script setup lang="ts">
 import QuestionEditor from '../../questions/components/QuestionEditor.vue'
 import randomId from '../../../shared/utils/randomId'
-import { PendingQuestion, Question } from '../../../shared/types'
+import { BankWithQuestions, PendingQuestion, Question } from '../../../shared/types'
 import { ref, computed, onBeforeMount } from 'vue'
 import { useRoute } from 'vue-router'
 import client from '../../../shared/api-client'
 
 const pendingQuestions = ref<PendingQuestion[]>([])
 const questions = ref<Question[]>([])
+const bank = ref<BankWithQuestions>(null)
 
 const route = useRoute()
 const bankId = route.params.bankId as string
@@ -72,7 +73,10 @@ const handleExistingQuestionSaved = (updatedQuestion: Question) => {
 }
 
 onBeforeMount(async () => {
-    questions.value = await client.banks.getQuestions(bankId)
+    bank.value = await client.banks.getBank(bankId)
+    if(bank.value){
+        questions.value = bank.value.questions
+    }
 })
 </script>
 

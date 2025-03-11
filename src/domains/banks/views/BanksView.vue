@@ -1,24 +1,31 @@
 <template>
-    <div class="row q-pa-sm" v-for="bank in banks">
-        <div class="col flex flex-center">
-            <CardBody class="bank-card":aria-label="bank.name">
-                <CardHeader>
-                    {{ bank.name }}
-                </CardHeader>
-                <CardSection>
-                    {{ bank.description }}
-                </CardSection>
-                <CardActions>
-                    <router-link :to="{path: `/banks/${bank.id}`}">
-                        <q-btn 
-                            label="View"
-                            outline
-                            color="primary"
-                        />
-                    </router-link>
-                </CardActions>
-            </CardBody>
-        </div> 
+    <div class="row">
+        <div class="col">
+            <div class="row q-pa-sm" v-for="bank in banks">
+                <div class="col flex flex-center">
+                    <CardBody class="bank-card":aria-label="bank.name">
+                        <CardHeader>
+                            {{ bank.name }}
+                        </CardHeader>
+                        <CardSection>
+                            {{ bank.description }}
+                        </CardSection>
+                        <CardActions>
+                            <router-link :to="{path: `/banks/${bank.id}`}">
+                                <q-btn 
+                                    label="View"
+                                    outline
+                                    color="primary"
+                                />
+                            </router-link>
+                        </CardActions>
+                    </CardBody>
+                </div> 
+            </div>
+            <div class="row q-pa-sm flex flex-center">
+                <q-btn label="+Bank" outline color="primary"/>
+            </div>
+        </div>
     </div>
 </template>
 

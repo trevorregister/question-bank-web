@@ -16,8 +16,8 @@ export interface Question {
     id: string
     parent?: string
     prompt: string
-    variables: Variable[] | []
-    conditions: Condition[] | []
+    variables: Variable[]
+    conditions: Condition[]
     pointValue: number
     owner: string
     isArchived: boolean
@@ -32,6 +32,15 @@ export interface Bank {
     isArchived: boolean
     isDeleted: boolean
     questions: string[]
+}
+
+export interface BankWithQuestions {
+    id: string
+    name: string
+    description: string
+    isArchived: boolean
+    isDeleted: boolean
+    questions: Question[]
 }
 
 export interface PendingQuestion extends Omit<Question, 'id' | 'parent'>{

@@ -7,6 +7,7 @@ import CardActions from './shared/global/CardActions.vue'
 import CardBody from './shared/global/CardBody.vue'
 import CardHeader from './shared/global/CardHeader.vue'
 import CardSection from './shared/global/CardSection.vue'
+import BaseButton from './shared/global/BaseButton.vue'
 
 // Import icon libraries
 import '@quasar/extras/roboto-font/roboto-font.css'
@@ -25,5 +26,6 @@ app.component('CardBody', CardBody)
 app.component('CardActions', CardActions)
 app.component('CardHeader', CardHeader)
 app.component('CardSection', CardSection)
+app.component('BaseButton', BaseButton)
 
 app.mount('#app')

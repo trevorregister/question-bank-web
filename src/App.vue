@@ -1,29 +1,11 @@
 <template>
   <q-layout view="hHh lpR fFf" class="q-pa-lg">
-
-    <q-header elevated class="bg-primary text-white" height-hint="98">
-      <q-toolbar class="justify-center">
-        <q-toolbar-title class="text-center">
-          GammaFlows
-        </q-toolbar-title>
-      </q-toolbar>
-
-      <q-tabs align="center">   
-        <q-route-tab to="/banks" label="My Banks" />
-<!--         <q-route-tab to="/page2" label="Page Two" />
-        <q-route-tab to="/page3" label="Page Three" />
-        <q-route-tab label="My Banks" />
-        <q-route-tab label="Page Two" />
-        <q-route-tab label="Page Three" /> -->
-      </q-tabs>
-    </q-header>
-
+    <AppHeader/>
     <q-page-container>
       <div class="flex justify-center">
         <router-view/>
       </div>
     </q-page-container>
-
     <q-footer class="bg-grey-8 text-white">
       <q-toolbar class="justify-center">
         <q-toolbar-title class="text-center">
@@ -40,6 +22,7 @@
 
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
+import AppHeader from './shared/components/AppHeader.vue'
 
 </script>
 

@@ -15,11 +15,16 @@ const useUserStore = defineStore('user', () => {
     const getRole = () => {
         return localStorage.getItem('role')
     }
+    //actions
+    const logout = () => {
+        localStorage.clear()
+    }
     return {
         setId,
         setRole,
         getId,
         getRole,
+        logout
     }
 })
 

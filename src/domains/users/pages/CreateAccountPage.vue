@@ -28,12 +28,18 @@ import { ref } from 'vue'
 import FormBody from '../../../shared/components/FormBody.vue'
 import FormAction from '../../../shared/components/FormAction.vue'
 import FormInput from '../../../shared/components/FormInput.vue'
+import useUserStore from '../../../stores/userStore'
+import { useRouter } from 'vue-router'
 
 const firstName = ref('')
 const lastName = ref('')
 const email = ref('')
 const role = ref<'teacher' | 'student'>()
 const password = ref('')
+
+const userStore = useUserStore()
+const router = useRouter()
+
 const roleOptions = [
   {
     label: "Teacher",
@@ -53,6 +59,11 @@ const handleSubmit = async () => {
     role: role.value ?? 'student',
     password: password.value
   })
+  if(user){
+    userStore.setId(user.id)
+    userStore.setRole(user.role)
+    router.push('/banks')
+  }
 }
 </script>
 

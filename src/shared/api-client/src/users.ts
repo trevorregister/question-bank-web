@@ -17,7 +17,8 @@ interface CreateUserRequest {
 }
 
 interface CreateUserResponse {
-    token: string
+    id: string
+    role: string
 }
 
 interface LoginEmailPasswordRequest {
@@ -44,6 +45,10 @@ export default class Users {
     }
     async createUser({firstName, lastName, email, password, role}: CreateUserRequest): Promise<CreateUserResponse>{
         const { data } = await this.client.post('/users', {firstName: firstName, lastName: lastName, email: email, password: password, role: role})
+        return data
+    }
+    async logoutUser(): Promise<void>{
+        const { data } = await this.client.post('users/logout', {})
         return data
     }
 }

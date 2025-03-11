@@ -1,9 +1,4 @@
 <template>
-    <div class="row text-h4">
-        <div class="col">
-            {{ bank.name }}
-        </div>
-    </div>
     <div class="row">
         <div class="col">
             <div class="row q-mb-sm" v-for="question in questions">

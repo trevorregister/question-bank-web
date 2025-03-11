@@ -1,29 +1,25 @@
 import { defineStore } from 'pinia'
-import { Ref, ref } from 'vue'
 
 const useUserStore = defineStore('user', () => {
-    const id: Ref<string> = ref('')
-    const role: Ref<string> = ref('')
     //setters
     const setId = (userId: string) => {
-        id.value = userId
+        localStorage.setItem('id', userId)
     }
     const setRole = (userRole: string) => {
-        role.value = userRole
+        localStorage.setItem('role', userRole)
     }
     //getters
     const getId = () => {
-        return id.value
+        return localStorage.getItem('id')
     }
     const getRole = () => {
-        return role.value
+        return localStorage.getItem('role')
     }
-
     return {
         setId,
         setRole,
         getId,
-        getRole
+        getRole,
     }
 })
 

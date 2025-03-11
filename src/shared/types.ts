@@ -28,7 +28,7 @@ export interface Question {
 export interface Bank {
     id: string
     name: string
-    description?: string
+    description: string
     isArchived: boolean
     isDeleted: boolean
     questions: string[]

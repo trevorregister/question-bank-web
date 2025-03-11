@@ -5,6 +5,7 @@ interface GetBankResponse {
     id: string
     owner: string
     name: string
+    description: string
     isDeleted: boolean
     isArchived: boolean
     questions: string[]

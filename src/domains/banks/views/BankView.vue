@@ -35,13 +35,16 @@
 <script setup lang="ts">
 import QuestionEditor from '../../questions/components/QuestionEditor.vue'
 import randomId from '../../../shared/utils/randomId'
-import { Bank, PendingQuestion, Question } from '../../../shared/types'
-import { ref, computed, onMounted } from 'vue'
+import { PendingQuestion, Question } from '../../../shared/types'
+import { ref, computed, onBeforeMount } from 'vue'
 import { useRoute } from 'vue-router'
 import client from '../../../shared/api-client'
-const route = useRoute()
 
-const bank = ref<Bank>()
+const pendingQuestions = ref<PendingQuestion[]>([])
+const questions = ref<Question[]>([])
+
+const route = useRoute()
+const bankId = route.params.bankId as string
 
 const addNewQuestion = () => {
     pendingQuestions.value.push({
@@ -58,18 +61,17 @@ const addNewQuestion = () => {
 }
 const isNewQuestionsDisabled = computed(() =>pendingQuestions.value.length > 0)
 
-const handlePendingQuestionSaved = ({tempId, newQuestion}: {tempId: string, newQuestion: Question}) => {
+const handlePendingQuestionSaved = async ({tempId, newQuestion}: {tempId: string, newQuestion: Question}) => {
     questions.value.push(newQuestion)
     pendingQuestions.value = pendingQuestions.value.filter(q => q.tempId !== tempId)
+    await client.banks.addQuestions({bankId: bankId, questionIdArray: [newQuestion.id]})
 }
 const handleExistingQuestionSaved = (updatedQuestion: Question) => {
   const outdatedQuestionIndex = questions.value.findIndex(q => q.id === updatedQuestion.id )
   questions.value[outdatedQuestionIndex] = updatedQuestion
 }
-const pendingQuestions = ref<PendingQuestion[]>([])
-const questions = ref<Question[]>([])
-onMounted(async () => {
-    const bankId = route.params.bankId as string
+
+onBeforeMount(async () => {
     questions.value = await client.banks.getQuestions(bankId)
 })
 </script>

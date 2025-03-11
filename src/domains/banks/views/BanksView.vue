@@ -6,9 +6,7 @@
                     {{ bank.name }}
                 </CardHeader>
                 <CardSection>
-                    Lorem ipsum odor amet, consectetuer adipiscing elit. 
-                    Ornare suspendisse adipiscing nostra dolor fermentum sagittis id. 
-                    Mauris ad massa in; litora porta sodales. 
+                    {{ bank.description }}
                 </CardSection>
                 <CardActions>
                     <router-link :to="{path: `/banks/${bank.id}`}">
@@ -25,14 +23,16 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onBeforeMount, ref } from 'vue'
 import { Bank } from '../../../shared/types'
+import useUserStore from '../../../stores/userStore'
 import client from '../../../shared/api-client'
 
 const banks = ref<Bank[]>([])
+const userStore = useUserStore()
 
-onMounted(async () => {
-    banks.value = await client.banks.getMyBanks("67c4ca846db8f49f2e98aaba")
+onBeforeMount(async () => {
+    banks.value = await client.banks.getMyBanks(userStore.getId())
 })
 </script>
 

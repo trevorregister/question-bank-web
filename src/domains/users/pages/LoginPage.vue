@@ -36,7 +36,6 @@
     if(user){
       userStore.setId(user.id)
       userStore.setRole(user.role)
-      console.log(userStore.getId(), userStore.getRole())
       router.push({name: 'banks'})
     }
   }

@@ -1,7 +1,7 @@
 <template>
     <div class="row text-h4">
         <div class="col">
-            {{  }}
+            {{ bank.name }}
         </div>
     </div>
     <div class="row">

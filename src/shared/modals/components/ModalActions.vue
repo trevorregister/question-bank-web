@@ -1,6 +1,6 @@
 <template>
-    <q-card-section class="q-pa-sm">
-        <q-separator class="q-mb-sm"/>
+    <q-separator />
+    <q-card-section class="flex justify-end">
         <slot></slot>
     </q-card-section>
 </template>

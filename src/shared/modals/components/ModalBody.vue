@@ -1,20 +1,14 @@
 <template>
-    <q-dialog v-model="show">
-        <q-card class="q-pa-sm">
-            <slot></slot>
-        </q-card>
-    </q-dialog>
+    <q-card class="modal-body q-pa-md">
+        <slot></slot>
+    </q-card>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-const show = ref<boolean>(true)
-
-onMounted(async () => {
-    setTimeout(() => show.value = !show.value, 3000)
-})
 </script>
 
 <style lang="scss">
-
+.modal-body {
+    min-width: 400px;
+}
 </style>

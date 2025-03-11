@@ -8,24 +8,15 @@
         </div>
       </ModalProvider>
     </q-page-container>
-    <q-footer class="bg-grey-8 text-white">
-      <q-toolbar class="justify-center">
-        <q-toolbar-title class="text-center">
-          <q-avatar>
-            <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg">
-          </q-avatar>
-          <div>Title</div>
-        </q-toolbar-title>
-      </q-toolbar>
-    </q-footer>
-
+    <AppFooter/>
   </q-layout>
 </template>
 
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
 import AppHeader from './shared/components/AppHeader.vue'
-import ModalProvider from './shared/modals/ModalProvider.vue'
+import AppFooter from './shared/components/AppFooter.vue'
+import ModalProvider from './shared/modals/components/ModalProvider.vue'
 
 </script>
 

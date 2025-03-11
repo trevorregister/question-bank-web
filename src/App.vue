@@ -2,9 +2,11 @@
   <q-layout view="hHh lpR fFf" class="q-pa-lg">
     <AppHeader/>
     <q-page-container>
-      <div class="flex justify-center">
-        <router-view/>
-      </div>
+      <ModalProvider>
+        <div class="flex justify-center">
+          <router-view/>
+        </div>
+      </ModalProvider>
     </q-page-container>
     <q-footer class="bg-grey-8 text-white">
       <q-toolbar class="justify-center">
@@ -23,6 +25,7 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
 import AppHeader from './shared/components/AppHeader.vue'
+import ModalProvider from './shared/modals/ModalProvider.vue'
 
 </script>
 

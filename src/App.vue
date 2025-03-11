@@ -4,21 +4,17 @@
     <q-header elevated class="bg-primary text-white" height-hint="98">
       <q-toolbar class="justify-center">
         <q-toolbar-title class="text-center">
-          <q-avatar>
-            <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg">
-          </q-avatar>
-          Title
+          GammaFlows
         </q-toolbar-title>
       </q-toolbar>
 
-      <q-tabs align="right">
-<!--    suppresses vue warnings until i have actual pages     
-        <q-route-tab to="/page1" label="Page One" />
-        <q-route-tab to="/page2" label="Page Two" />
-        <q-route-tab to="/page3" label="Page Three" /> -->
-        <q-route-tab label="Page One" />
+      <q-tabs align="center">   
+        <q-route-tab to="/banks" label="My Banks" />
+<!--         <q-route-tab to="/page2" label="Page Two" />
+        <q-route-tab to="/page3" label="Page Three" />
+        <q-route-tab label="My Banks" />
         <q-route-tab label="Page Two" />
-        <q-route-tab label="Page Three" />
+        <q-route-tab label="Page Three" /> -->
       </q-tabs>
     </q-header>
 

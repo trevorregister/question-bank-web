@@ -1,9 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import useUserStore from '../stores/userStore'
 import CreateAccountPage from '../domains/users/pages/CreateAccountPage.vue'
 import LoginPage from '../domains/users/pages/LoginPage.vue'
 import Playground from '../shared/Playground.vue'
-//const publicPages = ['/login', '/create-account', '/about', '/test']
 import banks from './banks'
+
+const publicPages = ['/login', '/create-account', '/about', '/test']
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -28,13 +31,13 @@ const router = createRouter({
   ]
 })
 
-/* router.beforeEach((to) => {
+router.beforeEach((to) => {
   const userStore = useUserStore()
   const authRequired = !publicPages.includes(to.path)
 
-  if (!userStore.isAuthenticated && authRequired) {
+  if (!userStore.getId() && authRequired) {
     return '/login'
   }
-}) */
+})
 
 export default router

@@ -3,6 +3,10 @@ import { Quasar } from 'quasar'
 import router from './router/index'
 import { createPinia } from 'pinia'
 import App from './App.vue'
+import CardActions from './shared/global/CardActions.vue'
+import CardBody from './shared/global/CardBody.vue'
+import CardHeader from './shared/global/CardHeader.vue'
+import CardSection from './shared/global/CardSection.vue'
 
 // Import icon libraries
 import '@quasar/extras/roboto-font/roboto-font.css'
@@ -17,5 +21,9 @@ app.use(Quasar, {
 })
 app.use(createPinia())
 app.use(router)
+app.component('CardBody', CardBody)
+app.component('CardActions', CardActions)
+app.component('CardHeader', CardHeader)
+app.component('CardSection', CardSection)
 
 app.mount('#app')

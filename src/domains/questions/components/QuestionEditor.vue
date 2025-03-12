@@ -6,10 +6,12 @@
                     @get-variables="handleGetVariables" 
                     @save-question="handleSaveQuestion" 
                     @add-condition="handleAddCondition"
+                    @delete-question="handleDeleteQuestion"
                     :prompt="props.question?.prompt ?? 'New Question'"
+                    :isPending="!!('id' in props.question)"
                 />
             </div>
-            <div v-if="variables.length>0" class="col-sm-12 col-md-5 q-pa-md flex flex-center">
+            <div v-if="variables.length>0" class="col-sm-12 col-md-5 q-pa-md q-mb-xl flex flex-center">
                 <VariablesTable 
                     :variables="variables" 
                     @delete-variable="handleDeleteVariable"
@@ -20,7 +22,7 @@
             </div>         
         </div>
         <div class="row q-col-gutter-sm q-pa-sm">
-            <div class="col q-ma-xs">
+            <div class="col" style="margin-left: 1rem;">
                 Point Value  <NumberInput :model-value="pointValue" class="q-ml-md"/>
             </div>
         </div>
@@ -54,7 +56,8 @@ import { Variable, Question, Condition, PendingQuestion} from '../../../shared/t
 const props = defineProps<{question: Question | PendingQuestion}>()
 const emit = defineEmits<{
     (e: 'pending-question-saved', {tempId, newQuestion}): void,
-    (e: 'existing-question-saved', question: Question): void
+    (e: 'existing-question-saved', question: Question): void,
+    (e: 'delete-question', question: Question): void
 }>()
 const variables = ref<Variable[]>()
 const conditions = ref<Condition[]>()
@@ -115,6 +118,11 @@ const handleDeleteVariable = (id: string) => {
 }
 const handleDeleteCondition = (id: string) => {
     conditions.value = conditions.value.filter(condition => condition.id !== id)
+}
+const handleDeleteQuestion = () => {
+    if('id' in props.question){
+        emit('delete-question', props.question)
+    }
 }
 const handleSaveQuestion = async (editorContents: string) => {
     //finds instances of a variable without the gvar tag and adds it.

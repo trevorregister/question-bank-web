@@ -66,12 +66,24 @@ export default class Questions {
         this.client = client
     }
 
+    async delete(questionId: string): Promise<void>{
+        return await this.client.delete(`/questions/${questionId}`)
+    }
     async create({prompt, pointValue, type, variables = [], conditions = []}: CreateQuestionRequest): Promise<CreateQuestionResponse>{
         const payload = {prompt: prompt, pointValue: pointValue, type: type, variables: variables, conditions: conditions}
         const { data } = await this.client.post('/questions', payload)
         return await data
     }
-/*  DEPRECATED
+    async getQuestionsByOwner(ownerId: string): Promise<GetQuestionResponse[]>{
+        const { data } = await this.client.get(`/questions/owner/${ownerId}`)
+        return data
+    }
+
+    async updateQuestion({questionId, payload}: UpdateQuestionRequest): Promise<GetQuestionResponse>{
+        const { data } = await this.client.patch(`/questions/${questionId}`, {payload: payload})
+        return data
+    }
+    /*  DEPRECATED
     async createVariable({questionId, type, min, max, step, label}: CreateVariableRequest): Promise<GetActivityResponse>{
         const payload = {type: type, min: min, max: max, step: step, label: label}
         const { data } = await this.client.post(`/questions/${questionId}/variable`, payload)
@@ -93,14 +105,4 @@ export default class Questions {
         const { data } = await this.client.delete(`/questions/${questionId}/variable/${conditionId}`)
         return data
     } */
-
-    async getQuestionsByOwner(ownerId: string): Promise<GetQuestionResponse[]>{
-        const { data } = await this.client.get(`/questions/owner/${ownerId}`)
-        return data
-    }
-
-    async updateQuestion({questionId, payload}: UpdateQuestionRequest): Promise<GetQuestionResponse>{
-        const { data } = await this.client.patch(`/questions/${questionId}`, {payload: payload})
-        return data
-    }
 }

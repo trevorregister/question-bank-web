@@ -1,10 +1,11 @@
 <template>
     <div class="row">
         <div class="col">
-            <div class="row q-mb-sm" v-for="question in questions">
+            <div class="row q-mb-sm" v-for="question in questions" :key="question.id">
                 <QuestionEditor 
                     :question="question"
                     @existing-question-saved="handleExistingQuestionSaved"
+                    @delete-question="handleDeleteQuestion"
                 />
             </div>
             <div class="row q-mb-sm" v-for="question in pendingQuestions">
@@ -64,6 +65,10 @@ const handlePendingQuestionSaved = async ({tempId, newQuestion}: {tempId: string
 const handleExistingQuestionSaved = (updatedQuestion: Question) => {
   const outdatedQuestionIndex = questions.value.findIndex(q => q.id === updatedQuestion.id )
   questions.value[outdatedQuestionIndex] = updatedQuestion
+} 
+const handleDeleteQuestion = async (question: Question) => {
+    questions.value = questions.value.filter(q => q.id !== question.id)
+    await client.questions.delete(question.id)
 }
 
 onBeforeMount(async () => {

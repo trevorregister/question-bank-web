@@ -1,23 +1,39 @@
 <template>
-    <q-editor
-        v-model="editorContents"
-        :toolbar="toolbar"
-        :definitions="definitions"
-        class="editor"
-    >
-    </q-editor>
+    <div class="row q-mb-md">
+        <div class="col">
+            <q-editor
+                v-model="editorContents"
+                :toolbar="toolbar"
+                :definitions="definitions"
+                class="editor"
+            >
+            </q-editor>
+        </div>
+    </div>
+    <div class="row flex justify-start full-width">
+        <div class="col">
+            <BaseButton label="Save" @click="saveQuestion"/>
+            <BaseButton label="Delete" @click="deleteQuestion" outline color="negative" v-if="isPending"/>
+        </div>
+    </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, inject } from 'vue'
+import { ModalMethods } from '../../../shared/modals/components/ModalProvider.vue'
+import ConfirmModal from '../../../shared/modals/ConfirmModal.vue'
+
 const props = defineProps<{
-    prompt?: string
+    prompt?: string,
+    isPending: boolean
 }>()
 const emit = defineEmits<{
     (e: 'get-variables', rawVariableLabels: string[]): void,
     (e: 'save-question', prompt: string): void,
-    (e: 'add-condition'): void
+    (e: 'add-condition'): void,
+    (e: 'delete-question'): void
 }>()
+const modal = inject<ModalMethods>('$modal')
 const editorContents = ref('')
 
 const toolbar = [
@@ -43,6 +59,12 @@ const saveQuestion = () => {
 }
 const addCondition = () => {
     emit('add-condition')
+}
+const deleteQuestion = async () => {
+    const { status } = await modal.show(ConfirmModal)
+    if(status === 'ok'){
+        emit('delete-question')
+    } else return
 }
 const definitions = {
     getVariables: {

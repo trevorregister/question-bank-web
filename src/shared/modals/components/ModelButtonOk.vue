@@ -9,12 +9,12 @@
   
 <script setup lang="ts">
 import { inject } from 'vue'
-import { ModalMethods } from './ModalProvider.vue'
+import { Modal } from './ModalProvider.vue'
 const props = withDefaults(defineProps<{label?: string, data?: any}>(), {
     label: 'Ok',
     data: {}
 })
-const modal = inject<ModalMethods>('$modal')
+const modal = inject<Modal>('$modal')
 
 const onClick = () => {
     modal.ok(props.data)

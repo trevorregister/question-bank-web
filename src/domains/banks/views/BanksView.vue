@@ -39,12 +39,12 @@ import { Bank } from '../../../shared/types'
 import useUserStore from '../../../stores/userStore'
 import client from '../../../shared/api-client'
 import CreateBankModal from '../../../shared/modals/CreateBankModal.vue'
-import { ModalMethods } from '../../../shared/modals/components/ModalProvider.vue'
+import { Modal } from '../../../shared/modals/components/ModalProvider.vue'
 import ConfirmModal from '../../../shared/modals/ConfirmModal.vue'
 
 const banks = ref<Bank[]>([])
 const userStore = useUserStore()
-const modal = inject<ModalMethods>('$modal')
+const modal = inject<Modal>('$modal')
 const isLoading = ref(true)
 
 const createBank = async() => {

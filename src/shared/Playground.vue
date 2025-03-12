@@ -4,9 +4,9 @@
 
 <script setup lang="ts">
 import { onMounted, inject } from 'vue'
-import { ModalMethods } from './modals/components/ModalProvider.vue'
+import { Modal } from './modals/components/ModalProvider.vue'
 import ConfirmModal from './modals/ConfirmModal.vue'
-const modal = inject<ModalMethods>('$modal')
+const modal = inject<Modal>('$modal')
 
 </script>
 

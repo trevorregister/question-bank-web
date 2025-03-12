@@ -20,7 +20,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, inject } from 'vue'
-import { ModalMethods } from '../../../shared/modals/components/ModalProvider.vue'
+import { Modal } from '../../../shared/modals/components/ModalProvider.vue'
 import ConfirmModal from '../../../shared/modals/ConfirmModal.vue'
 
 const props = defineProps<{
@@ -33,7 +33,7 @@ const emit = defineEmits<{
     (e: 'add-condition'): void,
     (e: 'delete-question'): void
 }>()
-const modal = inject<ModalMethods>('$modal')
+const modal = inject<Modal>('$modal')
 const editorContents = ref('')
 
 const toolbar = [

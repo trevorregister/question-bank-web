@@ -50,13 +50,13 @@ const status = (status: string, data: any) => {
     modalResolve.value = modalResolve.value({ status, data })
     modalResolve.value = null
 }
-export interface ModalMethods {
+export interface Modal {
     show: (component,  props?) => Promise<any>
     close: () => void
     ok: (data?: any) => void
     status: (status: string, data: any) => void
 }
-const methods: ModalMethods = {
+const methods: Modal = {
     ok: ok, 
     status: status, 
     close: close, 

@@ -140,7 +140,6 @@ const handleSaveQuestion = async (editorContents: string) => {
         type: 'numerical'
     }
         if('tempId' in props.question) {
-            //replace question = {...} with return of client creating new question
             const newQuestion = await client.questions.create({
                 ...questionComponents
             })

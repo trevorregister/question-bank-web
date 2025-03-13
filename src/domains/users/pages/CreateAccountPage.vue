@@ -24,7 +24,8 @@
 
 <script setup lang="ts">
 import client from '../../../shared/api-client'
-import { ref } from 'vue'
+import { ref, inject } from 'vue'
+import { Flash } from '../../../shared/components/FlashProvider.vue'
 import FormBody from '../../../shared/components/FormBody.vue'
 import FormAction from '../../../shared/components/FormAction.vue'
 import FormInput from '../../../shared/components/FormInput.vue'
@@ -37,6 +38,7 @@ const email = ref('')
 const role = ref<'teacher' | 'student'>()
 const password = ref('')
 
+const flash = inject<Flash>('$flash')
 const userStore = useUserStore()
 const router = useRouter()
 
@@ -52,23 +54,24 @@ const roleOptions = [
 ]
 
 const handleSubmit = async () => {
-  const user = await client.users.createUser({
-    firstName: firstName.value,
-    lastName: lastName.value,
-    email: email.value,
-    role: role.value ?? 'student',
-    password: password.value
-  })
-  if(user){
-    userStore.setId(user.id)
-    userStore.setRole(user.role)
-    router.push('/banks')
+  try {
+    const user = await client.users.createUser({
+      firstName: firstName.value,
+      lastName: lastName.value,
+      email: email.value,
+      role: role.value ?? 'student',
+      password: password.value
+    })
+    if(user){
+      userStore.setId(user.id)
+      userStore.setRole(user.role)
+      router.push('/banks')
+    }
+  } catch (err) {
+    flash.apiError(err)
   }
 }
 </script>
 
 <style scoped>
-.read-the-docs {
-  color: #888;
-}
 </style>

@@ -30,15 +30,17 @@
 import QuestionEditor from '../../questions/components/QuestionEditor.vue'
 import randomId from '../../../shared/utils/randomId'
 import { BankWithQuestions, PendingQuestion, Question } from '../../../shared/types'
-import { ref, computed, onBeforeMount } from 'vue'
+import { ref, inject, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import client from '../../../shared/api-client'
+import { Flash } from '../../../shared/components/FlashProvider.vue'
 
 const pendingQuestions = ref<PendingQuestion[]>([])
 const questions = ref<Question[]>([])
 const bank = ref<BankWithQuestions>(null)
 const isLoading = ref(true)
 
+const flash = inject<Flash>('$flash')
 const route = useRoute()
 const bankId = route.params.bankId as string
 
@@ -58,25 +60,44 @@ const addNewQuestion = () => {
 const isNewQuestionsDisabled = computed(() =>pendingQuestions.value.length > 0)
 
 const handlePendingQuestionSaved = async ({tempId, newQuestion}: {tempId: string, newQuestion: Question}) => {
-    questions.value.push(newQuestion)
-    pendingQuestions.value = pendingQuestions.value.filter(q => q.tempId !== tempId)
-    await client.banks.addQuestions({bankId: bankId, questionIdArray: [newQuestion.id]})
+    try {
+        questions.value.push(newQuestion)
+        pendingQuestions.value = pendingQuestions.value.filter(q => q.tempId !== tempId)
+        await client.banks.addQuestions({bankId: bankId, questionIdArray: [newQuestion.id]})
+        flash.success('New question created')
+    } catch (err) {
+        flash.apiError(err)
+    }
 }
 const handleExistingQuestionSaved = (updatedQuestion: Question) => {
-  const outdatedQuestionIndex = questions.value.findIndex(q => q.id === updatedQuestion.id )
-  questions.value[outdatedQuestionIndex] = updatedQuestion
+  try {
+        const outdatedQuestionIndex = questions.value.findIndex(q => q.id === updatedQuestion.id )
+        questions.value[outdatedQuestionIndex] = updatedQuestion
+        flash.success('Question saved')
+  } catch (err) {
+        flash.apiError(err)
+  }
 } 
 const handleDeleteQuestion = async (question: Question) => {
-    questions.value = questions.value.filter(q => q.id !== question.id)
-    await client.questions.delete(question.id)
+    try {
+        questions.value = questions.value.filter(q => q.id !== question.id)
+        await client.questions.delete(question.id)
+        flash.success('Question deleted')
+    } catch (err) {
+        flash.apiError(err)
+    }
 }
 
-onBeforeMount(async () => {
-    bank.value = await client.banks.getBank(bankId)
-    if(bank.value){
-        questions.value = bank.value.questions
+onMounted(async () => {
+    try {
+        bank.value = await client.banks.getBank(bankId)
+        if(bank.value){
+            questions.value = bank.value.questions
+        }
+        isLoading.value = false
+    } catch (err) {
+        flash.apiError(err)
     }
-    isLoading.value = false
 })
 </script>
 

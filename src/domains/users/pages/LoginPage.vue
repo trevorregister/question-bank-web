@@ -18,7 +18,8 @@
   
   <script setup lang="ts">
   import client from '../../../shared/api-client'
-  import { ref } from 'vue'
+  import { ref, inject } from 'vue'
+  import { Flash } from '../../../shared/components/FlashProvider.vue'
   import { useRouter } from 'vue-router'
   import FormBody from '../../../shared/components/FormBody.vue'
   import FormAction from '../../../shared/components/FormAction.vue'
@@ -30,17 +31,22 @@
 
   const router = useRouter()
   const userStore = useUserStore()
+  const flash = inject<Flash>('$flash')
   
   const handleSubmit = async () => {
-    const user = await client.users.loginEmailPassword({
-      email: email.value,
-      password: password.value
-    })
-
-    if(user){
-      userStore.setId(user.id)
-      userStore.setRole(user.role)
-      router.push({name: 'banks'})
+    try {
+      const user = await client.users.loginEmailPassword({
+        email: email.value,
+        password: password.value
+      })
+  
+      if(user){
+        userStore.setId(user.id)
+        userStore.setRole(user.role)
+        router.push({name: 'banks'})
+      }
+    } catch (err) {
+      flash.apiError(err)
     }
   }
   </script>

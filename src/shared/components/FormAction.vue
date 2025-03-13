@@ -1,6 +1,6 @@
 <template>
     <div class="form-action">
-        <q-btn :label="label"  :type="type" color="primary" @click="handleAction"></q-btn>
+        <BaseButton :label="label"  :type="type" @click="handleAction"></BaseButton>
     </div>
 </template>
 

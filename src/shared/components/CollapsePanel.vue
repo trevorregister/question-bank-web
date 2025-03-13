@@ -4,6 +4,7 @@
             expand-separator
             :label=label
             class="collapse-panel q-pa-xs shadow-1"
+            dense
         >
         <slot></slot>
         </q-expansion-item>
@@ -12,14 +13,14 @@
 
 <script setup lang="ts">
 defineProps<{
-    label: String
+    label: string
 }>()
 
 </script>
 
 <style lang="scss">
 .collapse-panel {
-    min-width: 90vh;
+    min-width: 700px;
 /*     border-color: $secondary;
     border-style: solid;
     border-radius: 5px; */

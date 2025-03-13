@@ -1,15 +1,19 @@
 <template>
-    <div class="row">
-      <div class="column">
-        <div class="row justify-center">
+  <div style="display: block;">
+    <div class="flex justify-center q-mb-md">
           <form-body header="Login">
             <form-input label="Email" v-model="email"/>
             <form-input label="Password" type="password" v-model="password"/>
             <form-action label="Submit" type="submit" @submit="handleSubmit"/>
           </form-body>
         </div>
-      </div>
-    </div>
+        <div class="flex flex-center">
+          <router-link
+            :to="{path: 'create-account'}">
+            <BaseButton flat label="Create New Account" />
+          </router-link>
+        </div>
+  </div>
   </template>
   
   <script setup lang="ts">

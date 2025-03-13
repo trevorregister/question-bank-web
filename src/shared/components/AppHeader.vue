@@ -7,7 +7,7 @@
       </q-toolbar>
       <q-tabs align="center">   
         <q-route-tab to="/banks" label="My Banks" />
-        <q-btn @click="logout" label="Logout" v-if="isAuthenticated"/>
+        <q-btn @click="logout" flat label="Logout" v-if="isAuthenticated"/>
       </q-tabs>
     </q-header>
 </template>

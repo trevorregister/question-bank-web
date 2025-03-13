@@ -1,14 +1,14 @@
 <template>
     <div class="row">
         <div class="col">
-            <div class="row q-mb-sm" v-for="question in questions" :key="question.id">
+            <div class="row q-mb-sm flex flex-center" v-for="question in questions" :key="question.id">
                 <QuestionEditor 
                     :question="question"
                     @existing-question-saved="handleExistingQuestionSaved"
                     @delete-question="handleDeleteQuestion"
                 />
             </div>
-            <div class="row q-mb-sm" v-for="question in pendingQuestions">
+            <div class="row q-mb-sm flex flex-center" v-for="question in pendingQuestions">
                 <QuestionEditor 
                     @pending-question-saved="handlePendingQuestionSaved" 
                     :question="question"
@@ -17,7 +17,7 @@
             <div class="row flex flex-center" v-if="!isLoading">
                 <BaseButton
                     @click="addNewQuestion" 
-                    label="+New Question" 
+                    label="Create New Question" 
                     :disabled="isNewQuestionsDisabled"
                     :title="isNewQuestionsDisabled ? 'Enabled when pending question is saved' : ''" 
                 />
@@ -81,7 +81,5 @@ onBeforeMount(async () => {
 </script>
 
 <style scoped lang="scss">
-.new-question-button {
-  color: $primary
-}
+
 </style>

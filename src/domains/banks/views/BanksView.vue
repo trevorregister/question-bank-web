@@ -27,7 +27,7 @@
                 </div> 
             </div>
             <div class="row q-pa-sm flex flex-center" v-if="!isLoading">
-                <BaseButton label="+Bank" @click="createBank"/>
+                <BaseButton label="Create New Bank" @click="createBank"/>
             </div>
         </div>
     </div>

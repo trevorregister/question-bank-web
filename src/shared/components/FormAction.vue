@@ -1,31 +1,30 @@
 <template>
-    <div class="form-action">
-        <BaseButton :label="label"  :type="type" @click="handleAction"></BaseButton>
-    </div>
+  <div class="form-action">
+    <BaseButton :label="label" :type="type" @click="handleAction"></BaseButton>
+  </div>
 </template>
 
 <script setup lang="ts">
-
 const props = defineProps<{
-    label: string
-    type: 'submit' | 'reset'
+  label: string
+  type: "submit" | "reset"
 }>()
-const emit = defineEmits(['submit', 'reset'])
+const emit = defineEmits(["submit", "reset"])
 
 const handleAction = () => {
-    switch(props.type){
-        case 'submit':
-            emit('submit')
-            break
-        case 'reset':
-            emit('reset')
-            break
-    }
+  switch (props.type) {
+    case "submit":
+      emit("submit")
+      break
+    case "reset":
+      emit("reset")
+      break
+  }
 }
 </script>
 <style lang="scss">
 .form-action {
-    display: flex;
-    justify-content: right;
+  display: flex;
+  justify-content: right;
 }
 </style>

@@ -1,30 +1,27 @@
 <template>
-    <q-btn 
-        class="q-ml-md"
-        outline 
-        color="negative" 
-        :label="label" 
-        @click="onClick"
-    />
+  <q-btn
+    class="q-ml-md"
+    outline
+    color="negative"
+    :label="label"
+    @click="onClick"
+  />
 </template>
-  
-<script setup lang="ts">
-import { inject } from 'vue'
-import { Modal } from './ModalProvider.vue'
-import { withDefaults } from 'vue'
 
-withDefaults(defineProps<{label: string}>(), {
-    label: 'Close'
+<script setup lang="ts">
+import { inject } from "vue"
+import { Modal } from "./ModalProvider.vue"
+import { withDefaults } from "vue"
+
+withDefaults(defineProps<{ label: string }>(), {
+  label: "Close",
 })
 
-const modal = inject<Modal>('$modal')
+const modal = inject<Modal>("$modal")
 
 const onClick = () => {
-    modal.close()
+  modal.close()
 }
-
 </script>
 
-<style lang="scss">
-
-</style>
+<style lang="scss"></style>

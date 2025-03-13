@@ -6,9 +6,10 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc -b && vite build",
+    "prepare": "husky",
     "preview": "vite preview",
     "lint-staged": {
-      "./src/**": [
+      "./src/**/*.{js,vue,ts}": [
         "npx lint .",
         "npx prettier --write ./src/**"
       ]

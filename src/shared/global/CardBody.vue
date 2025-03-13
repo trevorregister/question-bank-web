@@ -1,13 +1,9 @@
 <template>
-    <q-card>
-        <slot></slot>
-    </q-card>
+  <q-card>
+    <slot></slot>
+  </q-card>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts"></script>
 
-</script>
-
-<style lang="scss">
-
-</style>
+<style lang="scss"></style>

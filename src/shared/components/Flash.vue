@@ -1,36 +1,36 @@
 <template>
-    <q-banner
-        dense
-        rounded
-        :class="`flash-banner q-pa-sm q-mb-sm text-body2 bg-${flashType(type)} text-white`"
-        inline-actions
-    >
-      <div class="row">
-        <div class="col flex justify-start">
-          {{ message }}
-        </div>
-        <div class="col flex justify-end">
-          <BaseButton flat label="Dismiss" @click="dismiss" class="text-white"/>
-        </div>
+  <q-banner
+    dense
+    rounded
+    :class="`flash-banner q-pa-sm q-mb-sm text-body2 bg-${flashType(type)} text-white`"
+    inline-actions
+  >
+    <div class="row">
+      <div class="col flex justify-start">
+        {{ message }}
       </div>
-    </q-banner>
+      <div class="col flex justify-end">
+        <BaseButton flat label="Dismiss" @click="dismiss" class="text-white" />
+      </div>
+    </div>
+  </q-banner>
 </template>
 
 <script setup lang="ts">
-defineProps<{message: string, type: string, id: string}>()
-const emit = defineEmits(['dismiss'])
+defineProps<{ message: string; type: string; id: string }>()
+const emit = defineEmits(["dismiss"])
 const flashType = (type: string): string => {
-    switch(type){
-        case 'success':
-            return 'positive'
-        case 'warning':
-            return 'warning'
-        case 'error':
-            return 'negative'
-    }
+  switch (type) {
+    case "success":
+      return "positive"
+    case "warning":
+      return "warning"
+    case "error":
+      return "negative"
+  }
 }
 const dismiss = () => {
-  emit('dismiss')
+  emit("dismiss")
 }
 </script>
 
@@ -50,5 +50,4 @@ const dismiss = () => {
   width: 75%;
   z-index: 9999;
 }
-
 </style>

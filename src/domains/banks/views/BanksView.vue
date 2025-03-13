@@ -34,45 +34,62 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeMount, ref, inject } from 'vue'
+import { onMounted, ref, inject } from 'vue'
 import { Bank } from '../../../shared/types'
 import useUserStore from '../../../stores/userStore'
 import client from '../../../shared/api-client'
 import CreateBankModal from '../../../shared/modals/CreateBankModal.vue'
 import { Modal } from '../../../shared/modals/components/ModalProvider.vue'
 import ConfirmModal from '../../../shared/modals/ConfirmModal.vue'
+import { Flash } from '../../../shared/components/FlashProvider.vue'
 
 const banks = ref<Bank[]>([])
 const userStore = useUserStore()
 const modal = inject<Modal>('$modal')
+const flash = inject<Flash>('$flash')
 const isLoading = ref(true)
 
 const createBank = async() => {
-    const { status, data } = await modal.show(CreateBankModal)
-    if(status === 'ok'){
-        const bank = await client.banks.create(data)
-        if(bank) banks.value.push(bank)
+    try {
+        const { status, data } = await modal.show(CreateBankModal)
+        if(status === 'ok'){
+            const bank = await client.banks.create(data)
+            if(bank) banks.value.push(bank)
+            flash.success('Bank created')
+        }
+    } catch (err) {
+        console.log(err)
+        flash.apiError(err)
     }
 } 
 
 const deleteBank = async(bankId: string) => {
-    const { status } = await modal.show(ConfirmModal)
-    if(status === 'ok'){
-        banks.value = banks.value.filter(b => b.id !== bankId)
-        await client.banks.deleteBank(bankId)
+    try {
+        const { status } = await modal.show(ConfirmModal)
+        if(status === 'ok'){
+            banks.value = banks.value.filter(b => b.id !== bankId)
+            await client.banks.deleteBank(bankId)
+            flash.success('Bank deleted')
+        }
+    } catch (err) {
+        flash.apiError(err.message)
     }
 }
 
-onBeforeMount(async () => {
-    banks.value = await client.banks.getMyBanks(userStore.getId())
-    isLoading.value = false
+onMounted(async () => {
+    try {
+        banks.value = await client.banks.getMyBanks(userStore.getId())
+        isLoading.value = false
+    } catch (err) {
+        flash.apiError(err)
+    }
 })
 </script>
 
 <style lang="scss">
 
 .bank-card {
-   width: 50%;
+   width: 50vh;
 }
 
 </style>

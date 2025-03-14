@@ -13,6 +13,9 @@ jobs:
       VITE_SEED_TOKEN: 'token'
       JWT_SECRET: 'jwt_secret'
       VITE_API_HOST: 'http://localhost:3000/api'
+      DOMAIN: 'localhost'
+      WEB_HOST: 'http://localhost:5173'
+      
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4

@@ -8,6 +8,11 @@ jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    env:
+      PORT: 3000
+      VITE_SEED_TOKEN: 'token'
+      JWT_SECRET: 'jwt_secret'
+      VITE_API_HOST: 'http://localhost:3000/api'
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4
@@ -17,12 +22,16 @@ jobs:
       run: npm ci
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
-    - name: Clone and start api
+    - name: Clone and start API
       run: |
         git clone https://github.com/trevorregister/question-bank.git api
         cd api
         npm ci
-        npm run start:e2e
+        PORT=3000 npm run start:e2e & 
         cd ../
+    - name: Wait for API to be ready
+      run: |
+        sleep 5 # Give the server time to start
+        curl --retry 10 --retry-delay 5 --retry-connrefused http://localhost:3000/health || exit 1
     - name: Run Playwright tests
       run: npx playwright test

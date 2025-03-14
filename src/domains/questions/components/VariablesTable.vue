@@ -1,5 +1,5 @@
 <template>
-  <table>
+  <table aria-label="variables">
     <tr>
       <th class="text-body2"></th>
       <th class="text-body2">Min</th>

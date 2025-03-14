@@ -5,6 +5,7 @@
     </p>
     <q-input
       class="column"
+      :aria-label="label"
       filled
       outlined
       :dense="dense"

@@ -1,5 +1,5 @@
 <template>
-  <table class="full-width">
+  <table class="full-width" aria-label="conditions">
     <tr>
       <th class="text-body2">Answer Expression</th>
       <th class="text-body2">Feedback</th>

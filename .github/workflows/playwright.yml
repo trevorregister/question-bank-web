@@ -17,11 +17,12 @@ jobs:
       run: npm ci
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
+    - name: Clone and start api
+      run: |
+        git clone https://github.com/trevorregister/question-bank.git api
+        cd api
+        npm ci
+        npm run start:e2e
+        cd ../
     - name: Run Playwright tests
       run: npx playwright test
-    - uses: actions/upload-artifact@v4
-      if: ${{ !cancelled() }}
-      with:
-        name: playwright-report
-        path: playwright-report/
-        retention-days: 30

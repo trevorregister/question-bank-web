@@ -13,7 +13,7 @@ jobs:
       VITE_SEED_TOKEN: 'token'
       JWT_SECRET: 'jwt_secret'
       VITE_API_HOST: 'http://127.0.0.1:3000/api'
-      DOMAIN: 'localhost'
+      DOMAIN: '127.0.0.1'
       WEB_HOST: 'http://localhost:5173'
       
     steps:

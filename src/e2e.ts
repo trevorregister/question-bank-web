@@ -21,7 +21,7 @@ export const test = base.extend<E2EFixtures>({
   },
   seed: async ({ page }, use) => {
     await use(async (data: any, _page: Page = page) => {
-      await _page.request.post("http://localhost:3000/api/test/seed", {
+      await _page.request.post("http://127.0.0.1:3000/api/test/seed", {
         data: data,
         headers: {
           Authorization: `Bearer ${process.env.VITE_SEED_TOKEN}`,

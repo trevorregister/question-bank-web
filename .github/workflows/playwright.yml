@@ -13,7 +13,6 @@ jobs:
       VITE_SEED_TOKEN: 'token'
       JWT_SECRET: 'jwt_secret'
       VITE_API_HOST: 'http://127.0.0.1:3000/api'
-      VITE_HOST: '127.0.0.1:5173'
       DOMAIN: '127.0.0.1'
       WEB_HOST: 'http://127.0.0.1:5173'
       
@@ -37,7 +36,7 @@ jobs:
       run: |
         sleep 5 # Give the server time to start
     - name: Start Web Server
-      run: npm run dev & 
+      run: vite --host 127.0.0.1 --port 5173 & 
     - name: Wait for WEB to be ready
       run: |
         sleep 5 # Give the server time to start

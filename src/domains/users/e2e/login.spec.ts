@@ -2,7 +2,7 @@ import { test, expect } from "../../../e2e"
 import builder from "../../../db/builder"
 
 test("existing user can login", async ({ page, seed }) => {
-  const teacher = builder.user.teacher({ email: "asdf@asdfasdfasdf.asdfasdf" })
+  const teacher = builder.user.teacher()
   const bank = builder.bank({ owner: teacher._id })
   await seed(builder.data)
   await page.goto("/login")

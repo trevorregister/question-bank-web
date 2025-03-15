@@ -36,9 +36,6 @@ jobs:
       run: |
         sleep 5 # Give the server time to start
     - name: Start Web Server
-      run: vite --host 127.0.0.1 --port 5173 & 
-    - name: Wait for WEB to be ready
-      run: |
-        sleep 5 # Give the server time to start
+      run: npm run dev
     - name: Run Playwright tests
       run: npx playwright test

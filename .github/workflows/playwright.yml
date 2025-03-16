@@ -1,0 +1,45 @@
+name: Playwright Tests
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+jobs:
+  test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    env:
+      PORT: 3000
+      VITE_SEED_TOKEN: 'token'
+      JWT_SECRET: 'jwt_secret'
+      VITE_API_HOST: 'http://127.0.0.1:3000/api'
+      DOMAIN: '127.0.0.1'
+      WEB_HOST: 'http://127.0.0.1:5173'
+      
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: lts/*
+    - name: Install dependencies
+      run: npm ci
+    - name: Install Playwright Browsers
+      run: npx playwright install --with-deps
+    - name: Clone and start API
+      run: |
+        git clone https://github.com/trevorregister/question-bank.git api
+        cd api
+        npm ci
+        PORT=3000 npm run start:e2e & 
+        cd ../
+    - name: Start Web Server
+      run: npm run dev &
+    - name: Run Playwright tests
+      run: npx playwright test
+    - name: Upload Playwright Report
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: playwright-report
+        path: playwright-report/
+        retention-days: 1

@@ -32,10 +32,14 @@ jobs:
         npm ci
         PORT=3000 npm run start:e2e & 
         cd ../
-    - name: Wait for API to be ready
-      run: |
-        sleep 5 # Give the server time to start
     - name: Start Web Server
-      run: npm run dev
+      run: npm run dev &
     - name: Run Playwright tests
       run: npx playwright test
+    - name: Upload Playwright Report
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: playwright-report
+        path: playwright-report/
+        retention-days: 1

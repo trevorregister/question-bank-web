@@ -7,7 +7,7 @@
     </tr>
     <tr v-for="condition in conditions">
       <td class="condition-expression">
-        <TextInput v-model="condition.expression" />
+        <TextInput v-model="condition.expression" label="Expression" />
       </td>
       <td class="condition-feedback">
         <!-- <TextInput v-model="condition.feedback"/> -->

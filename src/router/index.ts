@@ -30,13 +30,13 @@ const router = createRouter({
   ],
 })
 
-router.beforeEach((to) => {
+/* router.beforeEach((to) => {
   const userStore = useUserStore()
   const authRequired = !publicPages.includes(to.path)
 
   if (!userStore.getId() && authRequired) {
     return "/login"
   }
-})
+}) */
 
 export default router

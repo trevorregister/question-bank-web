@@ -75,10 +75,13 @@ const deleteBank = async (bankId: string) => {
 }
 
 onMounted(async () => {
+  console.log("mounted")
   try {
     banks.value = await client.banks.getMyBanks(userStore.getId())
     isLoading.value = false
+    console.log("banks", banks.value)
   } catch (err) {
+    console.log("error loading banks")
     flash.apiError(err)
   }
 })

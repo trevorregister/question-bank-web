@@ -60,8 +60,8 @@ export default class BankPage {
       rowByRowNumber: (rowNumber: number) => {
         const row = locator
           .getByRole("table", { name: "conditions" })
-          .locator("tr")
-          .nth(2 - rowNumber)
+          .getByRole("row")
+          .nth(rowNumber === 1 ? 2 - rowNumber : rowNumber)
         const expression = row.getByRole("textbox", { name: "Expression" })
         const feedback = row
           .getByTestId("feedback-editor")

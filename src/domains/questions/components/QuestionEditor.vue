@@ -1,5 +1,10 @@
 <template>
-  <CollapsePanel :label="shortPrompt">
+  <CollapsePanel
+    :label="shortPrompt"
+    :aria-label="
+      question.prompt.length === 0 ? 'Pending question' : question.prompt
+    "
+  >
     <div class="row q-col-gutter-sm">
       <div class="col-sm-12 col-md-7 q-pa-md flex flex-center">
         <TextEditor
@@ -8,7 +13,7 @@
           @add-condition="handleAddCondition"
           @delete-question="handleDeleteQuestion"
           :prompt="props.question?.prompt ?? 'New Question'"
-          :isPending="!!('id' in props.question)"
+          :isPending="!('id' in props.question)"
         />
       </div>
       <div
@@ -26,7 +31,12 @@
     </div>
     <div class="row q-col-gutter-sm q-pa-sm">
       <div class="col" style="margin-left: 1rem">
-        Point Value <NumberInput :model-value="pointValue" class="q-ml-md" />
+        Point Value
+        <NumberInput
+          label="Point Value"
+          :model-value="pointValue"
+          class="q-ml-md"
+        />
       </div>
     </div>
     <div class="row q-col-gutter-sm q-pa-sm flex flex-center">

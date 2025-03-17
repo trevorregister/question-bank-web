@@ -4,6 +4,8 @@
     type="number"
     :value="modelValue"
     @input="updateValue"
+    :label="label"
+    :aria-label="label"
   />
 </template>
 
@@ -11,6 +13,7 @@
 const emit = defineEmits(["update:modelValue"])
 defineProps<{
   modelValue: number | ""
+  label: string
 }>()
 
 const updateValue = (event: Event) => {

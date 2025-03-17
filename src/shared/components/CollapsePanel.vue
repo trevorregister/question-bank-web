@@ -5,6 +5,7 @@
       :label="label"
       class="collapse-panel q-pa-xs shadow-1"
       dense
+      role="region"
     >
       <slot></slot>
     </q-expansion-item>

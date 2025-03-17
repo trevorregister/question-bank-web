@@ -29,11 +29,13 @@ export default class BankPage {
         const min = row.getByLabel("Min")
         const max = row.getByLabel("Max")
         const step = row.getByLabel("Step")
+        const deleteIcon = row.getByLabel("delete")
         return {
           row,
           min,
           max,
           step,
+          deleteIcon,
         }
       },
     }
@@ -49,12 +51,13 @@ export default class BankPage {
           .getByTestId("feedback-editor")
           .locator(".q-editor__content")
         const isCorrect = row.getByRole("checkbox")
-
+        const deleteIcon = row.getByLabel("delete")
         return {
           row,
           expression,
           feedback,
           isCorrect,
+          deleteIcon,
         }
       },
       rowByRowNumber: (rowNumber: number) => {
@@ -67,11 +70,13 @@ export default class BankPage {
           .getByTestId("feedback-editor")
           .locator(".q-editor__content")
         const isCorrect = row.getByRole("checkbox")
+        const deleteIcon = row.getByLabel("delete")
         return {
           row,
           expression,
           feedback,
           isCorrect,
+          deleteIcon,
         }
       },
     }

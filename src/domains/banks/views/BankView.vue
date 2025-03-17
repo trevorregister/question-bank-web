@@ -109,8 +109,8 @@ const handleExistingQuestionSaved = (updatedQuestion: Question) => {
 const handleDeleteQuestion = async (question: Question) => {
   try {
     questions.value = questions.value.filter((q) => q.id !== question.id)
-    await client.questions.delete(question.id)
     flash.success("Question deleted")
+    await client.questions.delete(question.id)
   } catch (err) {
     flash.apiError(err)
   }

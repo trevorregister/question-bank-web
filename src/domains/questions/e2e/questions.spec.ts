@@ -116,4 +116,95 @@ test("teacher can edit existing question", async ({ page, seed, login }) => {
       name: feedback,
     }),
   ).toBeVisible()
+  await expect(
+    updatedQuestion.variablesTable.locator.getByRole("cell", {
+      name: existingVariable.label,
+    }),
+  ).toBeVisible()
+  await expect(
+    updatedQuestion.conditionsTable.locator.getByRole("cell", {
+      name: existingCondition.expression,
+    }),
+  ).toBeVisible()
+  await expect(
+    updatedQuestion.conditionsTable.locator.getByRole("cell", {
+      name: existingCondition.feedback,
+    }),
+  ).toBeVisible()
+})
+
+test("teacher can delete question", async ({ page, seed, login }) => {
+  const teacher = builder.user.teacher()
+  const question = builder.question({ owner: teacher._id })
+  const bank = builder.bank({ owner: teacher._id, questions: [question._id] })
+  await seed(builder.data)
+
+  const bankPage = new BankPage(page)
+
+  await login(teacher.email, "asdf")
+  await expect(page.getByText(bank.name)).toBeVisible()
+
+  await page.goto(`/banks/${bank._id}`)
+  const existingQuestion = bankPage.getQuestion(question.prompt)
+  await existingQuestion.locator.getByRole("button").click()
+  await existingQuestion.deleteButton.click()
+  await expect(
+    page.getByRole("heading", { name: "Are you sure?" }),
+  ).toBeVisible()
+
+  await page.getByRole("button", { name: "Ok" }).click()
+  await expect(page.getByText("Question deleted")).toBeVisible()
+  await expect(existingQuestion.locator).toBeHidden()
+})
+
+test("teacher can delete variable", async ({ page, seed, login }) => {
+  const teacher = builder.user.teacher()
+  const existingVariable = builder.question.variable()
+  const question = builder.question({
+    owner: teacher._id,
+    variables: [existingVariable],
+  })
+  const bank = builder.bank({ owner: teacher._id, questions: [question._id] })
+  await seed(builder.data)
+
+  const bankPage = new BankPage(page)
+
+  await login(teacher.email, "asdf")
+  await expect(page.getByText(bank.name)).toBeVisible()
+
+  await page.goto(`/banks/${bank._id}`)
+  const existingQuestion = bankPage.getQuestion(question.prompt)
+  await existingQuestion.locator.getByRole("button").click()
+  await existingQuestion.variablesTable
+    .row(existingVariable.label)
+    .deleteIcon.click()
+  await expect(
+    existingQuestion.variablesTable.row(existingVariable.label).row,
+  ).toBeHidden()
+})
+
+test("teacher can delete condition", async ({ page, seed, login }) => {
+  const teacher = builder.user.teacher()
+  const existingCondition = builder.question.condition()
+  const question = builder.question({
+    owner: teacher._id,
+    conditions: [existingCondition],
+  })
+  const bank = builder.bank({ owner: teacher._id, questions: [question._id] })
+  await seed(builder.data)
+
+  const bankPage = new BankPage(page)
+
+  await login(teacher.email, "asdf")
+  await expect(page.getByText(bank.name)).toBeVisible()
+
+  await page.goto(`/banks/${bank._id}`)
+  const existingQuestion = bankPage.getQuestion(question.prompt)
+  await existingQuestion.locator.getByRole("button").click()
+  await existingQuestion.conditionsTable.rowByRowNumber(1).deleteIcon.click()
+  await expect(
+    existingQuestion.conditionsTable.locator.getByText(
+      existingCondition.expression,
+    ),
+  ).toBeHidden()
 })

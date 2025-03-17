@@ -27,6 +27,7 @@
           name="fa-solid fa-trash-can"
           size="18px"
           color="negative"
+          aria-label="delete"
         />
       </td>
     </tr>

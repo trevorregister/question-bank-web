@@ -15,6 +15,7 @@
           v-model="condition.feedback"
           class="condition-editor"
           :toolbar="toolbar"
+          data-testid="feedback-editor"
         />
       </td>
       <td>

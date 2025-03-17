@@ -1,7 +1,8 @@
 <template>
   <textarea
     class="text-area-input"
-    label=""
+    :label="label"
+    :aria-label="label"
     :value="modelValue"
     @input="updateValue"
   />
@@ -11,6 +12,7 @@
 const emit = defineEmits(["update:modelValue"])
 defineProps<{
   modelValue: string
+  label: string
 }>()
 
 const updateValue = (event: Event) => {

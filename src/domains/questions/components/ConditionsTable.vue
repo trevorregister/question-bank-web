@@ -7,7 +7,7 @@
     </tr>
     <tr v-for="condition in conditions">
       <td class="condition-expression">
-        <TextInput v-model="condition.expression" />
+        <TextInput v-model="condition.expression" label="Expression" />
       </td>
       <td class="condition-feedback">
         <!-- <TextInput v-model="condition.feedback"/> -->
@@ -15,6 +15,7 @@
           v-model="condition.feedback"
           class="condition-editor"
           :toolbar="toolbar"
+          data-testid="feedback-editor"
         />
       </td>
       <td>
@@ -28,6 +29,7 @@
           name="fa-solid fa-trash-can"
           size="18px"
           color="negative"
+          aria-label="delete"
         />
       </td>
     </tr>

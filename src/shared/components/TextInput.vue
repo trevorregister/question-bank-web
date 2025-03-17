@@ -1,11 +1,18 @@
 <template>
-  <input class="text-input" label="" :value="modelValue" @input="updateValue" />
+  <input
+    class="text-input"
+    :label="label"
+    :aria-label="label"
+    :value="modelValue"
+    @input="updateValue"
+  />
 </template>
 
 <script setup lang="ts">
 const emit = defineEmits(["update:modelValue"])
 defineProps<{
   modelValue: string
+  label: string
 }>()
 
 const updateValue = (event: Event) => {

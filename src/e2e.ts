@@ -11,12 +11,10 @@ type E2EFixtures = {
 export const test = base.extend<E2EFixtures>({
   login: async ({ page }, use) => {
     await use(async (email: string, password: string, _page: Page = page) => {
-      await _page.request.post(
-        "http://127.0.0.1:3000/api/users/login/email-password",
-        {
-          data: { email, password },
-        },
-      )
+      await _page.goto("/login")
+      await _page.getByLabel("Email").fill(email)
+      await _page.getByLabel("Password").fill(password)
+      await _page.getByRole("button", { name: "Submit" }).click()
     })
   },
   seed: async ({ page }, use) => {

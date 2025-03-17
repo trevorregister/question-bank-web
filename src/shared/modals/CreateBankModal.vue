@@ -4,11 +4,11 @@
     <ModalContent>
       <div class="q-mb-sm">Name</div>
       <div class="q-mb-sm">
-        <TextInput v-model="name" />
+        <TextInput v-model="name" label="Name" />
       </div>
       <div class="q-mb-sm">Description</div>
       <div class="q-mb-sm">
-        <TextAreaInput v-model="description" />
+        <TextAreaInput v-model="description" label="Description" />
       </div>
     </ModalContent>
     <ModalActions>

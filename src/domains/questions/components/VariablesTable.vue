@@ -11,13 +11,13 @@
         {{ variable.label }}
       </td>
       <td>
-        <NumberInput v-model.number="variable.min" />
+        <NumberInput label="Min" v-model.number="variable.min" />
       </td>
       <td>
-        <NumberInput v-model.number="variable.max" />
+        <NumberInput label="Max" v-model.number="variable.max" />
       </td>
       <td>
-        <NumberInput v-model.number="variable.step" />
+        <NumberInput label="Step" v-model.number="variable.step" />
       </td>
       <td>
         <!--                 <q-icon class="cursor-pointer q-ml-sm" @click="deleteVariable(variable.label)" name="fa-solid fa-shuffle" size="18px" color="positive"/> -->
@@ -27,6 +27,7 @@
           name="fa-solid fa-trash-can"
           size="18px"
           color="negative"
+          aria-label="delete"
         />
       </td>
     </tr>

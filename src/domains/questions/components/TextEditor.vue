@@ -6,6 +6,7 @@
         :toolbar="toolbar"
         :definitions="definitions"
         class="editor"
+        data-testid="prompt-editor"
       >
       </q-editor>
     </div>
@@ -18,7 +19,7 @@
         @click="deleteQuestion"
         outline
         color="negative"
-        v-if="isPending"
+        :disable="isPending"
       />
     </div>
   </div>

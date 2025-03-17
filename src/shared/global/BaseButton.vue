@@ -1,5 +1,10 @@
 <template>
-  <q-btn class="q-ml-sm q-mr-sm" :label="label" :color="color" />
+  <q-btn
+    class="q-ml-sm q-mr-sm"
+    :label="label"
+    :color="color"
+    :disable="disable"
+  />
 </template>
 
 <script setup lang="ts">
@@ -8,9 +13,11 @@ withDefaults(
   defineProps<{
     label: string
     color?: string
+    disable?: boolean
   }>(),
   {
     color: "primary",
+    disable: false,
   },
 )
 </script>

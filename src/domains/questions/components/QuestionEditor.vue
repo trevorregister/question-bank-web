@@ -182,6 +182,7 @@ const handleSaveQuestion = async (editorContents: string) => {
       payload: { ...questionComponents },
     })
     emit("existing-question-saved", question)
+    console.log(question)
   }
 }
 onBeforeMount(async () => {

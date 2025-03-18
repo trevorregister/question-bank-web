@@ -1,7 +1,5 @@
 <template>
-  <q-card-section class="text-body2 q-pa-sm">
-    <slot></slot>
-  </q-card-section>
+  <q-icon name="fa-solid fa-circle-check" color="positive" />
 </template>
 
 <script setup lang="ts"></script>

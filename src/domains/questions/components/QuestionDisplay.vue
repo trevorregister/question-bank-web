@@ -3,7 +3,7 @@
     <CardHeader> Question </CardHeader>
     <CardSection v-html="prompt" />
     <CardSection>
-      <div class="row flex flex-center">
+      <div class="row flex justify-end">
         <div class="col-md-8 col-sm-12 q-ma-sm flex justify-end">
           <NumberInput
             class="answer-input"
@@ -20,6 +20,7 @@
       <FeedbackPanel
         :answerResponse="answerResponse"
         :maxPoints="props.question.pointValue"
+        :submissionCount="submissionCount"
       />
     </CardSection>
   </CardBody>
@@ -38,6 +39,7 @@ const props = defineProps<{ question: Question; questionNumber?: number }>()
 const variables = ref([])
 const prompt = ref("")
 const answer = ref<number | "">("")
+const submissionCount = ref<number>(0)
 const answerResponse = ref<{
   feedback: string | null
   isCorrect: boolean
@@ -55,6 +57,7 @@ const buildScope = (variables: { label: string; value: number }[]) => {
   return scope
 }
 const submitAnswer = () => {
+  submissionCount.value++
   const scope = buildScope(variables.value)
   for (const condition of props.question.conditions) {
     const upperBound =
@@ -108,9 +111,9 @@ onMounted(() => {
 
 <style lang="scss">
 .question-card {
-  min-width: 40%;
+  min-width: 50%;
 }
 .answer-input {
-  min-width: 35% !important;
+  min-width: 6rem !important;
 }
 </style>

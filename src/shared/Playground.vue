@@ -3,11 +3,9 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, inject } from "vue"
-import { Flash } from "./components/FlashProvider.vue"
+import { onMounted } from "vue"
 import { Question } from "./types"
 import QuestionDisplay from "../domains/questions/components/QuestionDisplay.vue"
-const flash = inject<Flash>("$flash")
 const question: Question = {
   id: "67d702c06d30686eec87e815",
   prompt:
@@ -50,9 +48,7 @@ const question: Question = {
   isArchived: false,
   isDeleted: false,
 }
-onMounted(() => {
-  flash.success("success")
-})
+onMounted(() => {})
 </script>
 
 <style scoped lang="scss"></style>

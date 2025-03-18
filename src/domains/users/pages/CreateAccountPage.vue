@@ -8,7 +8,7 @@
           <form-input label="Email" v-model="email" />
           <form-input label="Password" type="password" v-model="password" />
           <div class="row q-mb-md">
-            <p class="q-mt-sm text-body1" style="min-width: 130px">I am a</p>
+            <p class="q-mt-sm text-body2" style="min-width: 130px">I am a</p>
             <q-option-group v-model="role" :options="roleOptions" inline />
           </div>
           <form-action label="Submit" type="submit" @submit="handleSubmit" />

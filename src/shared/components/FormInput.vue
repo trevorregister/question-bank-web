@@ -1,6 +1,6 @@
 <template>
   <div class="row q-mb-sm justify-left">
-    <p class="input-label column text-body1 q-mr-lg q-mb-none self-center">
+    <p class="input-label column text-body2 q-mr-lg q-mb-none self-center">
       {{ label }}
     </p>
     <q-input

@@ -1,5 +1,10 @@
 <template>
-  <q-btn class="q-ml-md" color="primary" :label="label" @click="onClick" />
+  <q-btn
+    class="modal-button q-ml-md"
+    color="primary"
+    :label="label"
+    @click="onClick"
+  />
 </template>
 
 <script setup lang="ts">

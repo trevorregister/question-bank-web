@@ -8,8 +8,9 @@
       <NumberInput label="answer" v-model.number="answer" />
       <BaseButton label="Submit" @click="submitAnswer" />
     </CardSection>
-    <CardSection v-for="condition in props.question.conditions">
-      {{ condition }}
+    <CardSection v-html="answerResponse.feedback" />
+    <CardSection>
+      {{ answerResponse.isCorrect }}
     </CardSection>
   </CardBody>
 </template>
@@ -25,6 +26,11 @@ const props = defineProps<{ question: Question }>()
 const variables = ref([])
 const prompt = ref("")
 const answer = ref<number | "">("")
+const answerResponse = ref<{ feedback: string; isCorrect: boolean }>({
+  feedback: "",
+  isCorrect: false,
+})
+const BASE_TOLERANCE = 0.01
 
 const buildScope = (variables: { label: string; value: number }[]) => {
   const scope = new Map<string, number>()
@@ -33,9 +39,28 @@ const buildScope = (variables: { label: string; value: number }[]) => {
 }
 const submitAnswer = () => {
   const scope = buildScope(variables.value)
-  props.question.conditions.forEach((condition) => {
-    console.log(evaluate(condition.expression, scope), answer.value)
-  })
+  for (const condition of props.question.conditions) {
+    const upperBound =
+      evaluate(condition.expression, scope) * (1 + BASE_TOLERANCE)
+    const lowerBound =
+      evaluate(condition.expression, scope) * (1 - BASE_TOLERANCE)
+    if (
+      (answer.value as number) <= upperBound &&
+      (answer.value as number) >= lowerBound
+    ) {
+      console.log(answer.value)
+      answerResponse.value = {
+        feedback: condition.feedback,
+        isCorrect: condition.isCorrect,
+      }
+      break
+    } else {
+      answerResponse.value = {
+        feedback: "",
+        isCorrect: false,
+      }
+    }
+  }
 }
 
 onMounted(() => {

@@ -11,10 +11,10 @@
           <IncorrectX />
         </span>
       </span>
-      <span class="score-display"
-        ><strong>Score:</strong> {{ answerResponse.pointValue }} /
-        {{ maxPoints }}</span
-      >
+      <span class="score-display">
+        <strong>Score:</strong> {{ answerResponse.pointValue }} /
+        {{ maxPoints }}
+      </span>
     </div>
     <div class="col-md-9 col-sm-12 col-xs-12 flex justify-end">
       <span v-html="answerResponse.feedback" class="q-ma-sm" />

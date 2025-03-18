@@ -44,7 +44,7 @@ const question: Question = {
       feedback: "<b>wrong</b>",
     },
   ],
-  pointValue: 0,
+  pointValue: 5,
   owner: "67c4ca846db8f49f2e98aaba",
   type: "numerical",
   isArchived: false,

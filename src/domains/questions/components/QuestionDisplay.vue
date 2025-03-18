@@ -1,16 +1,26 @@
 <template>
   <CardBody class="question-card">
+    <CardHeader> Question </CardHeader>
     <CardSection v-html="prompt" />
-    <CardSection v-for="variable in variables">
-      {{ variable }}
+    <CardSection>
+      <div class="row flex flex-center">
+        <div class="col-md-8 col-sm-12 q-ma-sm flex justify-end">
+          <NumberInput
+            class="answer-input"
+            label="answer"
+            v-model.number="answer"
+          />
+        </div>
+        <div class="col-md-2 col-sm-12 q-ma-sm flex justify-end">
+          <BaseButton label="Submit" @click="submitAnswer" />
+        </div>
+      </div>
     </CardSection>
     <CardSection>
-      <NumberInput label="answer" v-model.number="answer" />
-      <BaseButton label="Submit" @click="submitAnswer" />
-    </CardSection>
-    <CardSection v-html="answerResponse.feedback" />
-    <CardSection>
-      {{ answerResponse.isCorrect }}
+      <FeedbackPanel
+        :answerResponse="answerResponse"
+        :maxPoints="props.question.pointValue"
+      />
     </CardSection>
   </CardBody>
 </template>
@@ -18,17 +28,24 @@
 <script setup lang="ts">
 import NumberInput from "../../../shared/components/NumberInput.vue"
 import CardBody from "../../../shared/global/CardBody.vue"
+import CardHeader from "../../../shared/global/CardHeader.vue"
 import CardSection from "../../../shared/global/CardSection.vue"
-import { Question, Variable } from "../../../shared/types"
+import FeedbackPanel from "./FeedbackPanel.vue"
+import { Question } from "../../../shared/types"
 import { evaluate } from "mathjs"
 import { ref, onMounted } from "vue"
-const props = defineProps<{ question: Question }>()
+const props = defineProps<{ question: Question; questionNumber?: number }>()
 const variables = ref([])
 const prompt = ref("")
 const answer = ref<number | "">("")
-const answerResponse = ref<{ feedback: string; isCorrect: boolean }>({
-  feedback: "",
+const answerResponse = ref<{
+  feedback: string | null
+  isCorrect: boolean
+  pointValue: number
+}>({
+  feedback: null,
   isCorrect: false,
+  pointValue: 0,
 })
 const BASE_TOLERANCE = 0.01
 
@@ -52,12 +69,14 @@ const submitAnswer = () => {
       answerResponse.value = {
         feedback: condition.feedback,
         isCorrect: condition.isCorrect,
+        pointValue: props.question.pointValue,
       }
       break
     } else {
       answerResponse.value = {
         feedback: "",
         isCorrect: false,
+        pointValue: 0,
       }
     }
   }
@@ -89,6 +108,9 @@ onMounted(() => {
 
 <style lang="scss">
 .question-card {
-  min-width: 500px;
+  min-width: 40%;
+}
+.answer-input {
+  min-width: 35% !important;
 }
 </style>

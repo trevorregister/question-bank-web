@@ -28,7 +28,7 @@ const updateValue = (event: Event) => {
   border: 1px solid lightgrey;
   height: 1.8rem;
   border-radius: 3px;
-  text-align: center;
+  text-align: right;
 
   &:focus {
     outline: none;

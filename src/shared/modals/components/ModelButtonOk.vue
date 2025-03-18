@@ -1,6 +1,6 @@
 <template>
   <q-btn
-    class="modal-button q-ml-md"
+    class="base-button q-ml-md"
     color="primary"
     :label="label"
     @click="onClick"

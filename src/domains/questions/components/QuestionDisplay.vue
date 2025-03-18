@@ -3,15 +3,17 @@
     <CardHeader> Question </CardHeader>
     <CardSection v-html="prompt" />
     <CardSection>
-      <div class="row flex justify-end">
-        <div class="col-md-8 col-sm-12 q-ma-sm flex justify-end">
+      <div class="row flex flex-center">
+        <div
+          class="col-md-8 col-sm-12 q-ma-sm flex justify-md-end justify-sm-center justify-xs-center"
+        >
           <NumberInput
             class="answer-input"
             label="answer"
             v-model.number="answer"
           />
         </div>
-        <div class="col-md-2 col-sm-12 q-ma-sm flex justify-end">
+        <div class="col-md-2 col-sm-12 q-ma-sm flex flex-center">
           <BaseButton label="Submit" @click="submitAnswer" />
         </div>
       </div>
@@ -111,9 +113,9 @@ onMounted(() => {
 
 <style lang="scss">
 .question-card {
-  min-width: 50%;
+  min-width: 30%;
 }
 .answer-input {
-  min-width: 6rem !important;
+  min-width: 30% !important;
 }
 </style>

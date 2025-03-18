@@ -1,6 +1,6 @@
 <template>
   <q-btn
-    class="q-ml-md"
+    class="base-button q-ml-md"
     outline
     color="negative"
     :label="label"

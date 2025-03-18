@@ -9,7 +9,7 @@ import QuestionDisplay from "../domains/questions/components/QuestionDisplay.vue
 const question: Question = {
   id: "67d702c06d30686eec87e815",
   prompt:
-    "This is <b>a question prompt</b>. It has <i>variables</i>&nbsp;like <gvar class='var-pnt07vl8a9h'>{{distance}}</gvar>m and <gvar class='var-j2i13id0kpi'>{{time}}</gvar>s",
+    "This is <strong>a question prompt</strong>. It has <i>variables</i>&nbsp;like <gvar class='var-pnt07vl8a9h'>{{distance}}</gvar>m and <gvar class='var-j2i13id0kpi'>{{time}}</gvar>s",
   variables: [
     {
       id: "pnt07vl8a9h",
@@ -33,7 +33,8 @@ const question: Question = {
       id: "bxq0ezuvqxn",
       expression: "distance/time",
       isCorrect: true,
-      feedback: "well <b>done</b>",
+      feedback:
+        "well <b>done</b>. You've done an excellent job of determing the speed given the distance and time.",
     },
     {
       id: "bxq0ezu4qxz",

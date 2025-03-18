@@ -2,8 +2,7 @@
   <div
     :class="`feedback-panel ${submissionStyling} flex row q-ma-sm q-pa-sm bg-grey-3 text-body2`"
   >
-    <div class="col-md-4 col-sm-12 col-xs-12">
-      <strong>Score:</strong> {{ answerResponse.pointValue }} / {{ maxPoints }}
+    <div class="col-md-3 col-sm-12 col-xs-12">
       <span v-if="submissionCount > 0" class="q-ma-sm">
         <span v-if="answerResponse.isCorrect">
           <CorrectCheck />
@@ -12,11 +11,14 @@
           <IncorrectX />
         </span>
       </span>
+      <span class="score-display"
+        ><strong>Score:</strong> {{ answerResponse.pointValue }} /
+        {{ maxPoints }}</span
+      >
     </div>
-    <div
-      class="col-md-8 col-sm-12 col-xs-12"
-      v-html="answerResponse.feedback"
-    />
+    <div class="col-md-9 col-sm-12 col-xs-12 flex justify-end">
+      <span v-html="answerResponse.feedback" class="q-ma-sm" />
+    </div>
   </div>
 </template>
 
@@ -50,5 +52,8 @@ const submissionStyling = computed(() => {
   &.__incorrect {
     border: 2px solid $negative;
   }
+}
+.score-display {
+  align-items: center;
 }
 </style>

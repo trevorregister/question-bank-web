@@ -1,7 +1,7 @@
 <template>
   <CardBody class="question-card">
     <CardHeader> Question </CardHeader>
-    <CardSection v-html="prompt" />
+    <CardSection v-html="prompt" class="q-ml-sm" />
     <CardSection>
       <div class="row flex flex-center">
         <div

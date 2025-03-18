@@ -38,6 +38,9 @@
           class="q-ml-md"
         />
       </div>
+      <div class="col flex justify-end">
+        <BaseButton label="Preview" @click="launchQuestionPreview" />
+      </div>
     </div>
     <div class="row q-col-gutter-sm q-pa-sm flex flex-center">
       <div class="col-12">
@@ -67,6 +70,8 @@ import NumberInput from "../../../shared/components/NumberInput.vue"
 import { ref, onBeforeMount, computed } from "vue"
 import client from "../../../shared/api-client"
 import randomId from "../../../shared/utils/randomId"
+import useQuestionPreviewStore from "../../../stores/questionPreviewStore"
+import { useRouter } from "vue-router"
 import {
   Variable,
   Question,
@@ -89,6 +94,8 @@ const shortPrompt = computed((): string =>
     ? props.question.prompt.substring(0, 25).concat("...")
     : "New Question",
 )
+const router = useRouter()
+const questionPreviewStore = useQuestionPreviewStore()
 
 const handleAddCondition = () => {
   conditions.value.push({
@@ -184,6 +191,10 @@ const handleSaveQuestion = async (editorContents: string) => {
     emit("existing-question-saved", question)
     console.log(question)
   }
+}
+const launchQuestionPreview = () => {
+  questionPreviewStore.setQuestion(props.question as Question)
+  window.open(`/banks/question-preview`, "_blank")
 }
 onBeforeMount(async () => {
   if (props.question) {

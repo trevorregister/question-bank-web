@@ -5,6 +5,7 @@ import LoginPage from "../domains/users/pages/LoginPage.vue"
 import Playground from "../shared/Playground.vue"
 import banks from "./banks"
 import questions from "./questions"
+import activities from "./activities"
 
 const publicPages = ["/login", "/create-account", "/about", "/test"]
 
@@ -29,6 +30,7 @@ const router = createRouter({
     },
     ...banks,
     ...questions,
+    ...activities,
   ],
 })
 

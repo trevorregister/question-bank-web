@@ -1,6 +1,6 @@
 <template>
   <CardBody class="question-card">
-    <CardHeader> Question </CardHeader>
+    <CardHeader> Question {{ questionNumber ?? "" }} </CardHeader>
     <CardSection v-html="prompt" class="q-ml-sm" />
     <CardSection>
       <div class="row flex flex-center">
@@ -120,8 +120,7 @@ onMounted(() => {
 
 <style lang="scss">
 .question-card {
-  min-width: 30%;
-  max-width: 50%;
+  min-width: 80%;
 }
 .answer-input {
   min-width: 30% !important;

@@ -39,7 +39,14 @@
         />
       </div>
       <div class="col flex justify-end">
-        <BaseButton label="Preview" @click="launchQuestionPreview" />
+        <BaseButton
+          label="Preview"
+          @click="launchQuestionPreview"
+          :disable="isPendingQuestion"
+          :title="
+            isPendingQuestion ? 'Enabled when pending question is saved' : ''
+          "
+        />
       </div>
     </div>
     <div class="row q-col-gutter-sm q-pa-sm flex flex-center">
@@ -93,6 +100,7 @@ const shortPrompt = computed((): string =>
     ? props.question.prompt.substring(0, 25).concat("...")
     : "New Question",
 )
+const isPendingQuestion = computed(() => "tempId" in props.question)
 const questionPreviewStore = useQuestionPreviewStore()
 
 const handleAddCondition = () => {
@@ -191,7 +199,7 @@ const handleSaveQuestion = async (editorContents: string) => {
 }
 const launchQuestionPreview = () => {
   localStorage.removeItem("previewQuestion")
-  questionPreviewStore.setQuestion(props.question as Question)
+  questionPreviewStore.setQuestion(props.question)
   window.open(`/banks/question-preview`, "_blank")
 }
 onBeforeMount(async () => {

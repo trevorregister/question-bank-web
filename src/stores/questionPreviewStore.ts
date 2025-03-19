@@ -1,8 +1,8 @@
 import { defineStore } from "pinia"
-import { Question } from "../shared/types"
+import { PendingQuestion, Question } from "../shared/types"
 
 const useQuestionPreviewStore = defineStore("questionPreview", () => {
-  const setQuestion = (question: Question) => {
+  const setQuestion = (question: Question | PendingQuestion) => {
     localStorage.setItem("previewQuestion", JSON.stringify(question))
   }
   const getQuestion = () => {

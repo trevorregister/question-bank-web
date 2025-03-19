@@ -34,8 +34,18 @@
         Point Value
         <NumberInput
           label="Point Value"
-          :model-value="pointValue"
+          v-model.number="pointValue"
           class="q-ml-md"
+        />
+      </div>
+      <div class="col flex justify-end">
+        <BaseButton
+          label="Preview"
+          @click="launchQuestionPreview"
+          :disable="isPendingQuestion"
+          :title="
+            isPendingQuestion ? 'Enabled when pending question is saved' : ''
+          "
         />
       </div>
     </div>
@@ -89,6 +99,7 @@ const shortPrompt = computed((): string =>
     ? props.question.prompt.substring(0, 25).concat("...")
     : "New Question",
 )
+const isPendingQuestion = computed(() => "tempId" in props.question)
 
 const handleAddCondition = () => {
   conditions.value.push({
@@ -182,6 +193,11 @@ const handleSaveQuestion = async (editorContents: string) => {
       payload: { ...questionComponents },
     })
     emit("existing-question-saved", question)
+  }
+}
+const launchQuestionPreview = () => {
+  if ("id" in props.question) {
+    window.open(`/questions/${props.question.id}/preview`, "_blank")
   }
 }
 onBeforeMount(async () => {

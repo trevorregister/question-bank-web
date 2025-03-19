@@ -1,6 +1,6 @@
 <template>
   <q-card-section>
-    <h5 class="text-h5 q-ma-none">
+    <h5 class="text-body1 q-ma-none">
       <slot></slot>
     </h5>
   </q-card-section>

@@ -4,6 +4,7 @@ import CreateAccountPage from "../domains/users/pages/CreateAccountPage.vue"
 import LoginPage from "../domains/users/pages/LoginPage.vue"
 import Playground from "../shared/Playground.vue"
 import banks from "./banks"
+import questions from "./questions"
 
 const publicPages = ["/login", "/create-account", "/about", "/test"]
 
@@ -27,16 +28,17 @@ const router = createRouter({
       component: Playground,
     },
     ...banks,
+    ...questions,
   ],
 })
 
-/* router.beforeEach((to) => {
+router.beforeEach((to) => {
   const userStore = useUserStore()
   const authRequired = !publicPages.includes(to.path)
 
   if (!userStore.getId() && authRequired) {
     return "/login"
   }
-}) */
+})
 
 export default router

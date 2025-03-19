@@ -1,6 +1,6 @@
 <template>
   <q-btn
-    class="q-ml-sm q-mr-sm"
+    class="base-button q-ml-sm q-mr-sm"
     :label="label"
     :color="color"
     :disable="disable"
@@ -22,8 +22,7 @@ withDefaults(
 )
 </script>
 <style lang="scss">
-.form-action {
-  display: flex;
-  justify-content: right;
+.base-button {
+  font-size: 0.75rem;
 }
 </style>

@@ -48,6 +48,27 @@ test("teacher can create new question", async ({ page, seed, login }) => {
   await expect(bankPage.createQuestionButton).toBeEnabled()
 })
 
+test("teacher can preview question", async ({ page, seed, context, login }) => {
+  const teacher = builder.user.teacher()
+  const question = builder.question({ owner: teacher._id })
+  const bank = builder.bank({ owner: teacher._id, questions: [question._id] })
+  await seed(builder.data)
+
+  const bankPage = new BankPage(page)
+  await login(teacher.email, "asdf")
+  await expect(page.getByText(bank.name)).toBeVisible()
+
+  await page.goto(`/banks/${bank._id}`)
+  const existingQuestion = bankPage.getQuestion(question.prompt)
+  await existingQuestion.locator.getByRole("button").click()
+  const previewTabPromise = context.waitForEvent("page")
+  await existingQuestion.previewButton.click()
+  const previewTab = await previewTabPromise
+
+  await previewTab.waitForLoadState()
+  await expect(previewTab.getByText(question.prompt)).toBeVisible()
+})
+
 test("teacher can edit existing question", async ({ page, seed, login }) => {
   const teacher = builder.user.teacher()
   const existingVariable = builder.question.variable()

@@ -1,5 +1,5 @@
 <template>
-  <q-card-section class="text-body1">
+  <q-card-section class="text-body2 q-pa-sm">
     <slot></slot>
   </q-card-section>
 </template>

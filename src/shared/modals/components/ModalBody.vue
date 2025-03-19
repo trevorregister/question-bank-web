@@ -1,5 +1,5 @@
 <template>
-  <q-card class="modal-body q-pa-md" role="dialog">
+  <q-card class="modal-body q-pa-sm" role="dialog">
     <slot></slot>
   </q-card>
 </template>

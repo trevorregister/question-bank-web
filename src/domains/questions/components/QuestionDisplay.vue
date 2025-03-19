@@ -70,7 +70,6 @@ const submitAnswer = () => {
       (answer.value as number) <= upperBound &&
       (answer.value as number) >= lowerBound
     ) {
-      console.log(answer.value)
       answerResponse.value = {
         feedback: condition.feedback,
         isCorrect: condition.isCorrect,

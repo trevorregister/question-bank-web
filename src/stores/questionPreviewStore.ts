@@ -1,5 +1,4 @@
 import { defineStore } from "pinia"
-import { ref } from "vue"
 import { Question } from "../shared/types"
 
 const useQuestionPreviewStore = defineStore("questionPreview", () => {

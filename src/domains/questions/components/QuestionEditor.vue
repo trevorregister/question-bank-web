@@ -34,7 +34,7 @@
         Point Value
         <NumberInput
           label="Point Value"
-          :model-value="pointValue"
+          v-model.number="pointValue"
           class="q-ml-md"
         />
       </div>
@@ -71,7 +71,6 @@ import { ref, onBeforeMount, computed } from "vue"
 import client from "../../../shared/api-client"
 import randomId from "../../../shared/utils/randomId"
 import useQuestionPreviewStore from "../../../stores/questionPreviewStore"
-import { useRouter } from "vue-router"
 import {
   Variable,
   Question,
@@ -94,7 +93,6 @@ const shortPrompt = computed((): string =>
     ? props.question.prompt.substring(0, 25).concat("...")
     : "New Question",
 )
-const router = useRouter()
 const questionPreviewStore = useQuestionPreviewStore()
 
 const handleAddCondition = () => {
@@ -189,10 +187,10 @@ const handleSaveQuestion = async (editorContents: string) => {
       payload: { ...questionComponents },
     })
     emit("existing-question-saved", question)
-    console.log(question)
   }
 }
 const launchQuestionPreview = () => {
+  localStorage.removeItem("previewQuestion")
   questionPreviewStore.setQuestion(props.question as Question)
   window.open(`/banks/question-preview`, "_blank")
 }

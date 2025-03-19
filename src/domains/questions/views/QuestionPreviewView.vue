@@ -1,18 +1,25 @@
 <template>
-  <QuestionDisplay :question="question" />
+  <LoadingSpinner v-if="isLoading" />
+  <QuestionDisplay :question="question" v-else />
 </template>
 
 <script setup lang="ts">
 import { PendingQuestion, Question } from "../../../shared/types"
 import { ref, onBeforeMount } from "vue"
-import useQuestionPreviewStore from "../../../stores/questionPreviewStore"
 import QuestionDisplay from "../components/QuestionDisplay.vue"
+import { useRoute } from "vue-router"
+import client from "../../../shared/api-client"
+import LoadingSpinner from "../../../shared/global/LoadingSpinner.vue"
 
-const question = ref<Question | PendingQuestion>()
-const questionPreviewStore = useQuestionPreviewStore()
+const question = ref<Question | PendingQuestion>(null)
+const route = useRoute()
+const questionId = route.params.questionId as string
+const isLoading = ref(true)
 
-onBeforeMount(() => {
-  question.value = questionPreviewStore.getQuestion()
+onBeforeMount(async () => {
+  const data = await client.questions.getQuestion(questionId)
+  question.value = data
+  isLoading.value = false
 })
 </script>
 

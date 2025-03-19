@@ -69,6 +69,10 @@ export default class Questions {
   async delete(questionId: string): Promise<void> {
     return await this.client.delete(`/questions/${questionId}`)
   }
+  async getQuestion(questionId: string): Promise<GetQuestionResponse> {
+    const { data } = await this.client.get(`/questions/${questionId}`)
+    return data
+  }
   async create({
     prompt,
     pointValue,

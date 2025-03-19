@@ -21,7 +21,7 @@
     <CardSection>
       <FeedbackPanel
         :answerResponse="answerResponse"
-        :maxPoints="props.question.pointValue"
+        :maxPoints="pointValue"
         :submissionCount="submissionCount"
       />
     </CardSection>
@@ -45,6 +45,7 @@ const variables = ref([])
 const prompt = ref("")
 const answer = ref<number | "">("")
 const submissionCount = ref<number>(0)
+const pointValue = ref(0)
 const answerResponse = ref<{
   feedback: string | null
   isCorrect: boolean
@@ -88,9 +89,7 @@ const submitAnswer = () => {
     }
   }
 }
-
-onMounted(() => {
-  prompt.value = props.question.prompt
+const setVariableValues = () => {
   variables.value = props.question.variables.map((variable) => {
     const decimals = (variable.step.toString().split(".")[1] || "").length
     const range = Math.floor((variable.max - variable.min) / variable.step)
@@ -110,6 +109,12 @@ onMounted(() => {
       variables.value.find((v) => v.id === variable.id).value,
     )
   })
+}
+
+onMounted(() => {
+  prompt.value = props.question.prompt
+  pointValue.value = props.question.pointValue
+  setVariableValues()
 })
 </script>
 

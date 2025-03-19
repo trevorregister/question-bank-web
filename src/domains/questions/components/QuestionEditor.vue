@@ -77,7 +77,6 @@ import NumberInput from "../../../shared/components/NumberInput.vue"
 import { ref, onBeforeMount, computed } from "vue"
 import client from "../../../shared/api-client"
 import randomId from "../../../shared/utils/randomId"
-import useQuestionPreviewStore from "../../../stores/questionPreviewStore"
 import {
   Variable,
   Question,
@@ -101,7 +100,6 @@ const shortPrompt = computed((): string =>
     : "New Question",
 )
 const isPendingQuestion = computed(() => "tempId" in props.question)
-const questionPreviewStore = useQuestionPreviewStore()
 
 const handleAddCondition = () => {
   conditions.value.push({
@@ -198,9 +196,9 @@ const handleSaveQuestion = async (editorContents: string) => {
   }
 }
 const launchQuestionPreview = () => {
-  localStorage.removeItem("previewQuestion")
-  questionPreviewStore.setQuestion(props.question)
-  window.open(`/banks/question-preview`, "_blank")
+  if ("id" in props.question) {
+    window.open(`/questions/${props.question.id}/preview`, "_blank")
+  }
 }
 onBeforeMount(async () => {
   if (props.question) {

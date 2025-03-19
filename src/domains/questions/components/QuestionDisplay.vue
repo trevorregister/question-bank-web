@@ -34,11 +34,11 @@ import CardBody from "../../../shared/global/CardBody.vue"
 import CardHeader from "../../../shared/global/CardHeader.vue"
 import CardSection from "../../../shared/global/CardSection.vue"
 import FeedbackPanel from "./FeedbackPanel.vue"
-import { PendingQuestion, Question } from "../../../shared/types"
+import { Question } from "../../../shared/types"
 import { evaluate } from "mathjs"
 import { ref, onMounted } from "vue"
 const props = defineProps<{
-  question: Question | PendingQuestion
+  question: Question
   questionNumber?: number
 }>()
 const variables = ref([])

@@ -4,14 +4,14 @@
 </template>
 
 <script setup lang="ts">
-import { PendingQuestion, Question } from "../../../shared/types"
+import { Question } from "../../../shared/types"
 import { ref, onBeforeMount } from "vue"
 import QuestionDisplay from "../components/QuestionDisplay.vue"
 import { useRoute } from "vue-router"
 import client from "../../../shared/api-client"
 import LoadingSpinner from "../../../shared/global/LoadingSpinner.vue"
 
-const question = ref<Question | PendingQuestion>(null)
+const question = ref<Question>(null)
 const route = useRoute()
 const questionId = route.params.questionId as string
 const isLoading = ref(true)

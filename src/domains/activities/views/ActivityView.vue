@@ -1,13 +1,15 @@
 <template>
-  <LoadingSpinner v-if="isLoading" />
-  <div class="row flex flex-center q-mt-lg" v-else>
-    <ActivityStickyHeader />
-    <div
-      class="col-12 q-ma-sm"
-      v-for="(question, index) in questions"
-      :key="question.id"
-    >
-      <QuestionDisplay :question="question" :questionNumber="index + 1" />
+  <div class="activity-container">
+    <LoadingSpinner v-if="isLoading" />
+    <div class="row flex flex-center" v-else>
+      <ActivityStickyHeader class="q-mb-lg" />
+      <div
+        class="col-12 q-ma-sm"
+        v-for="(question, index) in questions"
+        :key="question.id"
+      >
+        <QuestionDisplay :question="question" :questionNumber="index + 1" />
+      </div>
     </div>
   </div>
 </template>
@@ -19,13 +21,18 @@ import client from "../../../shared/api-client"
 import LoadingSpinner from "../../../shared/global/LoadingSpinner.vue"
 import QuestionDisplay from "../../questions/components/QuestionDisplay.vue"
 import ActivityStickyHeader from "../components/ActivityStickyHeader.vue"
+import useUserStore from "../../../stores/userStore"
 
 const questions = ref<Question[]>(null)
 const activityProgress = ref(null)
 const isLoading = ref(true)
 
+const userStore = useUserStore()
+
 onMounted(async () => {
-  questions.value = questionsData
+  questions.value = await client.questions.getQuestionsByOwner(
+    userStore.getId(),
+  )
   activityProgress.value = {
     totalPoints: questions.value.reduce(
       (totalPoints, question) => totalPoints + question.pointValue,
@@ -37,263 +44,10 @@ onMounted(async () => {
   }
   isLoading.value = false
 })
-const questionsData = [
-  {
-    id: "67cb8bca441abf3caab318b7",
-    prompt: "Vulgus desino bellum pariatur quia.",
-    variables: [
-      {
-        id: "67cb8bca441abf3caab318b8",
-        type: "random",
-        min: 25,
-        max: 190,
-        step: 4,
-        label: "sordeo",
-      },
-      {
-        id: "67cb8bca441abf3caab318b9",
-        type: "random",
-        min: 72,
-        max: 120,
-        step: 1,
-        label: "adimpleo",
-      },
-      {
-        id: "67cb8bca441abf3caab318ba",
-        type: "random",
-        min: 84,
-        max: 186,
-        step: 1,
-        label: "ipsa",
-      },
-      {
-        id: "67cb8bca441abf3caab318bb",
-        type: "random",
-        min: 74,
-        max: 130,
-        step: 5,
-        label: "somnus",
-      },
-      {
-        id: "67cb8bca441abf3caab318bc",
-        type: "random",
-        min: 16,
-        max: 152,
-        step: 4,
-        label: "cibo",
-      },
-    ],
-    conditions: [
-      {
-        id: "67cb8bca441abf3caab318bd",
-        expression: "caries",
-        isCorrect: true,
-        feedback: "Magni valde tametsi bellum caste.",
-      },
-      {
-        id: "67cb8bca441abf3caab318be",
-        expression: "error",
-        isCorrect: true,
-        feedback:
-          "Quaerat desino patria temperantia fuga velit vinitor veritas tego.",
-      },
-      {
-        id: "67cb8bca441abf3caab318bf",
-        expression: "caritas",
-        isCorrect: true,
-        feedback: "Cibus solus commodo tego amplitudo terga.",
-      },
-      {
-        id: "67cb8bca441abf3caab318c0",
-        expression: "occaecati",
-        isCorrect: true,
-        feedback:
-          "Curvo quibusdam iste voluptates temeritas impedit atavus ventito basium.",
-      },
-      {
-        id: "67cb8bca441abf3caab318c1",
-        expression: "sol",
-        isCorrect: true,
-        feedback:
-          "Caecus caelum ullus tres consequuntur celo antiquus votum truculenter velum.",
-      },
-    ],
-    pointValue: 56,
-    owner: "67cb8bca441abf3caab3182f",
-    type: "numerical",
-    isArchived: false,
-    isDeleted: false,
-  },
-  {
-    id: "67cb8bca441abf3caab31830",
-    prompt: "Conicio suspendo decens adulatio cubicularis.",
-    variables: [
-      {
-        id: "67cb8bca441abf3caab31831",
-        type: "random",
-        min: 26,
-        max: 118,
-        step: 3,
-        label: "taceo",
-      },
-      {
-        id: "67cb8bca441abf3caab31832",
-        type: "random",
-        min: 67,
-        max: 185,
-        step: 4,
-        label: "exercitationem",
-      },
-      {
-        id: "67cb8bca441abf3caab31833",
-        type: "random",
-        min: 75,
-        max: 133,
-        step: 2,
-        label: "perferendis",
-      },
-      {
-        id: "67cb8bca441abf3caab31834",
-        type: "random",
-        min: 36,
-        max: 164,
-        step: 1,
-        label: "calco",
-      },
-      {
-        id: "67cb8bca441abf3caab31835",
-        type: "random",
-        min: 49,
-        max: 150,
-        step: 3,
-        label: "damno",
-      },
-    ],
-    conditions: [
-      {
-        id: "67cb8bca441abf3caab31836",
-        expression: "color",
-        isCorrect: true,
-        feedback: "Varietas vinco desipio quia ancilla comes.",
-      },
-      {
-        id: "67cb8bca441abf3caab31837",
-        expression: "cuppedia",
-        isCorrect: true,
-        feedback:
-          "Casso denuncio voro earum placeat animi trepide pax impedit.",
-      },
-      {
-        id: "67cb8bca441abf3caab31838",
-        expression: "conicio",
-        isCorrect: true,
-        feedback: "Cur stabilis utique dolore sortitus.",
-      },
-      {
-        id: "67cb8bca441abf3caab31839",
-        expression: "occaecati",
-        isCorrect: true,
-        feedback: "Spero turbo agnosco tenax careo autem mollitia.",
-      },
-      {
-        id: "67cb8bca441abf3caab3183a",
-        expression: "allatus",
-        isCorrect: true,
-        feedback:
-          "Quis supra acceptus paens iusto articulus argumentum sub comis stultus.",
-      },
-    ],
-    pointValue: 60,
-    owner: "67cb8bca441abf3caab3182f",
-    type: "numerical",
-    isArchived: false,
-    isDeleted: false,
-  },
-  {
-    id: "67cb8bca441abf3caab31899",
-    prompt: "In unus minus atque dolore.",
-    variables: [
-      {
-        id: "67cb8bca441abf3caab3189a",
-        type: "random",
-        min: 20,
-        max: 182,
-        step: 1,
-        label: "templum",
-      },
-      {
-        id: "67cb8bca441abf3caab3189b",
-        type: "random",
-        min: 45,
-        max: 125,
-        step: 4,
-        label: "explicabo",
-      },
-      {
-        id: "67cb8bca441abf3caab3189c",
-        type: "random",
-        min: 79,
-        max: 153,
-        step: 5,
-        label: "adfero",
-      },
-      {
-        id: "67cb8bca441abf3caab3189d",
-        type: "random",
-        min: 13,
-        max: 115,
-        step: 4,
-        label: "eligendi",
-      },
-      {
-        id: "67cb8bca441abf3caab3189e",
-        type: "random",
-        min: 50,
-        max: 132,
-        step: 2,
-        label: "deprimo",
-      },
-    ],
-    conditions: [
-      {
-        id: "67cb8bca441abf3caab3189f",
-        expression: "vociferor",
-        isCorrect: true,
-        feedback: "Vado socius una ulterius viscus sublime.",
-      },
-      {
-        id: "67cb8bca441abf3caab318a0",
-        expression: "tibi",
-        isCorrect: true,
-        feedback: "Pecco sunt sumptus adhaero ducimus textor carcer delego.",
-      },
-      {
-        id: "67cb8bca441abf3caab318a1",
-        expression: "dapifer",
-        isCorrect: true,
-        feedback: "Animus est decumbo somnus inflammatio acsi.",
-      },
-      {
-        id: "67cb8bca441abf3caab318a2",
-        expression: "addo",
-        isCorrect: true,
-        feedback:
-          "Suffragium vitiosus utor delibero quidem defluo cado cotidie.",
-      },
-      {
-        id: "67cb8bca441abf3caab318a3",
-        expression: "amet",
-        isCorrect: true,
-        feedback: "Aureus demo volaticus addo argentum coaegresco vilis ver.",
-      },
-    ],
-    pointValue: 24,
-    owner: "67cb8bca441abf3caab3182f",
-    type: "numerical",
-    isArchived: false,
-    isDeleted: false,
-  },
-]
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.activity-container {
+  max-width: 70%;
+}
+</style>

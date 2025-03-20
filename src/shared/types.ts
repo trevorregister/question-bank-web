@@ -43,6 +43,22 @@ export interface BankWithQuestions {
   questions: Question[]
 }
 
+export interface Activity {
+  id: string
+  name: string
+  owner: string
+  sections: {
+    id: string
+    name: string
+    summary: string
+    sectionIndex: number
+    questions: Question[]
+  }[]
+  isArchived: boolean
+  tags: string[]
+  questionCount: number
+}
+
 export interface PendingQuestion extends Omit<Question, "id" | "parent"> {
   tempId: string
 }

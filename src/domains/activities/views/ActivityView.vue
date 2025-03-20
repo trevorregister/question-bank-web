@@ -5,7 +5,7 @@
       <ActivityStickyHeader class="q-mb-lg" />
       <div
         class="col-12 q-ma-sm"
-        v-for="(question, index) in questions"
+        v-for="(question, index) in activityQuestions"
         :key="question.id"
       >
         <QuestionDisplay :question="question" :questionNumber="index + 1" />
@@ -21,25 +21,33 @@ import client from "../../../shared/api-client"
 import LoadingSpinner from "../../../shared/global/LoadingSpinner.vue"
 import QuestionDisplay from "../../questions/components/QuestionDisplay.vue"
 import ActivityStickyHeader from "../components/ActivityStickyHeader.vue"
-import useUserStore from "../../../stores/userStore"
+import { useRoute } from "vue-router"
 
-const questions = ref<Question[]>(null)
+interface ActivityQuestion extends Question {
+  parent: string
+}
+const activityQuestions = ref<ActivityQuestion[]>([])
 const activityProgress = ref(null)
 const isLoading = ref(true)
 
-const userStore = useUserStore()
+const route = useRoute()
+
+const activityId = route.params.activityId as string
 
 onMounted(async () => {
-  questions.value = await client.questions.getQuestionsByOwner(
-    userStore.getId(),
+  const activity = await client.activities.get(activityId)
+  activity.sections.forEach((section) =>
+    section.questions.forEach((question) =>
+      activityQuestions.value.push(question),
+    ),
   )
   activityProgress.value = {
-    totalPoints: questions.value.reduce(
+    totalPoints: activityQuestions.value.reduce(
       (totalPoints, question) => totalPoints + question.pointValue,
       0,
     ),
     currentPoints: 3, //placeholder
-    totalQuestions: questions.value.length,
+    totalQuestions: activityQuestions.value.length,
     questionsAnswered: 2, //placeholder
   }
   isLoading.value = false

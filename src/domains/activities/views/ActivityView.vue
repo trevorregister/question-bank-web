@@ -1,4 +1,10 @@
 <template>
+  <!--     <div class="row q-ma-b ">
+        <div class="col flex vertical-top justify-center">
+            <ActivityStickyHeader v-if="!isLoading"/>
+        </div>
+    </div> -->
+  <ActivityStickyHeader />
   <LoadingSpinner v-if="isLoading" />
   <div class="row flex flex-center" v-else>
     <div
@@ -17,6 +23,7 @@ import { ref, onMounted } from "vue"
 import client from "../../../shared/api-client"
 import LoadingSpinner from "../../../shared/global/LoadingSpinner.vue"
 import QuestionDisplay from "../../questions/components/QuestionDisplay.vue"
+import ActivityStickyHeader from "../components/ActivityStickyHeader.vue"
 
 const questions = ref<Question[]>(null)
 const isLoading = ref(true)

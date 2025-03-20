@@ -8,7 +8,7 @@
     </CardSection>
     <CardActions class="flex justify-end">
       <router-link :to="{ path: `/activities/${activity.id}` }">
-        <BaseButton label="View" />
+        <BaseButton label="Preview" />
       </router-link>
       <BaseButton label="Edit" />
       <BaseButton

@@ -2,30 +2,28 @@
   <div class="activity-container">
     <LoadingSpinner v-if="isLoading" />
     <div class="row flex flex-center" v-else>
-      <ActivityStickyHeader class="q-mb-lg" />
+      <!--  <ActivityStickyHeader class="q-mb-lg" /> -->
       <div
         class="col-12 q-ma-sm"
-        v-for="(question, index) in activityQuestions"
-        :key="question.id"
+        v-for="(section, index) in activity.sections"
+        :key="section.id"
       >
-        <QuestionDisplay :question="question" :questionNumber="index + 1" />
+        <ActivitySection :section="section" :sectionNumber="index + 1" />
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { Question } from "../../../shared/types"
 import { ref, onMounted } from "vue"
 import client from "../../../shared/api-client"
 import LoadingSpinner from "../../../shared/global/LoadingSpinner.vue"
-import QuestionDisplay from "../../questions/components/QuestionDisplay.vue"
+import ActivitySection from "../components/ActivitySection.vue"
 import ActivityStickyHeader from "../components/ActivityStickyHeader.vue"
 import { useRoute } from "vue-router"
+import { Activity, ActivityQuestion } from "../../../shared/types"
 
-interface ActivityQuestion extends Question {
-  parent: string
-}
+const activity = ref<Activity>(null)
 const activityQuestions = ref<ActivityQuestion[]>([])
 const activityProgress = ref(null)
 const isLoading = ref(true)
@@ -35,13 +33,13 @@ const route = useRoute()
 const activityId = route.params.activityId as string
 
 onMounted(async () => {
-  const activity = await client.activities.get(activityId)
-  activity.sections.forEach((section) =>
+  activity.value = await client.activities.get(activityId)
+  activity.value.sections.forEach((section) =>
     section.questions.forEach((question) =>
       activityQuestions.value.push(question),
     ),
   )
-  activityProgress.value = {
+  /*   activityProgress.value = {
     totalPoints: activityQuestions.value.reduce(
       (totalPoints, question) => totalPoints + question.pointValue,
       0,
@@ -49,13 +47,13 @@ onMounted(async () => {
     currentPoints: 3, //placeholder
     totalQuestions: activityQuestions.value.length,
     questionsAnswered: 2, //placeholder
-  }
+  } */
   isLoading.value = false
 })
 </script>
 
 <style scoped lang="scss">
 .activity-container {
-  max-width: 70%;
+  width: 50%;
 }
 </style>

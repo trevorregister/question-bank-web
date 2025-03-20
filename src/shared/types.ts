@@ -43,17 +43,21 @@ export interface BankWithQuestions {
   questions: Question[]
 }
 
+export interface ActivityQuestion extends Question {
+  parent: string
+}
+export interface ActivitySection {
+  id: string
+  name: string
+  summary: string
+  sectionIndex: number
+  questions: ActivityQuestion[]
+}
 export interface Activity {
   id: string
   name: string
   owner: string
-  sections: {
-    id: string
-    name: string
-    summary: string
-    sectionIndex: number
-    questions: Question[]
-  }[]
+  sections: ActivitySection[]
   isArchived: boolean
   tags: string[]
   questionCount: number

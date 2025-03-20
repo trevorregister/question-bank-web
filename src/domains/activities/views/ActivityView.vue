@@ -1,12 +1,7 @@
 <template>
-  <!--     <div class="row q-ma-b ">
-        <div class="col flex vertical-top justify-center">
-            <ActivityStickyHeader v-if="!isLoading"/>
-        </div>
-    </div> -->
-  <ActivityStickyHeader />
   <LoadingSpinner v-if="isLoading" />
-  <div class="row flex flex-center" v-else>
+  <div class="row flex flex-center q-mt-lg" v-else>
+    <ActivityStickyHeader />
     <div
       class="col-12 q-ma-sm"
       v-for="(question, index) in questions"
@@ -26,10 +21,20 @@ import QuestionDisplay from "../../questions/components/QuestionDisplay.vue"
 import ActivityStickyHeader from "../components/ActivityStickyHeader.vue"
 
 const questions = ref<Question[]>(null)
+const activityProgress = ref(null)
 const isLoading = ref(true)
 
 onMounted(async () => {
   questions.value = questionsData
+  activityProgress.value = {
+    totalPoints: questions.value.reduce(
+      (totalPoints, question) => totalPoints + question.pointValue,
+      0,
+    ),
+    currentPoints: 3, //placeholder
+    totalQuestions: questions.value.length,
+    questionsAnswered: 2, //placeholder
+  }
   isLoading.value = false
 })
 const questionsData = [

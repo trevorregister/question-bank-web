@@ -18,7 +18,9 @@ export default class BankPage {
     const deleteButton = locator.getByRole("button", { name: "Delete" })
     const pointValue = locator.getByLabel("Point Value")
     const variableButton = locator.getByRole("button", { name: "+var" })
-    const conditionButton = locator.getByRole("button", { name: "+cond" })
+    const conditionButton = locator.getByRole("button", {
+      name: "Add Condition",
+    })
     const previewButton = locator.getByRole("button", { name: "Preview" })
     const variablesTable = {
       locator: locator.getByRole("table", { name: "variables" }),

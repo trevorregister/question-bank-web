@@ -7,6 +7,9 @@
         :definitions="definitions"
         class="editor"
         data-testid="prompt-editor"
+        :ref="editorRef"
+        @focus="handleFocus"
+        @blur="handleBlur"
       >
       </q-editor>
     </div>
@@ -35,6 +38,9 @@ const props = defineProps<{
   prompt?: string
   isPending: boolean
 }>()
+const editorRef = ref<HTMLDivElement | null>(null)
+const isFocused = ref(false)
+
 const emit = defineEmits<{
   (e: "get-variables", rawVariableLabels: string[]): void
   (e: "save-question", prompt: string): void
@@ -53,6 +59,16 @@ const handleGetVariablesHotkey = (event: KeyboardEvent) => {
   if (isGetVariablesHotkey(event)) {
     getVariables()
   }
+}
+
+const handleFocus = () => {
+  isFocused.value = true
+  window.addEventListener("keydown", handleGetVariablesHotkey)
+}
+
+const handleBlur = () => {
+  isFocused.value = false
+  window.removeEventListener("keydown", handleGetVariablesHotkey)
 }
 const getVariables = () => {
   //captures only letters within double curly's, no spaces. {{text}} is captured but {{ text}} isn't.
@@ -98,7 +114,8 @@ const definitions = {
   },
 }
 onMounted(() => {
-  window.addEventListener("keydown", handleGetVariablesHotkey)
+  editorRef.value?.addEventListener("focus", handleFocus)
+  editorRef.value?.addEventListener("blur", handleBlur)
   if (props.prompt) {
     editorContents.value = props.prompt
   }

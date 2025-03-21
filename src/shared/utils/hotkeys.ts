@@ -1,3 +1,9 @@
+function isMac() {
+  return /macintosh|mac os x/i.test(navigator.userAgent)
+}
+
 export function isGetVariablesHotkey(event: KeyboardEvent) {
-  return event.ctrlKey && event.code === "Space"
+  return isMac()
+    ? event.altKey && event.code === "Space"
+    : event.ctrlKey && event.code === "Space"
 }

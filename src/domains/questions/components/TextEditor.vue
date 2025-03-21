@@ -44,7 +44,6 @@ const isFocused = ref(false)
 const emit = defineEmits<{
   (e: "get-variables", rawVariableLabels: string[]): void
   (e: "save-question", prompt: string): void
-  (e: "add-condition"): void
   (e: "delete-question"): void
 }>()
 const modal = inject<Modal>("$modal")
@@ -53,7 +52,7 @@ const editorContents = ref("")
 const toolbar = [
   ["bold", "italic", "underline", "ordered", "unordered"],
   ["superscript", "subscript"],
-  ["undo", "redo", "getVariables", "addCondition", "save"],
+  ["undo", "redo", "getVariables"],
 ]
 const handleGetVariablesHotkey = (event: KeyboardEvent) => {
   if (isGetVariablesHotkey(event)) {
@@ -87,9 +86,6 @@ const saveQuestion = () => {
   getVariables()
   emit("save-question", editorContents.value)
 }
-const addCondition = () => {
-  emit("add-condition")
-}
 const deleteQuestion = async () => {
   const { status } = await modal.show(ConfirmModal)
   if (status === "ok") {
@@ -101,16 +97,6 @@ const definitions = {
     label: "+var",
     handler: getVariables,
     color: "purple",
-  },
-  save: {
-    icon: "fa-solid fa-save",
-    handler: saveQuestion,
-    color: "green",
-  },
-  addCondition: {
-    label: "+cond",
-    handler: addCondition,
-    color: "blue",
   },
 }
 onMounted(() => {

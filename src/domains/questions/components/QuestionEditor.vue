@@ -10,7 +10,6 @@
         <TextEditor
           @get-variables="handleGetVariables"
           @save-question="handleSaveQuestion"
-          @add-condition="handleAddCondition"
           @delete-question="handleDeleteQuestion"
           :prompt="props.question?.prompt ?? 'New Question'"
           :isPending="!('id' in props.question)"
@@ -60,8 +59,8 @@
             @delete-condition="handleDeleteCondition"
           />
         </div>
-        <div v-else class="col flex flex-center text-h5">
-          Add some conditions
+        <div class="flex flex-center">
+          <BaseButton label="Add Condition" @click="handleAddCondition" />
         </div>
       </div>
     </div>

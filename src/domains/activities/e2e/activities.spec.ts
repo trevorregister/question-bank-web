@@ -11,9 +11,6 @@ test("teacher can preview an activity", async ({ page, seed, login }) => {
   const activitiesPage = new ActivitiesPage(page)
 
   await login(teacher.email)
-  await expect(
-    page.getByRole("button", { name: "Create New Bank" }),
-  ).toBeVisible()
   await page.getByRole("tab", { name: "Activities" }).click()
   await expect(activitiesPage.createActivityButton).toBeVisible()
   const activityCard = activitiesPage.getActivity(activity.name)

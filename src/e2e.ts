@@ -1,4 +1,4 @@
-import { Page, test as base } from "@playwright/test"
+import { Page, expect, test as base } from "@playwright/test"
 import dotenv from "dotenv"
 dotenv.config()
 
@@ -15,6 +15,9 @@ export const test = base.extend<E2EFixtures>({
       await _page.getByLabel("Email").fill(email)
       await _page.getByLabel("Password").fill(password ?? "asdf")
       await _page.getByRole("button", { name: "Submit" }).click()
+      await expect(
+        _page.getByRole("button", { name: "Create New Bank" }),
+      ).toBeVisible()
     })
   },
   seed: async ({ page }, use) => {

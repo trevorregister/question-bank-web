@@ -63,6 +63,11 @@ export default class Activities {
     return data
   }
 
+  async getMyActivities(ownerId: string): Promise<GetActivityResponse[]> {
+    const { data } = await this.client.get(`/activities/owner/${ownerId}`)
+    return data
+  }
+
   async archive(id: string): Promise<GetActivityResponse> {
     const { data } = await this.client.patch(`/activities/${id}/archive`)
     return data

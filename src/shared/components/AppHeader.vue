@@ -4,7 +4,8 @@
       <q-toolbar-title class="text-center"> GammaFlows </q-toolbar-title>
     </q-toolbar>
     <q-tabs align="center">
-      <q-route-tab to="/banks" label="My Banks" />
+      <q-route-tab to="/banks" label="Banks" />
+      <q-route-tab to="/activities" label="Activities" />
       <q-btn @click="logout" flat label="Logout" v-if="isAuthenticated" />
     </q-tabs>
   </q-header>

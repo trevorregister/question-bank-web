@@ -9,6 +9,9 @@ import {
   DbVariable,
   DbCondition,
   DbBank,
+  DbActivity,
+  DbActivityQuestion,
+  DbActivitySection,
   UserRole,
   VariableType,
   QuestionType,
@@ -27,7 +30,7 @@ faker.seed(123)
   },
 }) */
 
-type BuilderResult = "user" | "question" | "bank"
+type BuilderResult = "user" | "question" | "bank" | "activity"
 
 const variableBuilder: Builder<DbVariable> = build({
   fields: {
@@ -85,8 +88,9 @@ const droppedStudentBuilder = build({
     dropDate: perBuild(() => new Date()),
   },
 })
+ */
 
-const activityBuilder = build({
+const activityBuilder: Builder<DbActivity> = build({
   fields: {
     _id: perBuild(() => generateOid()),
     name: perBuild(() => faker.lorem.sentence(5)),
@@ -110,37 +114,40 @@ const activityBuilder = build({
       section.sectionIndex = sectionIndex
       sectionIndex++
     })
-    activity.sections.forEach((section) => {
-      section.questions = section.questions.map((question) => {
-        return {
-          parent: question._id,
-          id: generateOid().toHexString(),
-          prompt: question.prompt,
-          variables: question.variables,
-          conditions: question.conditions,
-          pointValue: question.pointValue,
-          type: question.type,
-        }
-      })
-    })
     return activity
   },
 })
 
-const sectionBuilder = build({
+const sectionBuilder: Builder<DbActivitySection> = build({
   fields: {
-    id: perBuild(() => generateOid()),
+    id: perBuild(() => generateOid().toHexString()),
     name: perBuild(() => faker.lorem.sentence(5)),
     questions: perBuild(() =>
       Array.from({ length: faker.number.int({ min: 1, max: 5 }) }, () =>
-        questionBuilder(),
+        activityQuestionBuilder(),
       ),
     ),
     summary: perBuild(() => faker.lorem.sentence(5)),
     sectionIndex: 0,
   },
 })
- */
+
+const activityQuestionBuilder: Builder<DbActivityQuestion> = build({
+  fields: {
+    id: perBuild(() => generateOid().toHexString()),
+    parent: perBuild(() => generateOid()),
+    prompt: perBuild(() => faker.lorem.sentence(5)),
+    variables: perBuild(() =>
+      Array.from({ length: 5 }, () => variableBuilder()),
+    ),
+    conditions: perBuild(() =>
+      Array.from({ length: 5 }, () => conditionBuilder()),
+    ),
+    pointValue: perBuild(() => faker.number.int({ min: 10, max: 100 })),
+    type: "numerical" as QuestionType,
+  },
+})
+
 const bankBuilder: Builder<DbBank> = build({
   fields: {
     _id: perBuild(() => generateOid()),
@@ -220,6 +227,9 @@ function createBuilderMethod<T>(
       case "question":
         builderClassInstance.data.questions.push(builderResult as DbQuestion)
         break
+      case "activity":
+        builderClassInstance.data.activities.push(builderResult as DbActivity)
+        break
     }
     return builderResult
   }
@@ -238,18 +248,20 @@ class DbBuilder {
     users: DbUser[]
     questions: DbQuestion[]
     banks: DbBank[]
+    activities: DbActivity[]
   }
   readonly faker
   readonly user
   readonly question
   readonly bank
+  readonly activity
   constructor() {
     this.data = {
       users: [],
       questions: [],
       banks: [],
-      /*       activities: [],
-      classes: [],
+      activities: [],
+      /* classes: [],
       assignments: [],
       assignmentResponses: [], */
     }
@@ -266,6 +278,16 @@ class DbBuilder {
       },
     )
     this.bank = createBuilderMethod<DbBank>(bankBuilder, this, "bank")
+    this.activity = Object.assign(
+      createBuilderMethod<DbActivity>(activityBuilder, this, "activity"),
+      {
+        section:
+          createComponentBuilderMethod<DbActivitySection>(sectionBuilder),
+        question: createComponentBuilderMethod<DbActivityQuestion>(
+          activityQuestionBuilder,
+        ),
+      },
+    )
     /*     this.activity = Object.assign(
       createBuilderMethod(activityBuilder, ActivityModel, this),
       {
@@ -301,12 +323,7 @@ class DbBuilder {
       users: this.data.users,
       questions: this.data.questions,
       banks: this.data.banks,
-      /*       activities: await ActivityModel.insertMany(this.data.activities),
-      classes: await ClassModel.insertMany(this.data.classes),
-      assignments: await AssignmentModel.insertMany(this.data.assignments),
-      assignmentResponses: await AssignmentResponseModel.insertMany(
-        this.data.assignmentResponses,
-      ), */
+      activities: this.data.activities,
     }
   }
 }

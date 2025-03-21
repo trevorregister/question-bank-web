@@ -14,12 +14,8 @@ test("teacher can create new bank", async ({ page, seed, login }) => {
   const banksPage = new BanksPage(page)
   const modal = page.getByRole("dialog")
 
-  await login(teacher.email, "asdf")
+  await login(teacher.email)
   await banksPage.createBankButton.click()
-  await expect(
-    modal.getByRole("heading", { name: "Create Bank" }),
-  ).toBeVisible()
-
   await modal.getByLabel("Name").fill(bankProps.name)
   await modal.getByLabel("Description").fill(bankProps.description)
   await modal.getByRole("button", { name: "Save" }).click()

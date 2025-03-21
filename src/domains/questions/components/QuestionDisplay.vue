@@ -1,6 +1,8 @@
 <template>
-  <CardBody class="question-card">
-    <CardHeader> Question </CardHeader>
+  <CardBody class="question-card" :flat="flat" :bordered="bordered">
+    <CardSection class="bg-primary text-white">
+      Question {{ questionNumber ?? "" }}
+    </CardSection>
     <CardSection v-html="prompt" class="q-ml-sm" />
     <CardSection>
       <div class="row flex flex-center">
@@ -31,16 +33,23 @@
 <script setup lang="ts">
 import NumberInput from "../../../shared/components/NumberInput.vue"
 import CardBody from "../../../shared/global/CardBody.vue"
-import CardHeader from "../../../shared/global/CardHeader.vue"
 import CardSection from "../../../shared/global/CardSection.vue"
 import FeedbackPanel from "./FeedbackPanel.vue"
 import { Question } from "../../../shared/types"
 import { evaluate } from "mathjs"
 import { ref, onMounted } from "vue"
-const props = defineProps<{
-  question: Question
-  questionNumber?: number
-}>()
+const props = withDefaults(
+  defineProps<{
+    question: Question
+    questionNumber?: number
+    flat?: boolean
+    bordered?: boolean
+  }>(),
+  {
+    flat: false,
+    bordered: false,
+  },
+)
 const variables = ref([])
 const prompt = ref("")
 const answer = ref<number | "">("")
@@ -120,8 +129,7 @@ onMounted(() => {
 
 <style lang="scss">
 .question-card {
-  min-width: 30%;
-  max-width: 50%;
+  min-width: 80%;
 }
 .answer-input {
   min-width: 30% !important;

@@ -26,9 +26,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, inject } from "vue"
+import { ref, onMounted, inject, onBeforeUnmount } from "vue"
 import { Modal } from "../../../shared/modals/components/ModalProvider.vue"
 import ConfirmModal from "../../../shared/modals/ConfirmModal.vue"
+import { isGetVariablesHotkey } from "../../../shared/utils/hotkeys"
 
 const props = defineProps<{
   prompt?: string
@@ -48,7 +49,11 @@ const toolbar = [
   ["superscript", "subscript"],
   ["undo", "redo", "getVariables", "addCondition", "save"],
 ]
-
+const handleGetVariablesHotkey = (event: KeyboardEvent) => {
+  if (isGetVariablesHotkey(event)) {
+    getVariables()
+  }
+}
 const getVariables = () => {
   //captures only letters within double curly's, no spaces. {{text}} is captured but {{ text}} isn't.
   const regex = /\{\{([a-zA-Z]+)\}\}/g
@@ -93,9 +98,13 @@ const definitions = {
   },
 }
 onMounted(() => {
+  window.addEventListener("keydown", handleGetVariablesHotkey)
   if (props.prompt) {
     editorContents.value = props.prompt
   }
+})
+onBeforeUnmount(() => {
+  window.removeEventListener("keydown", handleGetVariablesHotkey)
 })
 </script>
 

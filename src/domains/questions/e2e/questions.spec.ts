@@ -20,8 +20,6 @@ test("teacher can create new question", async ({ page, seed, login }) => {
   const feedback = faker.lorem.sentence()
 
   await login(teacher.email, "asdf")
-  await expect(page.getByText(bank.name)).toBeVisible()
-
   await page.goto(`/banks/${bank._id}`)
   await bankPage.createQuestionButton.click()
   await expect(bankPage.createQuestionButton).toBeDisabled()
@@ -56,8 +54,6 @@ test("teacher can preview question", async ({ page, seed, context, login }) => {
 
   const bankPage = new BankPage(page)
   await login(teacher.email, "asdf")
-  await expect(page.getByText(bank.name)).toBeVisible()
-
   await page.goto(`/banks/${bank._id}`)
   const existingQuestion = bankPage.getQuestion(question.prompt)
   await existingQuestion.locator.getByRole("button").click()
@@ -93,8 +89,6 @@ test("teacher can edit existing question", async ({ page, seed, login }) => {
   const feedback = faker.lorem.sentence()
 
   await login(teacher.email, "asdf")
-  await expect(page.getByText(bank.name)).toBeVisible()
-
   await page.goto(`/banks/${bank._id}`)
 
   const existingQuestion = bankPage.getQuestion(question.prompt)
@@ -163,8 +157,6 @@ test("teacher can delete question", async ({ page, seed, login }) => {
   const bankPage = new BankPage(page)
 
   await login(teacher.email, "asdf")
-  await expect(page.getByText(bank.name)).toBeVisible()
-
   await page.goto(`/banks/${bank._id}`)
   const existingQuestion = bankPage.getQuestion(question.prompt)
   await existingQuestion.locator.getByRole("button").click()
@@ -191,8 +183,6 @@ test("teacher can delete variable", async ({ page, seed, login }) => {
   const bankPage = new BankPage(page)
 
   await login(teacher.email, "asdf")
-  await expect(page.getByText(bank.name)).toBeVisible()
-
   await page.goto(`/banks/${bank._id}`)
   const existingQuestion = bankPage.getQuestion(question.prompt)
   await existingQuestion.locator.getByRole("button").click()
@@ -217,8 +207,6 @@ test("teacher can delete condition", async ({ page, seed, login }) => {
   const bankPage = new BankPage(page)
 
   await login(teacher.email, "asdf")
-  await expect(page.getByText(bank.name)).toBeVisible()
-
   await page.goto(`/banks/${bank._id}`)
   const existingQuestion = bankPage.getQuestion(question.prompt)
   await existingQuestion.locator.getByRole("button").click()

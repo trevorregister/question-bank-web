@@ -4,6 +4,32 @@ export type UserRole = "teacher" | "admin" | "student"
 export type VariableType = "random" | "matrix"
 export type QuestionType = "numerical" | "multiple-choice"
 
+export interface DbActivity {
+  _id: ObjectId
+  name: string
+  owner: ObjectId
+  sections: DbActivitySection[]
+  isArchived: boolean
+  tags: string[]
+  questionCount: number
+}
+
+export interface DbActivityQuestion {
+  parent: ObjectId
+  id: string
+  prompt: string
+  variables: DbVariable[]
+  conditions: DbCondition[]
+  pointValue: number
+  type: QuestionType
+}
+export interface DbActivitySection {
+  id: string
+  name: string
+  questions: DbActivityQuestion[]
+  summary: string
+  sectionIndex: number
+}
 export interface DbUser {
   _id: ObjectId
   email: string

@@ -7,6 +7,9 @@
         :definitions="definitions"
         class="editor"
         data-testid="prompt-editor"
+        :ref="editorRef"
+        @focus="handleFocus"
+        @blur="handleBlur"
       >
       </q-editor>
     </div>
@@ -26,18 +29,21 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, inject } from "vue"
+import { ref, onMounted, inject, onBeforeUnmount } from "vue"
 import { Modal } from "../../../shared/modals/components/ModalProvider.vue"
 import ConfirmModal from "../../../shared/modals/ConfirmModal.vue"
+import { isGetVariablesHotkey } from "../../../shared/utils/hotkeys"
 
 const props = defineProps<{
   prompt?: string
   isPending: boolean
 }>()
+const editorRef = ref<HTMLDivElement | null>(null)
+const isFocused = ref(false)
+
 const emit = defineEmits<{
   (e: "get-variables", rawVariableLabels: string[]): void
   (e: "save-question", prompt: string): void
-  (e: "add-condition"): void
   (e: "delete-question"): void
 }>()
 const modal = inject<Modal>("$modal")
@@ -46,9 +52,23 @@ const editorContents = ref("")
 const toolbar = [
   ["bold", "italic", "underline", "ordered", "unordered"],
   ["superscript", "subscript"],
-  ["undo", "redo", "getVariables", "addCondition", "save"],
+  ["undo", "redo", "getVariables"],
 ]
+const handleGetVariablesHotkey = (event: KeyboardEvent) => {
+  if (isGetVariablesHotkey(event)) {
+    getVariables()
+  }
+}
 
+const handleFocus = () => {
+  isFocused.value = true
+  window.addEventListener("keydown", handleGetVariablesHotkey)
+}
+
+const handleBlur = () => {
+  isFocused.value = false
+  window.removeEventListener("keydown", handleGetVariablesHotkey)
+}
 const getVariables = () => {
   //captures only letters within double curly's, no spaces. {{text}} is captured but {{ text}} isn't.
   const regex = /\{\{([a-zA-Z]+)\}\}/g
@@ -66,9 +86,6 @@ const saveQuestion = () => {
   getVariables()
   emit("save-question", editorContents.value)
 }
-const addCondition = () => {
-  emit("add-condition")
-}
 const deleteQuestion = async () => {
   const { status } = await modal.show(ConfirmModal)
   if (status === "ok") {
@@ -81,21 +98,16 @@ const definitions = {
     handler: getVariables,
     color: "purple",
   },
-  save: {
-    icon: "fa-solid fa-save",
-    handler: saveQuestion,
-    color: "green",
-  },
-  addCondition: {
-    label: "+cond",
-    handler: addCondition,
-    color: "blue",
-  },
 }
 onMounted(() => {
+  editorRef.value?.addEventListener("focus", handleFocus)
+  editorRef.value?.addEventListener("blur", handleBlur)
   if (props.prompt) {
     editorContents.value = props.prompt
   }
+})
+onBeforeUnmount(() => {
+  window.removeEventListener("keydown", handleGetVariablesHotkey)
 })
 </script>
 

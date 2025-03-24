@@ -4,6 +4,7 @@ const questions = [
     path: "/questions/:questionId/preview",
     name: "question-preview",
     component: QuestionPreviewView,
+    props: true,
   },
 ]
 export default questions

@@ -69,6 +69,7 @@
 
 <script setup lang="ts">
 import CollapsePanel from "../../../shared/components/CollapsePanel.vue"
+import { useRouter } from "vue-router"
 import VariablesTable from "./VariablesTable.vue"
 import ConditionsTable from "./ConditionsTable.vue"
 import TextEditor from "./TextEditor.vue"
@@ -102,6 +103,7 @@ const shortPrompt = computed((): string =>
     : "New Question",
 )
 const isPendingQuestion = computed(() => "tempId" in props.question)
+const router = useRouter()
 
 const handleAddCondition = () => {
   conditions.value.push({
@@ -203,7 +205,11 @@ const handleSaveQuestion = async (editorContents: string) => {
 }
 const launchQuestionPreview = () => {
   if ("id" in props.question) {
-    window.open(`/questions/${props.question.id}/preview`, "_blank")
+    const url = router.resolve({
+      name: "question-preview",
+      params: { questionId: props.question.id },
+    }).href
+    window.open(url, "_blank")
   }
 }
 onBeforeMount(async () => {

@@ -1,13 +1,12 @@
 {
-  "files": [],
-  "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
-  ],
-  "include": ["**/*.ts", "**/*.vue"],
-  "exclude": ["node_modules", "dist", "playwright.config.ts", "**/*.spec.ts"],
   "compilerOptions": {
-    "lib": ["ES2015", "DOM"],
-    "rootDir": "src"
-  }
+    "composite": true,
+    "skipLibCheck": true,
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "allowSyntheticDefaultImports": true,
+    "strict": true
+  },
+  "include": ["**/*.ts", "**/*.vue"],
+  "exclude": ["node_modules", "dist", "playwright.config.ts", "**/*.spec.ts"]
 }

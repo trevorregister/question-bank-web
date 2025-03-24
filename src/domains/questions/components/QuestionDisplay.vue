@@ -50,17 +50,17 @@ const props = withDefaults(
     bordered: false,
   },
 )
-const variables = ref([])
+const variables = ref<{ label: string; value: number; id: string }[]>([])
 const prompt = ref("")
-const answer = ref<number | "">("")
+const answer = ref<number | undefined>()
 const submissionCount = ref<number>(0)
 const pointValue = ref(0)
 const answerResponse = ref<{
-  feedback: string | null
+  feedback: string
   isCorrect: boolean
   pointValue: number
 }>({
-  feedback: null,
+  feedback: "",
   isCorrect: false,
   pointValue: 0,
 })
@@ -113,10 +113,13 @@ const setVariableValues = () => {
   })
   props.question.variables.forEach((variable) => {
     const regex = RegExp(`{{${variable.label}}}`, "g")
-    prompt.value = prompt.value.replace(
-      regex,
-      variables.value.find((v) => v.id === variable.id).value,
-    )
+    const variableToReplace = variables.value.find((v) => v.id === variable.id)
+    if (variableToReplace) {
+      prompt.value = prompt.value.replace(
+        regex,
+        variableToReplace.value.toString(),
+      )
+    }
   })
 }
 

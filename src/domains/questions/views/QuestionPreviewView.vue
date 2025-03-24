@@ -1,6 +1,6 @@
 <template>
   <LoadingSpinner v-if="isLoading" />
-  <QuestionDisplay :question="question" v-else />
+  <QuestionDisplay v-else-if="question" :question="question" />
 </template>
 
 <script setup lang="ts">
@@ -11,7 +11,7 @@ import { useRoute } from "vue-router"
 import client from "../../../shared/api-client"
 import LoadingSpinner from "../../../shared/global/LoadingSpinner.vue"
 
-const question = ref<Question>(null)
+const question = ref<Question | null>(null)
 const route = useRoute()
 const questionId = route.params.questionId as string
 const isLoading = ref(true)

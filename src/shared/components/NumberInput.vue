@@ -12,7 +12,7 @@
 <script setup lang="ts">
 const emit = defineEmits(["update:modelValue"])
 defineProps<{
-  modelValue: number | ""
+  modelValue: number | undefined
   label: string
 }>()
 

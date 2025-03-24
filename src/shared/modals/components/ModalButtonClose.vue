@@ -17,7 +17,7 @@ withDefaults(defineProps<{ label: string }>(), {
   label: "Close",
 })
 
-const modal = inject<Modal>("$modal")
+const modal = inject<Modal>("$modal")!
 
 const onClick = () => {
   modal.close()

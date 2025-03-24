@@ -8,14 +8,14 @@
 </template>
 
 <script setup lang="ts">
-import { ComponentPublicInstance, ref, provide, markRaw, computed } from "vue"
+import { ref, provide, markRaw, DefineComponent } from "vue"
 
-const modalComponent = ref<ComponentPublicInstance>(null)
+const modalComponent = ref<any>()
 const showModal = ref<boolean>(false)
-const modalResolve = ref(null)
-const modalProps = ref(null)
+const modalResolve = ref<any>(() => {})
+const modalProps = ref({})
 
-const show = async (component: ComponentPublicInstance, props = {}) => {
+const show = async (component: any, props = {}) => {
   showModal.value = true
   const previousElement = document.activeElement as HTMLElement
   const result = await new Promise((resolve, reject) => {
@@ -50,7 +50,7 @@ const status = (status: string, data: any) => {
   modalResolve.value = null
 }
 export interface Modal {
-  show: (component, props?) => Promise<any>
+  show: (component: any, props?: any) => Promise<any>
   close: () => void
   ok: (data?: any) => void
   status: (status: string, data: any) => void

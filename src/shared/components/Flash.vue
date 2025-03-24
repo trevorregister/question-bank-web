@@ -27,6 +27,8 @@ const flashType = (type: string): string => {
       return "warning"
     case "error":
       return "negative"
+    default:
+      return "error"
   }
 }
 const dismiss = () => {

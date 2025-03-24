@@ -29,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, inject, onBeforeUnmount } from "vue"
+import { ref, onMounted, inject, onBeforeUnmount, VNodeRef } from "vue"
 import { Modal } from "../../../shared/modals/components/ModalProvider.vue"
 import ConfirmModal from "../../../shared/modals/ConfirmModal.vue"
 import { isGetVariablesHotkey } from "../../../shared/utils/hotkeys"
@@ -38,7 +38,7 @@ const props = defineProps<{
   prompt?: string
   isPending: boolean
 }>()
-const editorRef = ref<HTMLDivElement | null>(null)
+const editorRef = ref<any>(null)
 const isFocused = ref(false)
 
 const emit = defineEmits<{
@@ -46,7 +46,7 @@ const emit = defineEmits<{
   (e: "save-question", prompt: string): void
   (e: "delete-question"): void
 }>()
-const modal = inject<Modal>("$modal")
+const modal = inject<Modal>("$modal")!
 const editorContents = ref("")
 
 const toolbar = [
@@ -100,8 +100,11 @@ const definitions = {
   },
 }
 onMounted(() => {
-  editorRef.value?.addEventListener("focus", handleFocus)
-  editorRef.value?.addEventListener("blur", handleBlur)
+  if (editorRef.value) {
+    const editorElement = editorRef.value.$el || editorRef.value
+    editorElement.addEventListener("focus", handleFocus)
+    editorElement.addEventListener("blur", handleBlur)
+  }
   if (props.prompt) {
     editorContents.value = props.prompt
   }

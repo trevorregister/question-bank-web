@@ -34,7 +34,7 @@ const email = ref("")
 const role = ref<"teacher" | "student">()
 const password = ref("")
 
-const flash = inject<Flash>("$flash")
+const flash = inject<Flash>("$flash")!
 const userStore = useUserStore()
 const router = useRouter()
 

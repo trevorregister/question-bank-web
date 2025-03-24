@@ -5,7 +5,7 @@
       <!--  <ActivityStickyHeader class="q-mb-lg" /> -->
       <div
         class="col-12 q-ma-sm"
-        v-for="(section, index) in activity.sections"
+        v-for="(section, index) in activity?.sections"
         :key="section.id"
       >
         <ActivitySection :section="section" :sectionNumber="index + 1" />
@@ -23,7 +23,7 @@ import ActivityStickyHeader from "../components/ActivityStickyHeader.vue"
 import { useRoute } from "vue-router"
 import { Activity, ActivityQuestion } from "../../../shared/types"
 
-const activity = ref<Activity>(null)
+const activity = ref<Activity>()
 const activityQuestions = ref<ActivityQuestion[]>([])
 const activityProgress = ref(null)
 const isLoading = ref(true)

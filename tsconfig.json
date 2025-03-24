@@ -4,7 +4,8 @@
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
   ],
-  "include": ["src/**/*.vue"],
+  "include": ["src/**/*.ts", "src/**/*.vue"],
+  "exclude": ["node_modules", "dist"],
   "compilerOptions": {
     "lib": ["ES2015", "DOM"],
   }

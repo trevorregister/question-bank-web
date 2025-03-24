@@ -4,9 +4,10 @@
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
   ],
-  "include": ["src/**/*.ts", "src/**/*.vue"],
-  "exclude": ["node_modules", "dist"],
+  "include": ["**/*.ts", "**/*.vue"],
+  "exclude": ["node_modules", "dist", "playwright.config.ts", "**/*.spec.ts"],
   "compilerOptions": {
     "lib": ["ES2015", "DOM"],
+    "rootDir": "src"
   }
 }

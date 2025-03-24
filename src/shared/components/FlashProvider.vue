@@ -25,7 +25,7 @@ export interface Flash {
   success: (message: string) => void
   warning: (message: string) => void
   error: (message: string) => void
-  apiError: (error: ApiError) => void
+  apiError: (error: ApiError | unknown) => void
 }
 type FlashType = "success" | "warning" | "error"
 const FLASH_REMOVE_TIMEOUT = 3000
@@ -52,8 +52,12 @@ const warning = (message: string): void => {
 const error = (message: string): void => {
   addFlash(message, "error", randomId())
 }
-const apiError = (error: ApiError) => {
-  addFlash(error.response?.data?.message ?? "Error", "error", randomId())
+const apiError = (error: ApiError | any) => {
+  if (error?.response?.data?.message) {
+    addFlash(error.response?.data?.message ?? "Error", "error", randomId())
+  } else {
+    addFlash("unknown error", "error", randomId())
+  }
 }
 
 const methods: Flash = {

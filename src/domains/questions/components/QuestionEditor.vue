@@ -85,13 +85,16 @@ import {
 
 const props = defineProps<{ question: Question | PendingQuestion }>()
 const emit = defineEmits<{
-  (e: "pending-question-saved", { tempId, newQuestion }): void
+  (
+    e: "pending-question-saved",
+    { tempId, newQuestion }: { tempId: string; newQuestion: Question },
+  ): void
   (e: "existing-question-saved", question: Question): void
   (e: "delete-question", question: Question): void
 }>()
-const variables = ref<Variable[]>()
-const conditions = ref<Condition[]>()
-const pointValue = ref<number>()
+const variables = ref<Variable[]>([])
+const conditions = ref<Condition[]>([])
+const pointValue = ref<number>(0)
 
 const shortPrompt = computed((): string =>
   props.question
@@ -168,14 +171,18 @@ const handleSaveQuestion = async (editorContents: string) => {
   //example: "A car travels {{distance}}" returns "A car travels <gvar class='var-variableId'>{{distance}}</gvar>
   const regex = /(?<!<gvar[^>]*>)\{\{\s*(.*?)\s*\}\}(?!<\/gvar>)/g
   editorContents = editorContents.replace(regex, (match, label) => {
-    const id = variables.value.find((variable) => variable.label === label).id
-    return `<gvar class='var-${id}'>{{${extractLabelFromBraces(match)}}}</gvar>`
+    const id = variables.value.find((variable) => variable.label === label)?.id
+    if (id) {
+      return `<gvar class='var-${id}'>{{${extractLabelFromBraces(match)}}}</gvar>`
+    } else {
+      return editorContents
+    }
   })
   const questionComponents = {
     prompt: editorContents,
     variables: variables.value,
     conditions: conditions.value,
-    pointValue: pointValue.value,
+    pointValue: pointValue.value ?? 0,
     type: "numerical",
   }
   if ("tempId" in props.question) {

@@ -36,6 +36,7 @@ interface CreateQuestionResponse {
   owner: string
   isArchived: false
   isDeleted: false
+  type: string
 }
 
 /* interface DeleteVariableRequest {

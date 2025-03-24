@@ -52,10 +52,10 @@ import { Flash } from "../../../shared/components/FlashProvider.vue"
 
 const pendingQuestions = ref<PendingQuestion[]>([])
 const questions = ref<Question[]>([])
-const bank = ref<BankWithQuestions>(null)
+const bank = ref<BankWithQuestions>()
 const isLoading = ref(true)
 
-const flash = inject<Flash>("$flash")
+const flash = inject<Flash>("$flash")!
 const route = useRoute()
 const bankId = route.params.bankId as string
 

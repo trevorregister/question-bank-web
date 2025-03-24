@@ -16,12 +16,27 @@
   </div>
 </template>
 <script setup lang="ts">
-defineProps({
-  label: { type: String, required: true },
-  dense: { type: Boolean, default: true },
-  modelValue: { type: String, required: true },
-  type: { type: String, default: "text" },
-})
+withDefaults(
+  defineProps<{
+    label: string
+    dense?: boolean
+    modelValue: string | ""
+    type?:
+      | "number"
+      | "text"
+      | "search"
+      | "textarea"
+      | "time"
+      | "password"
+      | "email"
+      | "tel"
+      | "file"
+      | "url"
+      | "date"
+      | "datetime-local"
+  }>(),
+  { type: "text", dense: true },
+)
 const emit = defineEmits(["update:modelValue"])
 
 const updateValue = (newValue: string | number | null) => {

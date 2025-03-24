@@ -2,7 +2,7 @@
   <div style="display: block">
     <div class="flex justify-center q-mb-md">
       <form-body header="Login">
-        <form-input label="Email" v-model="email" />
+        <form-input label="Email" type="email" v-model="email" />
         <form-input label="Password" type="password" v-model="password" />
         <form-action label="Submit" type="submit" @submit="handleSubmit" />
       </form-body>
@@ -30,7 +30,7 @@ const password = ref("")
 
 const router = useRouter()
 const userStore = useUserStore()
-const flash = inject<Flash>("$flash")
+const flash = inject<Flash>("$flash")!
 
 const handleSubmit = async () => {
   try {

@@ -27,7 +27,7 @@ import ActivityCard from "../components/ActivityCard.vue"
 import { inject } from "vue"
 import { Flash } from "../../../shared/components/FlashProvider.vue"
 
-const flash = inject<Flash>("$flash")
+const flash = inject<Flash>("$flash")!
 const isLoading = ref(true)
 const activities = ref<Activity[]>([])
 
@@ -40,7 +40,7 @@ const handleDeleteActivity = async (id: string) => {
 const load = async () => {
   try {
     activities.value = await client.activities.getMyActivities(
-      userStore.getId(),
+      userStore.getId() ?? "",
     )
   } catch (err) {
     flash.apiError(err)

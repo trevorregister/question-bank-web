@@ -43,8 +43,8 @@ import { Flash } from "../../../shared/components/FlashProvider.vue"
 
 const banks = ref<Bank[]>([])
 const userStore = useUserStore()
-const modal = inject<Modal>("$modal")
-const flash = inject<Flash>("$flash")
+const modal = inject<Modal>("$modal")!
+const flash = inject<Flash>("$flash")!
 const isLoading = ref(true)
 
 const createBank = async () => {
@@ -69,13 +69,13 @@ const deleteBank = async (bankId: string) => {
       flash.success("Bank deleted")
     }
   } catch (err) {
-    flash.apiError(err.message)
+    flash.apiError(err)
   }
 }
 
 onMounted(async () => {
   try {
-    banks.value = await client.banks.getMyBanks(userStore.getId())
+    banks.value = await client.banks.getMyBanks(userStore.getId() ?? "")
     isLoading.value = false
   } catch (err) {
     flash.apiError(err)

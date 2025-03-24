@@ -24,17 +24,15 @@
 <script setup lang="ts">
 import TagChip from "./TagChip.vue"
 import ConfirmModal from "../../../shared/modals/ConfirmModal.vue"
-import client from "../../../shared/api-client"
+//import client from "../../../shared/api-client"
 import { Activity } from "../../../shared/types"
-import { Flash } from "../../../shared/components/FlashProvider.vue"
 import { Modal } from "../../../shared/modals/components/ModalProvider.vue"
 import { inject } from "vue"
 
-const props = defineProps<{ activity: Activity }>()
+defineProps<{ activity: Activity }>()
 const emit = defineEmits(["delete-activity"])
 
-const flash = inject<Flash>("$flash")
-const modal = inject<Modal>("$modal")
+const modal = inject<Modal>("$modal")!
 
 const deleteActivity = async () => {
   const { status } = await modal.show(ConfirmModal)

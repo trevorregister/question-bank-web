@@ -1,4 +1,4 @@
-import { AxiosInstance } from "axios"
+/* import { AxiosInstance } from "axios"
 
 interface AssignmentResponseVariable {
   id: string
@@ -54,3 +54,4 @@ export default class AssignmentResponses {
     return data
   }
 }
+ */

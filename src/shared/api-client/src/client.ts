@@ -6,7 +6,8 @@ import Assignments from "./assignments"
 import Activities from "./activities"
 import Banks from "./banks"
 import Questions from "./questions"
-import AssignmentResponses from "./assignmentresponses"
+//import AssignmentResponses from "./assignmentresponses"
+import ActivityResponses from "./activityresponses"
 interface ClientConfig {
   baseURL: string
   headers: any
@@ -19,7 +20,8 @@ export default class Client {
   readonly activities: Activities
   readonly banks: Banks
   readonly questions: Questions
-  readonly responses: AssignmentResponses
+  //readonly responses: AssignmentResponses
+  readonly responses: ActivityResponses
 
   private instance: AxiosInstance
   constructor(config: ClientConfig) {
@@ -30,7 +32,7 @@ export default class Client {
     this.activities = new Activities(this.instance)
     this.banks = new Banks(this.instance)
     this.questions = new Questions(this.instance)
-    this.responses = new AssignmentResponses(this.instance)
+    this.responses = new ActivityResponses(this.instance)
   }
   /* 
     async get<T>(url: string): Promise<T>{

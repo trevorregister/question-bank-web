@@ -13,14 +13,14 @@ import { inject } from "vue"
 import { Modal } from "./ModalProvider.vue"
 import { withDefaults } from "vue"
 
-withDefaults(defineProps<{ label: string }>(), {
+const props = withDefaults(defineProps<{ label?: string }>(), {
   label: "Close",
 })
 
 const modal = inject<Modal>("$modal")!
 
 const onClick = () => {
-  modal.close()
+  modal.close(props.label)
 }
 </script>
 

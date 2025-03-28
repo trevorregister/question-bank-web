@@ -7,8 +7,8 @@
       {{ content }}
     </ModalContent>
     <ModalActions>
-      <ModalButtonClose label="Cancel" />
-      <ModalButtonOk />
+      <ModalButtonClose :label="cancelLabel" />
+      <ModalButtonOk :label="confirmLabel" />
     </ModalActions>
   </ModalBody>
 </template>
@@ -22,10 +22,20 @@ import ModalButtonOk from "./components/ModelButtonOk.vue"
 import { withDefaults } from "vue"
 import ModalButtonClose from "./components/ModalButtonClose.vue"
 
-withDefaults(defineProps<{ header?: string; content?: string }>(), {
-  header: "Are you sure?",
-  content: " ",
-})
+withDefaults(
+  defineProps<{
+    header?: string
+    content?: string
+    confirmLabel?: string
+    cancelLabel?: string
+  }>(),
+  {
+    header: "Are you sure?",
+    content: " ",
+    confirmLabel: "Ok",
+    cancelLabel: "Close",
+  },
+)
 </script>
 
 <style scoped lang="scss"></style>

@@ -8,7 +8,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, provide, markRaw, DefineComponent } from "vue"
+import { ref, provide, markRaw } from "vue"
+import slugify from "../../utils/slugify"
 
 const modalComponent = ref<any>()
 const showModal = ref<boolean>(false)
@@ -28,31 +29,31 @@ const show = async (component: any, props = {}) => {
   } catch {}
   return result
 }
-const close = () => {
+const close = (status = "close") => {
   showModal.value = false
   modalComponent.value = null
   modalProps.value = {}
-  modalResolve.value = modalResolve.value({ status: "closed" })
+  modalResolve.value = modalResolve.value({ status: slugify(status) })
   modalResolve.value = null
 }
-const ok = (data = {}) => {
+const ok = (status = "ok", data = {}) => {
   showModal.value = false
   modalComponent.value = null
   modalProps.value = {}
-  modalResolve.value = modalResolve.value({ status: "ok", data })
+  modalResolve.value = modalResolve.value({ status: slugify(status), data })
   modalResolve.value = null
 }
 const status = (status: string, data: any) => {
   showModal.value = false
   modalComponent.value = null
   modalProps.value = {}
-  modalResolve.value = modalResolve.value({ status, data })
+  modalResolve.value = modalResolve.value({ status: slugify(status), data })
   modalResolve.value = null
 }
 export interface Modal {
   show: (component: any, props?: any) => Promise<any>
-  close: () => void
-  ok: (data?: any) => void
+  close: (status?: string) => void
+  ok: (status?: string, data?: any) => void
   status: (status: string, data: any) => void
 }
 const methods: Modal = {

@@ -17,7 +17,7 @@ const props = withDefaults(defineProps<{ label?: string; data?: any }>(), {
 const modal = inject<Modal>("$modal")!
 
 const onClick = () => {
-  modal.ok(props.data)
+  modal.ok(props.label, props.data)
 }
 </script>
 

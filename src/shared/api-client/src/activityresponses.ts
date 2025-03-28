@@ -20,6 +20,7 @@ interface CreateActivityResponseRequest {
 
 interface GetActivityResponseResponse {
   id: string
+  activityCode: string
   activity: string
   teacher: string
   student: string
@@ -39,15 +40,24 @@ export default class ActivityResponses {
     activityCode,
     student,
   }: CreateActivityResponseRequest): Promise<GetActivityResponseResponse> {
-    const { data } = await this.client.post(
-      `/responses/activityCode=${activityCode}`,
-      { student: student },
-    )
+    const { data } = await this.client.post(`/responses`, {
+      activityCode: activityCode,
+      student: student,
+    })
     return data
   }
 
   async get(activityResponseId: string): Promise<GetActivityResponseResponse> {
     const { data } = await this.client.get(`/responses/${activityResponseId}`)
+    return data
+  }
+
+  async existingResponses(
+    activityCode: string,
+  ): Promise<GetActivityResponseResponse[]> {
+    const { data } = await this.client.get(
+      `/responses/activityCode/${activityCode}`,
+    )
     return data
   }
 }

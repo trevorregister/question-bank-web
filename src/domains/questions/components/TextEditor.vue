@@ -29,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, inject, onBeforeUnmount, VNodeRef } from "vue"
+import { ref, onMounted, inject, onBeforeUnmount } from "vue"
 import { Modal } from "../../../shared/modals/components/ModalProvider.vue"
 import ConfirmModal from "../../../shared/modals/ConfirmModal.vue"
 import { isGetVariablesHotkey } from "../../../shared/utils/hotkeys"

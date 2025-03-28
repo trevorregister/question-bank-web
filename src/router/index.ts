@@ -7,7 +7,13 @@ import banks from "./banks"
 import questions from "./questions"
 import activities from "./activities"
 
-const publicPages = ["/login", "/create-account", "/about", "/test"]
+const publicPages = [
+  "/login",
+  "/create-account",
+  "/about",
+  "/test",
+  "/activities/join",
+]
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

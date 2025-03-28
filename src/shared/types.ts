@@ -34,6 +34,30 @@ export interface Bank {
   questions: string[]
 }
 
+export interface ActivityResponseVariable {
+  id: string
+  value: number
+  label: string
+}
+
+export interface ActivityResponseResponse {
+  question: string
+  content: number
+  score: number
+  isCorrect: boolean | null
+}
+
+export interface ActivityResponse {
+  id: string
+  activityCode: string
+  activity: string
+  teacher: string
+  student: string
+  totalScore: number
+  variables: ActivityResponseVariable[]
+  responses: ActivityResponseResponse[]
+}
+
 export interface BankWithQuestions {
   id: string
   name: string

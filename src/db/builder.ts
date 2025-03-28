@@ -2,7 +2,9 @@ import { build, perBuild, Builder } from "@jackfranklin/test-data-bot"
 import jwt from "jsonwebtoken"
 import { faker } from "@faker-js/faker"
 import generateOid from "../shared/utils/generateOid"
+import generateJoinCode from "../shared/utils/generateJoinCode"
 import randomId from "../shared/utils/randomId"
+import crypto from "crypto"
 import {
   DbUser,
   DbQuestion,
@@ -15,22 +17,19 @@ import {
   UserRole,
   VariableType,
   QuestionType,
+  DbActivityResponse,
+  DbActivityResponseVariable,
+  DbActivityResponseResponse,
 } from "./types"
 
 faker.seed(123)
 
-/* const assignmentResponseBuilder = build({
-  fields: {
-    _id: perBuild(() => generateOid()),
-    assignment: perBuild(() => generateOid()),
-    owner: perBuild(() => generateOid()),
-    variables: [],
-    responses: [],
-    totalScore: 0,
-  },
-}) */
-
-type BuilderResult = "user" | "question" | "bank" | "activity"
+type BuilderResult =
+  | "user"
+  | "question"
+  | "bank"
+  | "activity"
+  | "activityresponse"
 
 const variableBuilder: Builder<DbVariable> = build({
   fields: {
@@ -52,44 +51,6 @@ const conditionBuilder: Builder<DbCondition> = build({
   },
 })
 
-/* const assignmentBuilder = build({
-  fields: {
-    _id: perBuild(() => generateOid()),
-    class: perBuild(() => generateOid()),
-    activity: perBuild(() => generateOid()),
-    owner: perBuild(() => generateOid()),
-    startDate: perBuild(() => faker.date.soon()),
-    dueDate: perBuild(() => faker.date.soon()),
-  },
-})
-
-const classBuilder = build({
-  fields: {
-    _id: perBuild(() => generateOid()),
-    name: perBuild(() => faker.lorem.sentence()),
-    owner: perBuild(() => generateOid()),
-    joinCode: perBuild(() => faker.lorem.word(6)),
-    roster: [],
-    droppedStudents: [],
-    isArchived: false,
-  },
-})
-
-const rosteredStudentBuilder = build({
-  fields: {
-    student: perBuild(() => generateOid()),
-    joinDate: perBuild(() => new Date()),
-  },
-})
-
-const droppedStudentBuilder = build({
-  fields: {
-    student: perBuild(() => generateOid()),
-    dropDate: perBuild(() => new Date()),
-  },
-})
- */
-
 const activityBuilder: Builder<DbActivity> = build({
   fields: {
     _id: perBuild(() => generateOid()),
@@ -100,6 +61,7 @@ const activityBuilder: Builder<DbActivity> = build({
         sectionBuilder(),
       ),
     ),
+    code: perBuild(() => generateJoinCode()),
     isArchived: false,
     tags: perBuild(() => Array.from({ length: 5 }, () => faker.lorem.word())),
     questionCount: 0,
@@ -147,6 +109,42 @@ const activityQuestionBuilder: Builder<DbActivityQuestion> = build({
     type: "numerical" as QuestionType,
   },
 })
+
+const activityResponseBuilder: Builder<DbActivityResponse> = build({
+  fields: {
+    _id: perBuild(() => generateOid()),
+    activity: perBuild(() => generateOid()),
+    teacher: perBuild(() => generateOid()),
+    student: perBuild(() => faker.lorem.word()),
+    variables: perBuild(() => [] as DbActivityResponseVariable[]),
+    responses: perBuild(() => [] as DbActivityResponseResponse[]),
+    totalScore: perBuild(() => faker.number.int({ min: 1, max: 20 })),
+    activityCode: perBuild(() => generateJoinCode()),
+  },
+})
+
+const activityResponseVariableBuilder: Builder<DbActivityResponseVariable> =
+  build({
+    fields: {
+      id: perBuild(() => Math.random().toString(36).substring(2, 15)),
+      value: perBuild(() => faker.number.int({ min: 1, max: 50 })),
+      label: perBuild(() => faker.lorem.word()),
+    },
+  })
+
+const activityResponseResponseBuilder: Builder<DbActivityResponseResponse> =
+  build({
+    fields: {
+      question: perBuild(() => generateOid()),
+      content: perBuild(() => faker.number.int({ min: 1, max: 100 })),
+      score: perBuild(() => faker.number.int({ min: 1, max: 20 })),
+      isCorrect: perBuild(() => {
+        return faker.number.int({ min: 1, max: 100 }) % 2 === 0
+          ? faker.number.int({ min: 1, max: 100 }) % 2 === 0
+          : null
+      }),
+    },
+  })
 
 const bankBuilder: Builder<DbBank> = build({
   fields: {
@@ -230,6 +228,11 @@ function createBuilderMethod<T>(
       case "activity":
         builderClassInstance.data.activities.push(builderResult as DbActivity)
         break
+      case "activityresponse":
+        builderClassInstance.data.activityresponses.push(
+          builderResult as DbActivityResponse,
+        )
+        break
     }
     return builderResult
   }
@@ -249,21 +252,21 @@ class DbBuilder {
     questions: DbQuestion[]
     banks: DbBank[]
     activities: DbActivity[]
+    activityresponses: DbActivityResponse[]
   }
   readonly faker
   readonly user
   readonly question
   readonly bank
   readonly activity
+  readonly activityresponses
   constructor() {
     this.data = {
       users: [],
       questions: [],
       banks: [],
       activities: [],
-      /* classes: [],
-      assignments: [],
-      assignmentResponses: [], */
+      activityresponses: [],
     }
     this.faker = faker
     this.user = {
@@ -288,29 +291,21 @@ class DbBuilder {
         ),
       },
     )
-    /*     this.activity = Object.assign(
-      createBuilderMethod(activityBuilder, ActivityModel, this),
+    this.activityresponses = Object.assign(
+      createBuilderMethod<DbActivityResponse>(
+        activityResponseBuilder,
+        this,
+        "activity",
+      ),
       {
-        section: createComponentBuilderMethod(sectionBuilder),
+        variable: createComponentBuilderMethod<DbActivityResponseVariable>(
+          activityResponseVariableBuilder,
+        ),
+        response: createComponentBuilderMethod<DbActivityResponseResponse>(
+          activityResponseResponseBuilder,
+        ),
       },
     )
-    this.class = Object.assign(
-      createBuilderMethod(classBuilder, ClassModel, this),
-      {
-        rosteredStudent: createComponentBuilderMethod(rosteredStudentBuilder),
-        droppedStudent: createComponentBuilderMethod(droppedStudentBuilder),
-      },
-    )
-    this.assignment = createBuilderMethod(
-      assignmentBuilder,
-      AssignmentModel,
-      this,
-    )
-    this.assignmentResponse = createBuilderMethod(
-      assignmentResponseBuilder,
-      AssignmentResponseModel,
-      this,
-    ) */
   }
   randomId() {
     return generateOid()

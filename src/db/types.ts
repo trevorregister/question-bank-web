@@ -12,8 +12,8 @@ export interface DbActivity {
   isArchived: boolean
   tags: string[]
   questionCount: number
+  code: string
 }
-
 export interface DbActivityQuestion {
   parent: ObjectId
   id: string
@@ -29,6 +29,30 @@ export interface DbActivitySection {
   questions: DbActivityQuestion[]
   summary: string
   sectionIndex: number
+}
+
+export interface DbActivityResponse {
+  _id: ObjectId
+  activity: ObjectId
+  activityCode: string
+  teacher: ObjectId
+  student: string
+  variables: DbActivityResponseVariable[]
+  responses: DbActivityResponseResponse[]
+  totalScore: number
+}
+
+export interface DbActivityResponseVariable {
+  id: string
+  value: number
+  label: string
+}
+
+export interface DbActivityResponseResponse {
+  question: ObjectId
+  content: number
+  score: number
+  isCorrect: boolean | null
 }
 export interface DbUser {
   _id: ObjectId

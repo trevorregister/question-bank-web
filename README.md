@@ -2,6 +2,8 @@
 
 A customizable question bank repository for teachers. 1.0 release aimed for Summer 2025.
 
+API repository: https://github.com/trevorregister/question-bank
+
 ## Write questions with randomly generated variables
 Choose a variable name by placing double curly-braces around it. Then define a minimum, maximum, and step value.
 <p align="center">
